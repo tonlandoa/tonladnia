@@ -3,7 +3,7 @@
     <div class="balance-header">
       <button class="tonconnect-btn">
         <Wallet class="ton-logo" />
-        <span>Connect Wallet</span>
+        <span>Connect </span>
       </button>
 
       <div class="language-wrapper">
