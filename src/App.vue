@@ -25,7 +25,7 @@ const { t } = useI18n()
 
 const tg = window.Telegram.WebApp;
 tg.expand();
-tg.setHeaderColor('#151729');
+tg.setHeaderColor('#2d1d56');
 tg.disableVerticalSwipes();
 
 const menuItems = computed(() => [
