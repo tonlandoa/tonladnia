@@ -15,6 +15,8 @@ import {
 
 import api from '@/utils/api';
 import PageLoader from './pageLoader.vue';
+const users = ref<string | null>(null)
+
 
 const loaderRef = ref<InstanceType<typeof PageLoader> | null>(null);
 
@@ -163,7 +165,7 @@ const typeWriterEffect = () => {
 
 const getUser = async () => {
     await loaderRef.value?.withLoader(async () => {
-        await api.post('/users/getUser', {
+        const response = await api.post('/users/getUser', {
             initData,
             user_id,
             username,
@@ -171,9 +173,10 @@ const getUser = async () => {
             photo_url,
             startParam
         });
+
+        users.value = response.data;
     });
 };
-
 
 onMounted(() => {
     getUser();
@@ -196,6 +199,7 @@ function closeModal() {
 
 function confirmBuy() {
     if (selectedCard.value) {
+        alert(Users)
         console.log(`Подтверждено id ${selectedCard.value.id}`)
     }
     closeModal()
