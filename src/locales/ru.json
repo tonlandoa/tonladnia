@@ -19,6 +19,9 @@
         "friends": "Друзья",
         "tasks": "Задания"
     },
+    "activated": "Активировано",
+    "meme_successfully_activated": "Мем успешно активирован",
+    "ok": "Ок",
     "confirmation": "Подтверждение",
     "are_you_sure_to_buy": "Вы точно хотите купить",
     "confirm": "Подтвердить",

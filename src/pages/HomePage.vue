@@ -157,9 +157,12 @@ const typeWriterEffect = () => {
     }
 }
 
+// Хранение данных пользователя
+const userData = ref<{ card_1?: number } | null>(null)
+
 const getUser = async () => {
     await loaderRef.value?.withLoader(async () => {
-        await api.post('/users/getUser', {
+        const response = await api.post('/users/getUser', {
             initData,
             user_id,
             username,
@@ -167,6 +170,8 @@ const getUser = async () => {
             photo_url,
             startParam
         })
+
+        userData.value = response.data
     })
 }
 
@@ -182,7 +187,9 @@ const wasActivated = ref(false)
 
 function openModal(card: any) {
     selectedCard.value = card
-    if (card.id === 1) {
+
+    // Если это карта 1 и уже активирована
+    if (card.id === 1 && userData.value?.card_1 === 1) {
         wasActivated.value = true
         showModal.value = true
     } else {
