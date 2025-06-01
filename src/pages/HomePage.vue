@@ -143,8 +143,6 @@ const getUser = async () => {
                     countdownPerPlanet.value[1] = formatted
                 })
             }
-        } else {
-            tg.showAlert("Недостаточно TON на балансе, пополнить можно в разделе 'Баланс'");
         }
     })
 }
@@ -167,6 +165,7 @@ function openModal(card: any) {
     } else {
         wasActivated.value = false
         showModal.value = true
+
     }
 }
 
@@ -192,16 +191,19 @@ async function confirmBuy() {
 
     if (result.data.status == 1) {
         if (cardId === 1) {
+            const { time, new_time } = result.data
+            if (time && new_time) {
+                createCountdown(time, new_time, (formatted) => {
+                    countdownPerPlanet.value[cardId] = formatted
+                })
+            }
             userData.value = userData.value || {}
             userData.value.card_1 = 1
+        } else {
+            tg.showAlert("Недостаточно TON на балансе, пополнить можно в разделе 'Баланс'");
         }
 
-        const { time, new_time } = result.data
-        if (time && new_time) {
-            createCountdown(time, new_time, (formatted) => {
-                countdownPerPlanet.value[cardId] = formatted
-            })
-        }
+
     }
 
     closeModal()
