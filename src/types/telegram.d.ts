@@ -24,12 +24,15 @@ declare global {
             expand: () => void;
             isExpanded: boolean;
             themeParams?: Record<string, string>;
-
             setHeaderColor: (color: string) => void;
             disableVerticalSwipes: () => void;
             showAlert: (message: string, callback?: () => void) => void;
-            shareMessage(message_id: string, callback?: (sent: boolean) => void): void
-
+            shareMessage: (message_id: string, callback?: (sent: boolean) => void) => void;
+            HapticFeedback: {
+                impactOccurred: (style: 'light' | 'medium' | 'heavy' | 'rigid' | 'soft') => void;
+                notificationOccurred?: (type: 'error' | 'success' | 'warning') => void;
+                selectionChanged?: () => void;
+            };
         };
     }
 }

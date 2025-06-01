@@ -20,7 +20,7 @@ import {
 
 
 
-import { computed } from 'vue'
+import { computed, onBeforeUnmount, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -29,6 +29,24 @@ const tg = window.Telegram.WebApp;
 tg.expand();
 tg.setHeaderColor('#2d1d56');
 tg.disableVerticalSwipes();
+
+function onHapticTap(e: MouseEvent | TouchEvent) {
+  const target = e.target as HTMLElement
+  if (target.closest('a, button')) {
+    tg.HapticFeedback.impactOccurred('medium');
+  }
+}
+
+onMounted(() => {
+
+  document.addEventListener('click', onHapticTap);
+})
+
+onBeforeUnmount(() => {
+
+  document.removeEventListener('click', onHapticTap);
+})
+
 
 const menuItems = computed(() => [
   { to: '/', label: t('nav.home'), icon: Home },
@@ -40,6 +58,7 @@ const menuItems = computed(() => [
 
 <style scoped>
 .bottom-nav {
+  padding-bottom: 12px;
   position: fixed;
   bottom: 0;
   left: 0;
