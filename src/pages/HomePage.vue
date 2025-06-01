@@ -15,8 +15,6 @@ import {
 
 import api from '@/utils/api';
 import PageLoader from './pageLoader.vue';
-const users = ref<string | null>(null)
-
 
 const loaderRef = ref<InstanceType<typeof PageLoader> | null>(null);
 
@@ -125,7 +123,6 @@ const clanCards = [
     },
 ]
 
-// Typewriter
 const textVariants = computed(() => [
     t('typewriter_texts.0'),
     t('typewriter_texts.1'),
@@ -163,9 +160,11 @@ const typeWriterEffect = () => {
 }
 
 
+
+
 const getUser = async () => {
     await loaderRef.value?.withLoader(async () => {
-        const response = await api.post('/users/getUser', {
+        await api.post('/users/getUser', {
             initData,
             user_id,
             username,
@@ -173,10 +172,9 @@ const getUser = async () => {
             photo_url,
             startParam
         });
-
-        users.value = response.data;
     });
 };
+
 
 onMounted(() => {
     getUser();
@@ -197,13 +195,28 @@ function closeModal() {
     selectedCard.value = null
 }
 
-function confirmBuy() {
+const buyCard = async (card_id: number) => {
+    return await api.post('/users/buyPlanet', {
+        initData,
+        user_id,
+        card_id
+    })
+}
+
+
+async function confirmBuy() {
     if (selectedCard.value) {
-        alert(Users)
-        console.log(`Подтверждено id ${selectedCard.value.id}`)
+        const result = await buyCard(selectedCard.value.id)
+
+        if (result.data.status == 1) {
+
+        } else {
+
+        }
     }
     closeModal()
 }
+
 </script>
 
 <template>
