@@ -1,6 +1,6 @@
 <template>
     <div v-if="isLoading" class="loader-container">
-        <img src="/icons/loader.png" alt="Loading..." class="loader-img" />
+        <img src="/img/pepafinal.png" alt="Loading..." class="loader-img" />
     </div>
 </template>
 

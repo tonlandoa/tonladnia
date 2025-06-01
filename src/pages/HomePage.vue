@@ -4,6 +4,21 @@ import { useTonWallet } from '@/utils/useTonWallet'
 
 const { isWalletConnected, formattedAddress, onWalletClick } = useTonWallet()
 
+import {
+    startParam,
+    photo_url,
+    initData,
+    user_id,
+    username,
+    language_code
+} from '@/utils/telegramUser'
+
+import api from '@/utils/api';
+import PageLoader from './pageLoader.vue';
+
+const loaderRef = ref<InstanceType<typeof PageLoader> | null>(null);
+
+
 
 import {
     TrendingUp,
@@ -146,7 +161,24 @@ const typeWriterEffect = () => {
         }
     }
 }
+
+
+const getUser = async () => {
+    await loaderRef.value?.withLoader(async () => {
+        await api.post('/users/getUser', {
+            initData,
+            user_id,
+            username,
+            language_code,
+            photo_url,
+            startParam
+        });
+    });
+};
+
+
 onMounted(() => {
+    getUser();
     typeWriterEffect()
 })
 
@@ -173,10 +205,11 @@ function confirmBuy() {
 </script>
 
 <template>
+    <PageLoader ref="loaderRef" />
     <div class="clan-page">
 
         <div class="balance-header">
-            <button  @click="onWalletClick" class="tonconnect-btn">
+            <button @click="onWalletClick" class="tonconnect-btn">
                 <Wallet class="ton-logo" />
                 {{ isWalletConnected ? formattedAddress : 'Connect Wallet' }}
             </button>
