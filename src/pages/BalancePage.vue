@@ -129,6 +129,12 @@ async function handleSubmit() {
       const res = await withdrawalFormTon();
 
       if (res.data.status == 1) {
+        const sum = parseFloat(amount.value || '0');
+        const current_withdrawal_ton = parseFloat(balancePaymentsTon.value || '0');
+
+        const total = (!isNaN(sum) ? sum : 0) + (!isNaN(current_withdrawal_ton) ? current_withdrawal_ton : 0);
+        balancePaymentsTon.value = total.toFixed(2);
+
         showSuccessModal.value = true
       } else {
         tg.showAlert("Not enough TON in balance.");
