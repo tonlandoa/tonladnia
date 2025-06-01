@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { useTonWallet } from '@/utils/useTonWallet'
+const { isWalletConnected, formattedAddress, onWalletClick } = useTonWallet()
+
 import { ref, reactive, computed, onMounted, watch } from 'vue'
 import {
   ClipboardCopy,
@@ -141,10 +144,10 @@ onMounted(() => {
   <PageLoader ref="loaderRef" />
   <div class="friends-page">
     <div class="balance-header">
-      <button class="tonconnect-btn">
-        <Wallet class="ton-logo" />
-        <span>Connect Wallet</span>
-      </button>
+     <button @click="onWalletClick" class="tonconnect-btn">
+                <Wallet class="ton-logo" />
+                {{ isWalletConnected ? formattedAddress : 'Connect Wallet' }}
+            </button>
 
       <div class="language-wrapper">
         <div class="language-menu" @click="toggleDropdown">
