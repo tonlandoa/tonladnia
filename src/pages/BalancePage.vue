@@ -126,6 +126,7 @@ async function handleSubmit() {
     }
   } else {
     try {
+      formLoaders.depositTon = true
       const res = await withdrawalFormTon();
 
       if (res.data.status == 1) {
