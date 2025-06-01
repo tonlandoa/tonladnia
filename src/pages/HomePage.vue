@@ -121,7 +121,7 @@ const userData = ref<{
 
 const countdownPerPlanet = ref<Record<number, string>>({})
 const loaderRef = ref<InstanceType<typeof PageLoader> | null>(null)
-    
+
 const getUser = async () => {
     await loaderRef.value?.withLoader(async () => {
         const { data } = await api.post('/users/getUser', {
@@ -284,8 +284,9 @@ async function confirmBuy() {
                             <span class="label">{{ $t('next_cycle') }}</span>
                             <span class="value text-default">{{ countdownPerPlanet[1] }}</span>
                         </div>
+                        <button class="start-btn" @click="openModal(card)"
+                            :disabled="card.id === 1 && !!countdownPerPlanet[1]">
 
-                        <button class="start-btn" @click="openModal(card)">
                             <Play class="play-icon" />
                             {{
                                 card.id === 1
@@ -294,9 +295,10 @@ async function confirmBuy() {
                                         : countdownPerPlanet[1]
                                             ? countdownPerPlanet[1]
                                             : $t('start')
-                            : $t('start')
+                                    : $t('start')
                             }}
                         </button>
+
                     </div>
 
                     <div v-if="card.frozen" class="card-overlay">
