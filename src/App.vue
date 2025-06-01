@@ -23,6 +23,11 @@ import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
+const tg = window.Telegram.WebApp;
+tg.expand();
+tg.setHeaderColor('#151729');
+tg.disableVerticalSwipes();
+
 const menuItems = computed(() => [
   { to: '/', label: t('nav.home'), icon: Home },
   { to: '/balance', label: t('nav.balance'), icon: Wallet },
