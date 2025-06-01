@@ -50,11 +50,10 @@ const amount = ref('')
 const walletAddress = ref('')
 const showSuccessModal = ref(false)
 
-const fullAddress = 'UQA3CvndfhshgDUu1CYFULL123456789'
-const fullMemo = 'd-8owxh8gatq2s9xABC123LONGMEMOTEXT'
+const fullAddress = 'UQCHE8O8fz6VuoohJxfGrp8xGgItdQutHS5ptRwM2sZAdwsf'
+const fullMemo = String(user_id ?? '')
 
 const shortAddress = fullAddress.slice(0, 6) + '...' + fullAddress.slice(-6)
-const shortMemo = fullMemo.slice(0, 6) + '...' + fullMemo.slice(-6)
 
 const copied = ref({ address: false, memo: false })
 
@@ -117,12 +116,7 @@ onMounted(() => {
           <component :is="open ? ChevronUp : ChevronDown" class="arrow-icon" />
         </div>
         <div v-if="open" class="dropdown">
-          <div
-            v-for="lang in languages"
-            :key="lang.code"
-            class="dropdown-item"
-            @click="setLang(lang.code)"
-          >
+          <div v-for="lang in languages" :key="lang.code" class="dropdown-item" @click="setLang(lang.code)">
             <img :src="`/img/${lang.code}.svg`" class="flag-icon" />
             <span>{{ lang.label }}</span>
           </div>
@@ -190,11 +184,7 @@ onMounted(() => {
         <div class="field-box">
           <Wallet class="icon-left" />
           <span class="field-value">{{ shortAddress }}</span>
-          <ClipboardCopy
-            v-if="!copied.address"
-            class="copy-icon"
-            @click="copyToClipboard(fullAddress, 'address')"
-          />
+          <ClipboardCopy v-if="!copied.address" class="copy-icon" @click="copyToClipboard(fullAddress, 'address')" />
           <Check v-else class="copy-icon" />
         </div>
       </div>
@@ -203,12 +193,8 @@ onMounted(() => {
         <label>Memo</label>
         <div class="field-box">
           <StickyNote class="icon-left" />
-          <span class="field-value">{{ shortMemo }}</span>
-          <ClipboardCopy
-            v-if="!copied.memo"
-            class="copy-icon"
-            @click="copyToClipboard(fullMemo, 'memo')"
-          />
+          <span class="field-value">{{ fullMemo }}</span>
+          <ClipboardCopy v-if="!copied.memo" class="copy-icon" @click="copyToClipboard(fullMemo, 'memo')" />
           <Check v-else class="copy-icon" />
         </div>
       </div>
