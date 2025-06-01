@@ -199,11 +199,10 @@ async function confirmBuy() {
             }
             userData.value = userData.value || {}
             userData.value.card_1 = 1
-        } else {
-            tg.showAlert("Недостаточно TON на балансе, пополнить можно в разделе 'Баланс'");
         }
-
-
+    }
+    else {
+        tg.showAlert("Недостаточно TON на балансе, пополнить можно в разделе 'Баланс'");
     }
 
     closeModal()
