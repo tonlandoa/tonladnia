@@ -63,61 +63,18 @@ const clanCards = [
         potential: '2_ton',
         frozen: false,
     },
-    {
-        id: 2,
+    // остальные карты неактивны
+    ...[2, 3, 4, 5, 6].map((id) => ({
+        id,
         name: 'coming_soon',
-        image: '/img/doge.png',
+        image: `/img/card${id}.png`,
         profit: 'coming_soon',
         cost: 'coming_soon',
         cycle: 'coming_soon',
         earned: 'coming_soon',
         potential: 'coming_soon',
         frozen: true,
-    },
-    {
-        id: 3,
-        name: 'coming_soon',
-        image: '/img/shiba.png',
-        profit: 'coming_soon',
-        cost: 'coming_soon',
-        cycle: 'coming_soon',
-        earned: 'coming_soon',
-        potential: 'coming_soon',
-        frozen: true,
-    },
-    {
-        id: 4,
-        name: 'coming_soon',
-        image: '/img/floki.png',
-        profit: 'coming_soon',
-        cost: 'coming_soon',
-        cycle: 'coming_soon',
-        earned: 'coming_soon',
-        potential: 'coming_soon',
-        frozen: true,
-    },
-    {
-        id: 5,
-        name: 'coming_soon',
-        image: '/img/dogefinal.png',
-        profit: 'coming_soon',
-        cost: 'coming_soon',
-        cycle: 'coming_soon',
-        earned: 'coming_soon',
-        potential: 'coming_soon',
-        frozen: true,
-    },
-    {
-        id: 6,
-        name: 'coming_soon',
-        image: '/img/clyton.png',
-        profit: 'coming_soon',
-        cost: 'coming_soon',
-        cycle: 'coming_soon',
-        earned: 'coming_soon',
-        potential: 'coming_soon',
-        frozen: true,
-    },
+    }))
 ]
 
 const textVariants = computed(() => [
@@ -155,22 +112,37 @@ const typeWriterEffect = () => {
         }
     }
 }
+
+const userData = ref<{
+    card_1?: number
+    time_card_1?: string
+    date?: string
+} | null>(null)
+
+const countdownPerPlanet = ref<Record<number, string>>({})
 const loaderRef = ref<InstanceType<typeof PageLoader> | null>(null)
-
-const userData = ref<{ card_1?: number } | null>(null)
-
+    
 const getUser = async () => {
     await loaderRef.value?.withLoader(async () => {
-        const response = await api.post('/users/getUser', {
-            initData,
-            user_id,
-            username,
-            language_code,
-            photo_url,
-            startParam
+        const { data } = await api.post('/users/getUser', {
+            initData, user_id, username, language_code, photo_url, startParam
         })
 
-        userData.value = response.data
+        userData.value = data
+
+        const now = new Date(data.date.replace(/-/g, '/')).getTime()
+
+        const timeKey = 'time_card_1'
+        const cardKey = 'card_1'
+
+        if (data[cardKey] === 1 && data[timeKey]) {
+            const endTime = new Date(data[timeKey].replace(/-/g, '/')).getTime()
+            if (endTime > now) {
+                createCountdown(data.date, data[timeKey], (formatted) => {
+                    countdownPerPlanet.value[1] = formatted
+                })
+            }
+        }
     })
 }
 
@@ -182,8 +154,6 @@ onMounted(() => {
 const showModal = ref(false)
 const selectedCard = ref<any>(null)
 const wasActivated = ref(false)
-
-const countdownPerPlanet = ref<Record<number, string>>({})
 
 function openModal(card: any) {
     selectedCard.value = card
@@ -213,12 +183,12 @@ const buyCard = async (card_id: number) => {
 
 async function confirmBuy() {
     if (!selectedCard.value) return
-    const planetId = selectedCard.value.id
+    const cardId = selectedCard.value.id
 
-    const result = await buyCard(planetId)
+    const result = await buyCard(cardId)
 
     if (result.data.status == 1) {
-        if (planetId === 1) {
+        if (cardId === 1) {
             userData.value = userData.value || {}
             userData.value.card_1 = 1
         }
@@ -226,7 +196,7 @@ async function confirmBuy() {
         const { time, new_time } = result.data
         if (time && new_time) {
             createCountdown(time, new_time, (formatted) => {
-                countdownPerPlanet.value[planetId] = formatted
+                countdownPerPlanet.value[cardId] = formatted
             })
         }
     }
@@ -234,7 +204,6 @@ async function confirmBuy() {
     closeModal()
 }
 </script>
-
 
 <template>
     <PageLoader ref="loaderRef" />
@@ -272,7 +241,7 @@ async function confirmBuy() {
             <h1 class="headline">{{ $t('buy_memes') }}</h1>
 
             <div class="clan-list">
-                <div v-for="(card, index) in clanCards" :key="index" class="clan-card">
+                <div v-for="card in clanCards" :key="card.id" class="clan-card">
                     <div class="img_block">
                         <div class="card-image">
                             <img :src="card.image" alt="clan" class="card-img" />
@@ -310,12 +279,22 @@ async function confirmBuy() {
                             <span class="value text-orange">{{ $t(card.potential) }}</span>
                         </div>
 
+                        <div v-if="card.id === 1 && countdownPerPlanet[1]" class="info-row">
+                            <Clock class="mini-icon text-default" />
+                            <span class="label">{{ $t('next_cycle') }}</span>
+                            <span class="value text-default">{{ countdownPerPlanet[1] }}</span>
+                        </div>
+
                         <button class="start-btn" @click="openModal(card)">
                             <Play class="play-icon" />
                             {{
-                                card.id === 1 && userData?.card_1 === 1
-                                    ? $t('activated')
-                                    : $t('start')
+                                card.id === 1
+                                    ? userData?.card_1 !== 1
+                                        ? $t('buy')
+                                        : countdownPerPlanet[1]
+                                            ? countdownPerPlanet[1]
+                                            : $t('start')
+                            : $t('start')
                             }}
                         </button>
                     </div>
@@ -348,9 +327,6 @@ async function confirmBuy() {
         </div>
     </div>
 </template>
-
-
-
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@500;700&display=swap');
 
