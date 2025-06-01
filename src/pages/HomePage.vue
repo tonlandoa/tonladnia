@@ -1,104 +1,10 @@
-<template>
-    <div class="clan-page">
-       
-        <div class="balance-header">
-            <button class="tonconnect-btn">
-                <Wallet class="ton-logo" />
-                <span>Connect Wallet</span>
-            </button>
-
-            <div class="language-wrapper">
-                <div class="language-menu" @click="toggleDropdown">
-                    <img :src="`/img/${currentLang}.svg`" class="flag-icon" alt="Lang" />
-                    <component :is="open ? ChevronUp : ChevronDown" class="arrow-icon" />
-                </div>
-                <div v-if="open" class="dropdown">
-                    <div v-for="lang in languages" :key="lang.code" class="dropdown-item" @click="setLang(lang.code)">
-                        <img :src="`/img/${lang.code}.svg`" class="flag-icon" />
-                        <span>{{ lang.label }}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="container">
-            <h1 class="headline">
-                <span class="tonlandia-title">TONLANDIA</span> —
-                <span class="typed-text">{{ displayedText }}</span><span class="cursor">|</span>
-            </h1>
-
-            <div class="div_os">
-                <img src="/img/os.png" class="img_os" />
-            </div>
-
-            <h1 class="headline">{{ $t('buy_memes') }}</h1>
-
-            <div class="clan-list">
-                <div v-for="(card, index) in clanCards" :key="index" class="clan-card">
-                    <div class="img_block">
-                        <div class="card-image">
-                            <img :src="card.image" alt="clan" class="card-img" />
-                        </div>
-                    </div>
-
-                    <div class="card-body">
-                        <div class="top-row">
-                            <h2 class="name">{{ $t(card.name) }}</h2>
-                        </div>
-
-                        <div class="info-row">
-                            <TrendingUp class="mini-icon text-blue" />
-                            <span class="label">{{ $t('profitability') }}</span>
-                            <span class="value text-blue">{{ $t(card.profit) }}</span>
-                        </div>
-                        <div class="info-row">
-                            <DollarSign class="mini-icon text-green" />
-                            <span class="label">{{ $t('price') }}</span>
-                            <span class="value text-green">{{ $t(card.cost) }}</span>
-                        </div>
-                        <div class="info-row">
-                            <Clock class="mini-icon text-default" />
-                            <span class="label">{{ $t('cycle_time') }}</span>
-                            <span class="value text-default">{{ $t(card.cycle) }}</span>
-                        </div>
-                        <div class="info-row">
-                            <PiggyBank class="mini-icon text-red" />
-                            <span class="label">{{ $t('earned') }}</span>
-                            <span class="value text-red">{{ $t(card.earned) }}</span>
-                        </div>
-                        <div class="info-row">
-                            <Flame class="mini-icon text-orange" />
-                            <span class="label">{{ $t('potential_profit') }}</span>
-                            <span class="value text-orange">{{ $t(card.potential) }}</span>
-                        </div>
-
-                        <button class="start-btn" @click="openModal(card)">
-                            <Play class="play-icon" />
-                            {{ $t('start') }}
-                        </button>
-                    </div>
-
-                    <div v-if="card.frozen" class="card-overlay">
-                        <span class="overlay-text">{{ $t('coming_soon') }}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
-            <div class="modal-content">
-                <h2 class="modal-title">{{ $t('confirmation') }}</h2>
-                <p class="modal-text">{{ $t('are_you_sure_to_buy') }} "{{ $t(selectedCard.name) }}"?</p>
-                <div class="modal-buttons">
-                    <button class="modal-btn confirm" @click="confirmBuy">{{ $t('confirm') }}</button>
-                    <button class="modal-btn cancel" @click="closeModal">{{ $t('cancel') }}</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
-
 <script setup lang="ts">
+
+import { useTonWallet } from '@/utils/useTonWallet'
+
+const { isWalletConnected, formattedAddress, onWalletClick } = useTonWallet()
+
+
 import {
     TrendingUp,
     DollarSign,
@@ -265,6 +171,107 @@ function confirmBuy() {
     closeModal()
 }
 </script>
+
+<template>
+    <div class="clan-page">
+
+        <div class="balance-header">
+            <button  @click="onWalletClick" class="tonconnect-btn">
+                <Wallet class="ton-logo" />
+                {{ isWalletConnected ? formattedAddress : 'Connect' }}
+            </button>
+
+            <div class="language-wrapper">
+                <div class="language-menu" @click="toggleDropdown">
+                    <img :src="`/img/${currentLang}.svg`" class="flag-icon" alt="Lang" />
+                    <component :is="open ? ChevronUp : ChevronDown" class="arrow-icon" />
+                </div>
+                <div v-if="open" class="dropdown">
+                    <div v-for="lang in languages" :key="lang.code" class="dropdown-item" @click="setLang(lang.code)">
+                        <img :src="`/img/${lang.code}.svg`" class="flag-icon" />
+                        <span>{{ lang.label }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <h1 class="headline">
+                <span class="tonlandia-title">TONLANDIA</span> —
+                <span class="typed-text">{{ displayedText }}</span><span class="cursor">|</span>
+            </h1>
+
+            <div class="div_os">
+                <img src="/img/os.png" class="img_os" />
+            </div>
+
+            <h1 class="headline">{{ $t('buy_memes') }}</h1>
+
+            <div class="clan-list">
+                <div v-for="(card, index) in clanCards" :key="index" class="clan-card">
+                    <div class="img_block">
+                        <div class="card-image">
+                            <img :src="card.image" alt="clan" class="card-img" />
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="top-row">
+                            <h2 class="name">{{ $t(card.name) }}</h2>
+                        </div>
+
+                        <div class="info-row">
+                            <TrendingUp class="mini-icon text-blue" />
+                            <span class="label">{{ $t('profitability') }}</span>
+                            <span class="value text-blue">{{ $t(card.profit) }}</span>
+                        </div>
+                        <div class="info-row">
+                            <DollarSign class="mini-icon text-green" />
+                            <span class="label">{{ $t('price') }}</span>
+                            <span class="value text-green">{{ $t(card.cost) }}</span>
+                        </div>
+                        <div class="info-row">
+                            <Clock class="mini-icon text-default" />
+                            <span class="label">{{ $t('cycle_time') }}</span>
+                            <span class="value text-default">{{ $t(card.cycle) }}</span>
+                        </div>
+                        <div class="info-row">
+                            <PiggyBank class="mini-icon text-red" />
+                            <span class="label">{{ $t('earned') }}</span>
+                            <span class="value text-red">{{ $t(card.earned) }}</span>
+                        </div>
+                        <div class="info-row">
+                            <Flame class="mini-icon text-orange" />
+                            <span class="label">{{ $t('potential_profit') }}</span>
+                            <span class="value text-orange">{{ $t(card.potential) }}</span>
+                        </div>
+
+                        <button class="start-btn" @click="openModal(card)">
+                            <Play class="play-icon" />
+                            {{ $t('start') }}
+                        </button>
+                    </div>
+
+                    <div v-if="card.frozen" class="card-overlay">
+                        <span class="overlay-text">{{ $t('coming_soon') }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
+            <div class="modal-content">
+                <h2 class="modal-title">{{ $t('confirmation') }}</h2>
+                <p class="modal-text">{{ $t('are_you_sure_to_buy') }} "{{ $t(selectedCard.name) }}"?</p>
+                <div class="modal-buttons">
+                    <button class="modal-btn confirm" @click="confirmBuy">{{ $t('confirm') }}</button>
+                    <button class="modal-btn cancel" @click="closeModal">{{ $t('cancel') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
 
 
 <style scoped>
