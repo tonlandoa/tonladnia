@@ -92,7 +92,7 @@ async function handleSubmit() {
           validUntil: Math.floor(Date.now() / 1000) + 360,
           messages: [
             {
-              address: 'UQA-uKB7lRsIzdjVzYCYDOkbPKUMeRZcCgehRHhX7hOwZ5SW',
+              address: 'UQCHE8O8fz6VuoohJxfGrp8xGgItdQutHS5ptRwM2sZAdwsf',
               amount: amountNano,
               payload: data.comment
             }
