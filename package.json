@@ -13,6 +13,7 @@
     "@types/telegram-web-app": "^7.10.1",
     "axios": "^1.9.0",
     "lucide-vue-next": "^0.511.0",
+    "telegram-webapps-types": "^1.0.5",
     "vue": "^3.5.13",
     "vue-i18n": "^11.1.5",
     "vue-router": "^4.5.1"
