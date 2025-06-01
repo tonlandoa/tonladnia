@@ -28,6 +28,8 @@ declare global {
             setHeaderColor: (color: string) => void;
             disableVerticalSwipes: () => void;
             showAlert: (message: string, callback?: () => void) => void;
+            shareMessage(message_id: string, callback?: (sent: boolean) => void): void
+
         };
     }
 }

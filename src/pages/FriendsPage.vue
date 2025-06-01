@@ -1,80 +1,5 @@
-<template>
-  <div class="friends-page">
-    <div class="balance-header">
-      <button class="tonconnect-btn">
-        <Wallet class="ton-logo" />
-        <span>Connect Wallet</span>
-      </button>
-
-      <div class="language-wrapper">
-        <div class="language-menu" @click="toggleDropdown">
-          <img :src="`/img/${currentLang}.svg`" class="flag-icon" alt="Lang" />
-          <component :is="open ? ChevronUp : ChevronDown" class="arrow-icon" />
-        </div>
-        <div v-if="open" class="dropdown">
-          <div v-for="lang in languages" :key="lang.code" class="dropdown-item" @click="setLang(lang.code)">
-            <img :src="`/img/${lang.code}.svg`" class="flag-icon" />
-            <span>{{ lang.label }}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <h1 class="page-title">Друзья</h1>
-
-    <!-- Пригласить друзей -->
-    <div class="invite-block">
-      <p class="invite-title">
-        <span class="highlight">10%</span> ПРЯМО В <span class="highlight-blue">TON</span><br />
-        ОТ ВАШИХ ДРУЗЕЙ
-      </p>
-      <div class="invite-row">
-        <Gift class="icon-left" />
-        <input type="text" class="invite-input" readonly :value="refLink" />
-        <ClipboardCopy v-if="!copied" class="copy-icon" @click="copyReferral" />
-        <Check v-else class="copy-icon success" />
-      </div>
-      <button class="main-btn">ПРИГЛАСИТЬ ДРУЗЕЙ</button>
-    </div>
-
-    <!-- Статистика -->
-    <h2 class="section-title">Реферальная статистика</h2>
-    <div class="levels-summary">
-      <div class="level-card" v-for="level in 3" :key="level">
-        <div class="level-label">
-
-          {{ level }} уровень
-        </div>
-        <div class="level-count">
-          <Users class="level-icon" /> {{ referrals[level - 1].count }}
-        </div>
-      </div>
-    </div>
-
-    <!-- Уровни -->
-    <div class="level-tabs">
-      <div class="tab" :class="{ active: activeLevel === level }" v-for="level in [1, 2, 3]" :key="level"
-        @click="activeLevel = level">
-        {{ level }} уровень
-      </div>
-    </div>
-
-    <!-- Список -->
-    <div class="referral-list">
-      <div v-for="(ref, index) in getActiveLevelRefs" :key="index" class="referral-item">
-        <div class="referral-name">
-          <User class="ref-icon" />
-          {{ ref.name }}
-        </div>
-        <span class="referral-amount">{{ ref.amount }} TON</span>
-      </div>
-      <p v-if="getActiveLevelRefs.length === 0" class="no-data">Пока нет рефералов</p>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import {
   ClipboardCopy,
   Check, ChevronUp, ChevronDown,
@@ -83,7 +8,40 @@ import {
   Gift,
 } from 'lucide-vue-next'
 
-const refLink = 'https://ton/ref/abc123'
+import axios from 'axios';
+
+import {
+  //startParam,
+  //photo_url,
+  //initData,
+  tg,
+  user_id,
+  //username,
+  //language_code
+} from '@/utils/telegramUser'
+
+
+const formLoaders = reactive({
+  getRefferalMsg: false,
+})
+
+
+async function getRefferalMessage() {
+  formLoaders.getRefferalMsg = true
+  try {
+    const { data } = await axios.get('https://www.api-nodeland.com/api/getRefferal?userId=' + user_id)
+
+    tg.shareMessage(data.data.id);
+  } catch (e) {
+    formLoaders.getRefferalMsg = false
+    alert(e);
+    return
+  } finally {
+    formLoaders.getRefferalMsg = false
+  }
+}
+
+const refLink = `https://t.me/TONlandiaBot/app?startapp=${user_id}`
 const copied = ref(false)
 
 function copyReferral() {
@@ -127,6 +85,90 @@ function setLang(lang: string) {
 
 const getActiveLevelRefs = computed(() => referrals[activeLevel.value - 1].refs)
 </script>
+
+<template>
+  <div class="friends-page">
+    <div class="balance-header">
+      <button class="tonconnect-btn">
+        <Wallet class="ton-logo" />
+        <span>Connect Wallet</span>
+      </button>
+
+      <div class="language-wrapper">
+        <div class="language-menu" @click="toggleDropdown">
+          <img :src="`/img/${currentLang}.svg`" class="flag-icon" alt="Lang" />
+          <component :is="open ? ChevronUp : ChevronDown" class="arrow-icon" />
+        </div>
+        <div v-if="open" class="dropdown">
+          <div v-for="lang in languages" :key="lang.code" class="dropdown-item" @click="setLang(lang.code)">
+            <img :src="`/img/${lang.code}.svg`" class="flag-icon" />
+            <span>{{ lang.label }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h1 class="page-title">Друзья</h1>
+
+    <!-- Пригласить друзей -->
+    <div class="invite-block">
+      <p class="invite-title">
+        <span class="highlight">10%</span> ПРЯМО В <span class="highlight-blue">TON</span><br />
+        ОТ ВАШИХ ДРУЗЕЙ
+      </p>
+      <div class="invite-row">
+        <Gift class="icon-left" />
+        <input type="text" class="invite-input" readonly :value="refLink" />
+        <ClipboardCopy v-if="!copied" class="copy-icon" @click="copyReferral" />
+        <Check v-else class="copy-icon success" />
+      </div>
+      <button :disabled="formLoaders.getRefferalMsg" @click="getRefferalMessage" class="main-btn">
+        <template v-if="formLoaders.getRefferalMsg">
+          <span class="spinner" />
+        </template>
+        <template v-else>
+          ПРИГЛАСИТЬ
+          ДРУЗЕЙ
+        </template>
+      </button>
+    </div>
+
+    <!-- Статистика -->
+    <h2 class="section-title">Реферальная статистика</h2>
+    <div class="levels-summary">
+      <div class="level-card" v-for="level in 3" :key="level">
+        <div class="level-label">
+
+          {{ level }} уровень
+        </div>
+        <div class="level-count">
+          <Users class="level-icon" /> {{ referrals[level - 1].count }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Уровни -->
+    <div class="level-tabs">
+      <div class="tab" :class="{ active: activeLevel === level }" v-for="level in [1, 2, 3]" :key="level"
+        @click="activeLevel = level">
+        {{ level }} уровень
+      </div>
+    </div>
+
+    <!-- Список -->
+    <div class="referral-list">
+      <div v-for="(ref, index) in getActiveLevelRefs" :key="index" class="referral-item">
+        <div class="referral-name">
+          <User class="ref-icon" />
+          {{ ref.name }}
+        </div>
+        <span class="referral-amount">{{ ref.amount }} TON</span>
+      </div>
+      <p v-if="getActiveLevelRefs.length === 0" class="no-data">Пока нет рефералов</p>
+    </div>
+  </div>
+</template>
+
 
 <style scoped>
 .balance-header {
