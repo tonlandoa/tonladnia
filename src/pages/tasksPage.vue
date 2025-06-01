@@ -20,14 +20,14 @@ const tasks = [
     {
         id: 1,
         name: 'Подпишись на канал',
-        description: 'Награда: 0.001 TON',
+        description: 'Награда: 0.005 TON',
         link: 'https://t.me/TonlandiaCommunity',
         icon: '/img/channel.jpg',
     },
     {
         id: 2,
         name: 'Подпишись на чат',
-        description: 'Награда: 0.001 TON',
+        description: 'Награда: 0.005 TON',
         link: 'https://t.me/TonlandiaChat',
         icon: '/img/pepafinal.png',
     }
