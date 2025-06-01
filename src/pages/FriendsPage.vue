@@ -2,6 +2,7 @@
 import { useTonWallet } from '@/utils/useTonWallet'
 const { isWalletConnected, formattedAddress, onWalletClick } = useTonWallet()
 
+
 import { ref, reactive, computed, onMounted, watch } from 'vue'
 import {
   ClipboardCopy,
@@ -23,6 +24,8 @@ import {
 } from '@/utils/telegramUser'
 
 import { useI18n } from 'vue-i18n'
+const { t, locale } = useI18n()
+
 import api from '@/utils/api'
 import type { ReferralFromApi } from '../types/api.types'
 
@@ -58,7 +61,7 @@ function copyReferral() {
 
 const activeLevel = ref(1)
 
-const { locale } = useI18n()
+
 const currentLang = ref(locale.value)
 const open = ref(false)
 
@@ -144,10 +147,10 @@ onMounted(() => {
   <PageLoader ref="loaderRef" />
   <div class="friends-page">
     <div class="balance-header">
-     <button @click="onWalletClick" class="tonconnect-btn">
-                <Wallet class="ton-logo" />
-                {{ isWalletConnected ? formattedAddress : 'Connect Wallet' }}
-            </button>
+      <button @click="onWalletClick" class="tonconnect-btn">
+        <Wallet class="ton-logo" />
+        {{ isWalletConnected ? formattedAddress : t('friends.connect_wallet') }}
+      </button>
 
       <div class="language-wrapper">
         <div class="language-menu" @click="toggleDropdown">
@@ -163,13 +166,10 @@ onMounted(() => {
       </div>
     </div>
 
-    <h1 class="page-title">Друзья</h1>
+    <h1 class="page-title">{{ t('friends.title') }}</h1>
 
     <div class="invite-block">
-      <p class="invite-title">
-        <span class="highlight">10%</span> ПРЯМО В <span class="highlight-blue">TON</span><br />
-        ОТ ВАШИХ ДРУЗЕЙ
-      </p>
+      <p class="invite-title" v-html="t('friends.invite_title_html')" />
       <div class="invite-row">
         <Gift class="icon-left" />
         <input type="text" class="invite-input" readonly :value="refLink" />
@@ -181,16 +181,16 @@ onMounted(() => {
           <span class="spinner" />
         </template>
         <template v-else>
-          ПРИГЛАСИТЬ ДРУЗЕЙ
+          {{ t('friends.invite_btn') }}
         </template>
       </button>
     </div>
 
-    <h2 class="section-title">Реферальная статистика</h2>
+    <h2 class="section-title">{{ t('friends.stats_title') }}</h2>
     <div class="levels-summary">
       <div class="level-card" v-for="level in 3" :key="level">
         <div class="level-label">
-          {{ level }} уровень
+          {{ t('friends.level', { level }) }}
         </div>
         <div class="level-count">
           <Users class="level-icon" /> {{ referrals[level - 1].count }}
@@ -201,7 +201,7 @@ onMounted(() => {
     <div class="level-tabs">
       <div class="tab" :class="{ active: activeLevel === level }" v-for="level in [1, 2, 3]" :key="level"
         @click="activeLevel = level">
-        {{ level }} уровень
+        {{ t('friends.level', { level }) }}
       </div>
     </div>
 
@@ -213,7 +213,7 @@ onMounted(() => {
         </div>
         <span class="referral-amount">{{ ref.amount }} TON</span>
       </div>
-      <p v-if="getActiveLevelRefs.length === 0" class="no-data">Пока нет рефералов</p>
+      <p v-if="getActiveLevelRefs.length === 0" class="no-data">{{ t('friends.no_referrals') }}</p>
     </div>
   </div>
 </template>

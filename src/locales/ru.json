@@ -1,4 +1,46 @@
 {
+    "balance": {
+        "connect_wallet": "Подключить кошелёк",
+        "total_balance": "Баланс",
+        "available": "Доступно к выводу",
+        "deposit_tab": "Пополнение",
+        "withdraw_tab": "Вывод",
+        "wallet_label": "TON-кошелёк",
+        "wallet_placeholder": "Введите TON адрес",
+        "amount": "Сумма",
+        "amount_placeholder": "0.1",
+        "deposit_btn": "Пополнить баланс",
+        "withdraw_btn": "Вывести баланс",
+        "manual_title": "Отправить TON вручную",
+        "memo_warning": "При переводе обязательно укажите <span class='red'>MEMO</span>",
+        "address": "Адрес",
+        "memo": "Memo",
+        "success_title": "Успешно",
+        "success_text": "TON успешно отправлены на Ваш кошелёк"
+    },
+    "friends": {
+        "connect_wallet": "Подключить кошелёк",
+        "title": "Друзья",
+        "invite_title_html": "<span class='highlight'>10%</span> ПРЯМО В <span class='highlight-blue'>TON</span><br />ОТ ВАШИХ ДРУЗЕЙ",
+        "invite_btn": "ПРИГЛАСИТЬ ДРУЗЕЙ",
+        "stats_title": "Реферальная статистика",
+        "level": "{level} уровень",
+        "no_referrals": "Пока нет рефералов"
+    },
+    "tasks": {
+        "title": "Задания",
+        "button": "Выполнить",
+        "list": {
+            "1": {
+                "name": "Подпишись на канал",
+                "description": "Награда: 0.005 TON"
+            },
+            "2": {
+                "name": "Подпишись на чат",
+                "description": "Награда: 0.005 TON"
+            }
+        }
+    },
     "close": "Закрыть",
     "buy_memes": "Купить мемы",
     "pepe": "Pepe",

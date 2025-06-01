@@ -37,6 +37,8 @@ const loaderRef = ref<InstanceType<typeof PageLoader> | null>(null)
 const balanceTon = ref('0')
 const balancePaymentsTon = ref('0')
 
+
+const { t } = useI18n()
 const getUser = async () => {
   await loaderRef.value?.withLoader(async () => {
     const response = await api.post('/users/getUser', {
@@ -183,7 +185,7 @@ onMounted(() => {
     <div class="balance-header">
       <button @click="onWalletClick" class="tonconnect-btn">
         <Wallet class="ton-logo" />
-        {{ isWalletConnected ? formattedAddress : 'Connect Wallet' }}
+        {{ isWalletConnected ? formattedAddress : t('balance.connect_wallet') }}
       </button>
 
       <div class="language-wrapper">
@@ -202,14 +204,14 @@ onMounted(() => {
 
     <div class="balance-section">
       <div class="balance-card">
-        <div class="balance-label">Баланс</div>
+        <div class="balance-label">{{ t('balance.total_balance') }}</div>
         <div class="balance-info">
           <Coins class="ton-icon" />
           <span>{{ balanceTon }} TON</span>
         </div>
       </div>
       <div class="balance-card">
-        <div class="balance-label">Доступно к выводу</div>
+        <div class="balance-label">{{ t('balance.available') }}</div>
         <div class="balance-info">
           <Coins class="ton-icon" />
           <span>{{ balancePaymentsTon }} TON</span>
@@ -218,24 +220,29 @@ onMounted(() => {
     </div>
 
     <div class="tabs">
-      <div :class="['tab', activeTab === 'deposit' && 'active']" @click="activeTab = 'deposit'">Пополнение</div>
-      <div :class="['tab', activeTab === 'withdraw' && 'active']" @click="activeTab = 'withdraw'">Вывод</div>
+      <div :class="['tab', activeTab === 'deposit' && 'active']" @click="activeTab = 'deposit'">
+        {{ t('balance.deposit_tab') }}
+      </div>
+      <div :class="['tab', activeTab === 'withdraw' && 'active']" @click="activeTab = 'withdraw'">
+        {{ t('balance.withdraw_tab') }}
+      </div>
     </div>
 
     <form @submit.prevent="handleSubmit">
       <div v-if="activeTab === 'withdraw'" class="input-row">
-        <label class="input-label">TON-кошелёк</label>
+        <label class="input-label">{{ t('balance.wallet_label') }}</label>
         <div class="input-wrap">
           <Send class="icon-left" />
-          <input v-model="walletAddress" type="text" placeholder="Введите TON адрес" required />
+          <input v-model="walletAddress" type="text" :placeholder="t('balance.wallet_placeholder')" required />
         </div>
       </div>
 
       <div class="input-row">
-        <label class="input-label">Сумма</label>
+        <label class="input-label">{{ t('balance.amount') }}</label>
         <div class="input-wrap">
           <Wallet class="icon-left" />
-          <input v-model="amount" required type="number" placeholder="0.1" step="0.1" min="0.1" />
+          <input v-model="amount" required type="number" :placeholder="t('balance.amount_placeholder')" step="0.1"
+            min="0.1" />
           <span class="suffix">TON</span>
         </div>
       </div>
@@ -245,7 +252,7 @@ onMounted(() => {
           <span class="spinner" />
         </template>
         <template v-else>
-          {{ activeTab === 'deposit' ? 'Пополнить баланс' : 'Вывести баланс' }}
+          {{ activeTab === 'deposit' ? t('balance.deposit_btn') : t('balance.withdraw_btn') }}
         </template>
       </button>
     </form>
@@ -253,13 +260,11 @@ onMounted(() => {
     <div class="divider">или</div>
 
     <div class="manual">
-      <h3 class="manual-title">Отправить TON вручную</h3>
-      <p class="warn-text">
-        При переводе обязательно укажите <span class="red">MEMO</span>
-      </p>
+      <h3 class="manual-title">{{ t('balance.manual_title') }}</h3>
+      <p class="warn-text" v-html="t('balance.memo_warning')" />
 
       <div class="field">
-        <label>Адрес</label>
+        <label>{{ t('balance.address') }}</label>
         <div class="field-box">
           <Wallet class="icon-left" />
           <span class="field-value">{{ shortAddress }}</span>
@@ -269,7 +274,7 @@ onMounted(() => {
       </div>
 
       <div class="field">
-        <label>Memo</label>
+        <label>{{ t('balance.memo') }}</label>
         <div class="field-box">
           <StickyNote class="icon-left" />
           <span class="field-value">{{ fullMemo }}</span>
@@ -281,8 +286,8 @@ onMounted(() => {
 
     <div v-if="showSuccessModal" class="modal-overlay" @click.self="showSuccessModal = false">
       <div class="modal-content">
-        <h2 class="modal-title">Успешно</h2>
-        <p class="modal-text">TON успешно отправлены на Ваш кошелёк</p>
+        <h2 class="modal-title">{{ t('balance.success_title') }}</h2>
+        <p class="modal-text">{{ t('balance.success_text') }}</p>
         <div class="modal-buttons">
           <button class="modal-btn confirm" @click="showSuccessModal = false">OK</button>
         </div>
@@ -290,7 +295,6 @@ onMounted(() => {
     </div>
   </div>
 </template>
-
 
 <style scoped>
 .balance-header {

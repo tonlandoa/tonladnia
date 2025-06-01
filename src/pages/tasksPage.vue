@@ -1,36 +1,36 @@
 <template>
     <div class="tasks-section">
-        <h2 class="tasks-title">🎯 Задания</h2>
+        <h2 class="tasks-title">🎯 {{ t('tasks.title') }}</h2>
 
         <div v-for="task in tasks" :key="task.id" class="task-card">
             <div class="task-content">
                 <img :src="task.icon" class="task-icon" />
                 <div class="task-text">
-                    <h3 class="task-name">{{ task.name }}</h3>
-                    <p class="task-desc">{{ task.description }}</p>
+                    <h3 class="task-name">{{ t(`tasks.list.${task.id}.name`) }}</h3>
+                    <p class="task-desc">{{ t(`tasks.list.${task.id}.description`) }}</p>
                 </div>
             </div>
-            <a :href="task.link" target="_blank" class="task-btn">Выполнить</a>
+            <a :href="task.link" target="_blank" class="task-btn">{{ t('tasks.button') }}</a>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
 const tasks = [
     {
         id: 1,
-        name: 'Подпишись на канал',
-        description: 'Награда: 0.005 TON',
         link: 'https://t.me/TonlandiaCommunity',
         icon: '/img/channel.jpg',
     },
     {
         id: 2,
-        name: 'Подпишись на чат',
-        description: 'Награда: 0.005 TON',
         link: 'https://t.me/TonlandiaChat',
         icon: '/img/pepafinal.png',
-    }
+    },
 ]
 </script>
 

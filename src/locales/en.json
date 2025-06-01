@@ -1,4 +1,46 @@
 {
+    "balance": {
+        "connect_wallet": "Connect Wallet",
+        "total_balance": "Balance",
+        "available": "Available for withdrawal",
+        "deposit_tab": "Deposit",
+        "withdraw_tab": "Withdraw",
+        "wallet_label": "TON Wallet",
+        "wallet_placeholder": "Enter TON address",
+        "amount": "Amount",
+        "amount_placeholder": "0.1",
+        "deposit_btn": "Top up balance",
+        "withdraw_btn": "Withdraw balance",
+        "manual_title": "Send TON manually",
+        "memo_warning": "Make sure to specify the <span class='red'>MEMO</span> when sending",
+        "address": "Address",
+        "memo": "Memo",
+        "success_title": "Success",
+        "success_text": "TON successfully sent to your wallet"
+    },
+    "friends": {
+        "connect_wallet": "Connect Wallet",
+        "title": "Friends",
+        "invite_title_html": "<span class='highlight'>10%</span> DIRECTLY IN <span class='highlight-blue'>TON</span><br />FROM YOUR FRIENDS",
+        "invite_btn": "INVITE FRIENDS",
+        "stats_title": "Referral statistics",
+        "level": "{level} level",
+        "no_referrals": "No referrals yet"
+    },
+    "tasks": {
+        "title": "Tasks",
+        "button": "Complete",
+        "list": {
+            "1": {
+                "name": "Subscribe to the channel",
+                "description": "Reward: 0.005 TON"
+            },
+            "2": {
+                "name": "Join the chat",
+                "description": "Reward: 0.005 TON"
+            }
+        }
+    },
     "close": "Close",
     "buy_memes": "Buy memes",
     "pepe": "Pepe",
@@ -30,9 +72,9 @@
     "confirm": "Confirm",
     "cancel": "Cancel",
     "typewriter_texts": [
-        "The only place where you can actually earn from memes",
+        "The only place where you can really earn from memes",
         "The power of memes",
         "Memes are a lifestyle",
-        "These are not just funny pictures"
+        "They're not just funny pictures"
     ]
 }

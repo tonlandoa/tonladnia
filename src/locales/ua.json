@@ -1,4 +1,46 @@
 {
+    "balance": {
+        "connect_wallet": "Підключити гаманець",
+        "total_balance": "Баланс",
+        "available": "Доступно для виводу",
+        "deposit_tab": "Поповнення",
+        "withdraw_tab": "Вивід",
+        "wallet_label": "TON-гаманець",
+        "wallet_placeholder": "Введіть TON адресу",
+        "amount": "Сума",
+        "amount_placeholder": "0.1",
+        "deposit_btn": "Поповнити баланс",
+        "withdraw_btn": "Вивести баланс",
+        "manual_title": "Надіслати TON вручну",
+        "memo_warning": "Обов'язково вкажіть <span class='red'>MEMO</span> при переказі",
+        "address": "Адреса",
+        "memo": "Memo",
+        "success_title": "Успішно",
+        "success_text": "TON успішно надіслано на ваш гаманець"
+    },
+    "friends": {
+        "connect_wallet": "Підключити гаманець",
+        "title": "Друзі",
+        "invite_title_html": "<span class='highlight'>10%</span> НАПРЯМУ В <span class='highlight-blue'>TON</span><br />ВІД ВАШИХ ДРУЗІВ",
+        "invite_btn": "ЗАПРОСИТИ ДРУЗІВ",
+        "stats_title": "Реферальна статистика",
+        "level": "{level} рівень",
+        "no_referrals": "Поки що немає рефералів"
+    },
+    "tasks": {
+        "title": "Завдання",
+        "button": "Виконати",
+        "list": {
+            "1": {
+                "name": "Підпишись на канал",
+                "description": "Нагорода: 0.005 TON"
+            },
+            "2": {
+                "name": "Підпишись на чат",
+                "description": "Нагорода: 0.005 TON"
+            }
+        }
+    },
     "close": "Закрити",
     "buy_memes": "Купити меми",
     "pepe": "Pepe",
@@ -10,7 +52,7 @@
     "buy": "Купити мем",
     "0_ton": "0 TON",
     "2_ton": "2 TON",
-    "profitability": "Доходність",
+    "profitability": "Прибутковість",
     "price": "Ціна",
     "cycle_time": "Час циклу",
     "earned": "Зароблено",
@@ -26,13 +68,13 @@
     "meme_successfully_activated": "Мем успішно активовано",
     "ok": "Ок",
     "confirmation": "Підтвердження",
-    "are_you_sure_to_buy": "Ви дійсно хочете купити",
+    "are_you_sure_to_buy": "Ви впевнені, що хочете купити",
     "confirm": "Підтвердити",
     "cancel": "Скасувати",
     "typewriter_texts": [
-        "Єдине місце, де ти реально можеш заробити на мемах",
+        "Єдине місце, де ти справді можеш заробити на мемах",
         "Сила мемів",
-        "Меми — стиль життя",
+        "Меми — це стиль життя",
         "Це не просто смішні картинки"
     ]
 }
