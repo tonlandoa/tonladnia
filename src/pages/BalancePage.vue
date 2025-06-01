@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, reactive } from 'vue'
 import {
   Wallet,
   StickyNote,
@@ -11,10 +11,18 @@ import {
   Check
 } from 'lucide-vue-next'
 
+import axios from 'axios'
+
+import { useTonWallet } from '@/utils/useTonWallet'
+import { tonConnectUI } from '@/utils/tonconnect'
+
+const { isWalletConnected, formattedAddress, onWalletClick } = useTonWallet()
+
 import {
   startParam,
   photo_url,
   initData,
+  tg,
   user_id,
   username,
   language_code
@@ -52,8 +60,12 @@ const showSuccessModal = ref(false)
 
 const fullAddress = 'UQCHE8O8fz6VuoohJxfGrp8xGgItdQutHS5ptRwM2sZAdwsf'
 const fullMemo = String(user_id ?? '')
-
 const shortAddress = fullAddress.slice(0, 6) + '...' + fullAddress.slice(-6)
+
+const formLoaders = reactive({
+  depositTon: false,
+  withdrawalTon: false
+})
 
 const copied = ref({ address: false, memo: false })
 
@@ -66,9 +78,36 @@ function copyToClipboard(text: string, field: 'address' | 'memo') {
   })
 }
 
-function handleSubmit() {
+async function handleSubmit() {
   if (activeTab.value === 'deposit') {
-    alert(`Вы ввели сумму: ${amount.value} TON`)
+    formLoaders.depositTon = true
+    try {
+      const { data } = await axios.get(`https://www.api-nodeland.com/api/getMemo?comment=${user_id}`)
+
+      if (data.comment) {
+        const tonAmount = parseFloat(amount.value)
+        const amountNano = (tonAmount * 1e9).toString()
+
+        const transaction = {
+          validUntil: Math.floor(Date.now() / 1000) + 360,
+          messages: [
+            {
+              address: 'UQA-uKB7lRsIzdjVzYCYDOkbPKUMeRZcCgehRHhX7hOwZ5SW',
+              amount: amountNano,
+              payload: data.comment
+            }
+          ]
+        }
+
+        await tonConnectUI.sendTransaction(transaction)
+      } else {
+        tg.showAlert('Deposit error. Please contact the administrator or make a manual transfer.')
+      }
+    } catch {
+      tg.showAlert('The deposit has been canceled.')
+    } finally {
+      formLoaders.depositTon = false
+    }
   } else {
     showSuccessModal.value = true
   }
@@ -105,9 +144,9 @@ onMounted(() => {
   <PageLoader ref="loaderRef" />
   <div class="balance-page">
     <div class="balance-header">
-      <button class="tonconnect-btn">
+      <button @click="onWalletClick" class="tonconnect-btn">
         <Wallet class="ton-logo" />
-        <span>Connect Wallet</span>
+        {{ isWalletConnected ? formattedAddress : 'Connect Wallet' }}
       </button>
 
       <div class="language-wrapper">
@@ -142,34 +181,37 @@ onMounted(() => {
     </div>
 
     <div class="tabs">
-      <div :class="['tab', activeTab === 'deposit' && 'active']" @click="activeTab = 'deposit'">
-        Пополнение
-      </div>
-      <div :class="['tab', activeTab === 'withdraw' && 'active']" @click="activeTab = 'withdraw'">
-        Вывод
-      </div>
+      <div :class="['tab', activeTab === 'deposit' && 'active']" @click="activeTab = 'deposit'">Пополнение</div>
+      <div :class="['tab', activeTab === 'withdraw' && 'active']" @click="activeTab = 'withdraw'">Вывод</div>
     </div>
 
-    <div v-if="activeTab === 'withdraw'" class="input-row">
-      <label class="input-label">TON-кошелёк</label>
-      <div class="input-wrap">
-        <Send class="icon-left" />
-        <input v-model="walletAddress" type="text" placeholder="Введите TON адрес" required />
+    <form @submit.prevent="handleSubmit">
+      <div v-if="activeTab === 'withdraw'" class="input-row">
+        <label class="input-label">TON-кошелёк</label>
+        <div class="input-wrap">
+          <Send class="icon-left" />
+          <input v-model="walletAddress" type="text" placeholder="Введите TON адрес" required />
+        </div>
       </div>
-    </div>
 
-    <div class="input-row">
-      <label class="input-label">Сумма</label>
-      <div class="input-wrap">
-        <Wallet class="icon-left" />
-        <input v-model="amount" type="number" placeholder="10" required />
-        <span class="suffix">TON</span>
+      <div class="input-row">
+        <label class="input-label">Сумма</label>
+        <div class="input-wrap">
+          <Wallet class="icon-left" />
+          <input v-model="amount" required type="number" placeholder="10" />
+          <span class="suffix">TON</span>
+        </div>
       </div>
-    </div>
 
-    <button class="main-btn" @click="handleSubmit">
-      {{ activeTab === 'deposit' ? 'Пополнить баланс' : 'Вывести баланс' }}
-    </button>
+      <button :disabled="formLoaders.depositTon" type="submit" class="main-btn">
+        <template v-if="formLoaders.depositTon">
+          <span class="spinner" />
+        </template>
+        <template v-else>
+          {{ activeTab === 'deposit' ? 'Пополнить баланс' : 'Вывести баланс' }}
+        </template>
+      </button>
+    </form>
 
     <div class="divider">или</div>
 
@@ -326,6 +368,23 @@ onMounted(() => {
   display: flex;
   gap: 12px;
   margin-bottom: 28px;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .balance-card {

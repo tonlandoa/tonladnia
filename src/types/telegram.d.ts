@@ -25,9 +25,9 @@ declare global {
             isExpanded: boolean;
             themeParams?: Record<string, string>;
 
-            
             setHeaderColor: (color: string) => void;
             disableVerticalSwipes: () => void;
+            showAlert: (message: string, callback?: () => void) => void;
         };
     }
 }
