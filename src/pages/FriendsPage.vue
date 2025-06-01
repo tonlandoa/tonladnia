@@ -44,7 +44,7 @@ async function getRefferalMessage() {
   }
 }
 
-const refLink = `https://t.me/TONlandiaBot/app?startapp=${user_id}`
+const refLink = `https://t.me/TONlandiaBot/game?startapp=${user_id}`
 const copied = ref(false)
 
 function copyReferral() {
