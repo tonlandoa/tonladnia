@@ -7,6 +7,7 @@ import {
     startParam,
     photo_url,
     initData,
+    tg,
     user_id,
     username,
     language_code
@@ -142,6 +143,8 @@ const getUser = async () => {
                     countdownPerPlanet.value[1] = formatted
                 })
             }
+        } else {
+            tg.showAlert("Недостаточно TON на балансе, пополнить можно в разделе 'Баланс'");
         }
     })
 }
