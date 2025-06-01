@@ -15,12 +15,16 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
-    }
+    },
+
+    /* Types */
+    "types": ["node"]  // важно для fileURLToPath и других node-модулей
   },
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "src/**/*.d.ts"
+    "src/**/*.d.ts",
+    "src/types/**/*.d.ts"  // <--- добавлено для явного подключения глобальных типов
   ]
 }
