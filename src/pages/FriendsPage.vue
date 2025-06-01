@@ -367,6 +367,22 @@ const getActiveLevelRefs = computed(() => referrals[activeLevel.value - 1].refs)
   box-shadow: 0 4px 10px rgba(168, 85, 247, 0.3);
 }
 
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #fff;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .section-title {
   font-size: 18px;
   font-weight: 700;
