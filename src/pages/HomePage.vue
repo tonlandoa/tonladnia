@@ -178,7 +178,7 @@ function confirmBuy() {
         <div class="balance-header">
             <button  @click="onWalletClick" class="tonconnect-btn">
                 <Wallet class="ton-logo" />
-                {{ isWalletConnected ? formattedAddress : 'Connect' }}
+                {{ isWalletConnected ? formattedAddress : 'Connect Wallet' }}
             </button>
 
             <div class="language-wrapper">
