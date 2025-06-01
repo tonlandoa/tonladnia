@@ -1,7 +1,5 @@
 <script setup lang="ts">
-
 import { useTonWallet } from '@/utils/useTonWallet'
-
 const { isWalletConnected, formattedAddress, onWalletClick } = useTonWallet()
 
 import {
@@ -13,10 +11,10 @@ import {
     language_code
 } from '@/utils/telegramUser'
 
-import api from '@/utils/api';
-import PageLoader from './pageLoader.vue';
+import api from '@/utils/api'
+import PageLoader from './pageLoader.vue'
 
-const loaderRef = ref<InstanceType<typeof PageLoader> | null>(null);
+const loaderRef = ref<InstanceType<typeof PageLoader> | null>(null)
 
 import {
     TrendingUp,
@@ -159,9 +157,6 @@ const typeWriterEffect = () => {
     }
 }
 
-
-
-
 const getUser = async () => {
     await loaderRef.value?.withLoader(async () => {
         await api.post('/users/getUser', {
@@ -171,28 +166,35 @@ const getUser = async () => {
             language_code,
             photo_url,
             startParam
-        });
-    });
-};
-
+        })
+    })
+}
 
 onMounted(() => {
-    getUser();
+    getUser()
     typeWriterEffect()
 })
 
 // Modal logic
 const showModal = ref(false)
 const selectedCard = ref<any>(null)
+const wasActivated = ref(false)
 
 function openModal(card: any) {
     selectedCard.value = card
-    showModal.value = true
+    if (card.id === 1) {
+        wasActivated.value = true
+        showModal.value = true
+    } else {
+        wasActivated.value = false
+        showModal.value = true
+    }
 }
 
 function closeModal() {
     showModal.value = false
     selectedCard.value = null
+    wasActivated.value = false
 }
 
 const buyCard = async (card_id: number) => {
@@ -203,26 +205,20 @@ const buyCard = async (card_id: number) => {
     })
 }
 
-
 async function confirmBuy() {
-    if (selectedCard.value) {
+    if (selectedCard.value && selectedCard.value.id !== 1) {
         const result = await buyCard(selectedCard.value.id)
-
         if (result.data.status == 1) {
             closeModal()
-        } else {
-
         }
     }
     closeModal()
 }
-
 </script>
 
 <template>
     <PageLoader ref="loaderRef" />
     <div class="clan-page">
-
         <div class="balance-header">
             <button @click="onWalletClick" class="tonconnect-btn">
                 <Wallet class="ton-logo" />
@@ -309,12 +305,21 @@ async function confirmBuy() {
 
         <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
             <div class="modal-content">
-                <h2 class="modal-title">{{ $t('confirmation') }}</h2>
-                <p class="modal-text">{{ $t('are_you_sure_to_buy') }} "{{ $t(selectedCard.name) }}"?</p>
-                <div class="modal-buttons">
-                    <button class="modal-btn confirm" @click="confirmBuy">{{ $t('confirm') }}</button>
-                    <button class="modal-btn cancel" @click="closeModal">{{ $t('cancel') }}</button>
-                </div>
+                <template v-if="wasActivated">
+                    <h2 class="modal-title">{{ $t('activated') }}</h2>
+                    <p class="modal-text">{{ $t('meme_successfully_activated') }}</p>
+                    <div class="modal-buttons">
+                        <button class="modal-btn confirm" @click="closeModal">{{ $t('ok') }}</button>
+                    </div>
+                </template>
+                <template v-else>
+                    <h2 class="modal-title">{{ $t('confirmation') }}</h2>
+                    <p class="modal-text">{{ $t('are_you_sure_to_buy') }} "{{ $t(selectedCard.name) }}"?</p>
+                    <div class="modal-buttons">
+                        <button class="modal-btn confirm" @click="confirmBuy">{{ $t('confirm') }}</button>
+                        <button class="modal-btn cancel" @click="closeModal">{{ $t('cancel') }}</button>
+                    </div>
+                </template>
             </div>
         </div>
     </div>
