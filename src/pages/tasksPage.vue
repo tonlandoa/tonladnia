@@ -65,6 +65,8 @@ async function checkTask(id: number) {
             if (index !== -1) {
                 visibleTasks.value.splice(index, 1)
             }
+        } else {
+            tg.showAlert('Error Tasks')
         }
     } catch (error) {
         console.error('Ошибка при выполнении checkTask:', error)
