@@ -217,6 +217,8 @@ async function confirmBuy() {
         const result = await buyCard(selectedCard.value.id)
         if (result.data.status == 1) {
             closeModal()
+        } else {
+            closeModal();
         }
     }
     closeModal()
