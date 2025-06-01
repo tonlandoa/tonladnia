@@ -82,9 +82,8 @@ async function handleSubmit() {
   if (activeTab.value === 'deposit') {
     formLoaders.depositTon = true
 
-    if (!isWalletConnected) {
+    if (!isWalletConnected.value) {
       await onWalletClick()
-
       return;
     }
     try {
