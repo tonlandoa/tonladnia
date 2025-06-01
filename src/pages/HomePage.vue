@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useTonWallet } from '@/utils/useTonWallet'
 const { isWalletConnected, formattedAddress, onWalletClick } = useTonWallet()
+
 import { createCountdown } from '@/utils/useCountdown'
 import {
     startParam,
@@ -13,8 +14,6 @@ import {
 
 import api from '@/utils/api'
 import PageLoader from './pageLoader.vue'
-
-const loaderRef = ref<InstanceType<typeof PageLoader> | null>(null)
 
 import {
     TrendingUp,
@@ -156,6 +155,7 @@ const typeWriterEffect = () => {
         }
     }
 }
+const loaderRef = ref<InstanceType<typeof PageLoader> | null>(null)
 
 const userData = ref<{ card_1?: number } | null>(null)
 
@@ -182,6 +182,8 @@ onMounted(() => {
 const showModal = ref(false)
 const selectedCard = ref<any>(null)
 const wasActivated = ref(false)
+
+const countdownPerPlanet = ref<Record<number, string>>({})
 
 function openModal(card: any) {
     selectedCard.value = card
@@ -210,27 +212,29 @@ const buyCard = async (card_id: number) => {
 }
 
 async function confirmBuy() {
-    if (selectedCard.value && selectedCard.value.id !== 1) {
-        const result = await buyCard(selectedCard.value.id)
-        if (result.data.status == 1) {
-            closeModal()
-        } else {
-            closeModal();
-        }
-    } else if (selectedCard.value.id === 1 && userData.value?.card_1 !== 1) {
-        const result = await buyCard(1)
-        if (result.data.status == 1) {
-            userData.value && userData.value.card_1 === 1
+    if (!selectedCard.value) return
+    const planetId = selectedCard.value.id
 
-            closeModal()
-        } else {
-            closeModal()
+    const result = await buyCard(planetId)
+
+    if (result.data.status == 1) {
+        if (planetId === 1) {
+            userData.value = userData.value || {}
+            userData.value.card_1 = 1
         }
-    } else {
-        closeModal()
+
+        const { time, new_time } = result.data
+        if (time && new_time) {
+            createCountdown(time, new_time, (formatted) => {
+                countdownPerPlanet.value[planetId] = formatted
+            })
+        }
     }
+
+    closeModal()
 }
 </script>
+
 
 <template>
     <PageLoader ref="loaderRef" />
