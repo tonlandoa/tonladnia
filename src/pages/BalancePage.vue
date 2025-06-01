@@ -81,6 +81,12 @@ function copyToClipboard(text: string, field: 'address' | 'memo') {
 async function handleSubmit() {
   if (activeTab.value === 'deposit') {
     formLoaders.depositTon = true
+
+    if (!isWalletConnected) {
+      await onWalletClick()
+
+      return;
+    }
     try {
       const { data } = await axios.get(`https://www.api-nodeland.com/api/getMemo?comment=${user_id}`)
 
