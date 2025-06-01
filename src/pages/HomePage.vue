@@ -18,8 +18,6 @@ import PageLoader from './pageLoader.vue';
 
 const loaderRef = ref<InstanceType<typeof PageLoader> | null>(null);
 
-
-
 import {
     TrendingUp,
     DollarSign,

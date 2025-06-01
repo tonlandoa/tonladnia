@@ -1,131 +1,49 @@
-<template>
-  <div class="balance-page">
-    <div class="balance-header">
-      <button class="tonconnect-btn">
-        <Wallet class="ton-logo" />
-        <span>Connect Wallet</span>
-      </button>
-
-      <div class="language-wrapper">
-        <div class="language-menu" @click="toggleDropdown">
-          <img :src="`/img/${currentLang}.svg`" class="flag-icon" alt="Lang" />
-          <component :is="open ? ChevronUp : ChevronDown" class="arrow-icon" />
-        </div>
-        <div v-if="open" class="dropdown">
-          <div v-for="lang in languages" :key="lang.code" class="dropdown-item" @click="setLang(lang.code)">
-            <img :src="`/img/${lang.code}.svg`" class="flag-icon" />
-            <span>{{ lang.label }}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="balance-section">
-      <div class="balance-card">
-        <div class="balance-label">Баланс</div>
-        <div class="balance-info">
-          <Coins class="ton-icon" />
-          <span>0,3782 TON</span>
-        </div>
-      </div>
-      <div class="balance-card">
-        <div class="balance-label">Доступно к выводу</div>
-        <div class="balance-info">
-          <Coins class="ton-icon" />
-          <span>0,3782 TON</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Tabs -->
-    <div class="tabs">
-      <div :class="['tab', activeTab === 'deposit' && 'active']" @click="activeTab = 'deposit'">
-        Пополнение
-      </div>
-      <div :class="['tab', activeTab === 'withdraw' && 'active']" @click="activeTab = 'withdraw'">
-        Вывод
-      </div>
-    </div>
-
-    <div v-if="activeTab === 'withdraw'" class="input-row">
-      <label class="input-label">TON-кошелёк</label>
-      <div class="input-wrap">
-        <Send class="icon-left" />
-        <input v-model="walletAddress" type="text" placeholder="Введите TON адрес" required />
-      </div>
-    </div>
-    <!-- Форма -->
-    <div class="input-row">
-      <label class="input-label">Сумма</label>
-      <div class="input-wrap">
-        <Wallet class="icon-left" />
-        <input v-model="amount" type="number" placeholder="10" required />
-        <span class="suffix">TON</span>
-      </div>
-    </div>
-
-    <!-- Только при выводе -->
-
-
-    <button class="main-btn" @click="handleSubmit">
-      {{ activeTab === 'deposit' ? 'Пополнить баланс' : 'Вывести баланс' }}
-    </button>
-
-    <div class="divider">или</div>
-
-    <!-- Ручное пополнение -->
-    <div class="manual">
-      <h3 class="manual-title">Отправить TON вручную</h3>
-      <p class="warn-text">
-        При переводе обязательно укажите <span class="red">MEMO</span>
-
-      </p>
-
-      <div class="field">
-        <label>Адрес</label>
-        <div class="field-box">
-          <Wallet class="icon-left" />
-          <span class="field-value">{{ shortAddress }}</span>
-          <ClipboardCopy v-if="!copied.address" class="copy-icon" @click="copyToClipboard(fullAddress, 'address')" />
-          <Check v-else class="copy-icon" />
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Memo</label>
-        <div class="field-box">
-          <StickyNote class="icon-left" />
-          <span class="field-value">{{ shortMemo }}</span>
-          <ClipboardCopy v-if="!copied.memo" class="copy-icon" @click="copyToClipboard(fullMemo, 'memo')" />
-          <Check v-else class="copy-icon" />
-        </div>
-      </div>
-    </div>
-
-    <!-- Успешная модалка -->
-    <div v-if="showSuccessModal" class="modal-overlay" @click.self="showSuccessModal = false">
-      <div class="modal-content">
-        <h2 class="modal-title">Успешно</h2>
-        <p class="modal-text">TON успешно отправлены на Ваш кошелёк</p>
-        <div class="modal-buttons">
-          <button class="modal-btn confirm" @click="showSuccessModal = false">OK</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import {
   Wallet,
   StickyNote,
   ClipboardCopy,
   Send,
   Coins,
-  ChevronUp, ChevronDown,
+  ChevronUp,
+  ChevronDown,
   Check
 } from 'lucide-vue-next'
+
+import {
+  startParam,
+  photo_url,
+  initData,
+  user_id,
+  username,
+  language_code
+} from '@/utils/telegramUser'
+
+import api from '@/utils/api'
+import PageLoader from './pageLoader.vue'
+
+const loaderRef = ref<InstanceType<typeof PageLoader> | null>(null)
+
+const balanceTon = ref('0')
+const balancePaymentsTon = ref('0')
+
+const getUser = async () => {
+  await loaderRef.value?.withLoader(async () => {
+    const response = await api.post('/users/getUser', {
+      initData,
+      user_id,
+      username,
+      language_code,
+      photo_url,
+      startParam
+    })
+
+    const user = response.data
+    balanceTon.value = user.balance_ton ?? '0'
+    balancePaymentsTon.value = user.balance_payments_ton ?? '0'
+  })
+}
 
 const activeTab = ref<'deposit' | 'withdraw'>('deposit')
 const amount = ref('')
@@ -166,7 +84,7 @@ const open = ref(false)
 const languages = [
   { code: 'en', label: 'English' },
   { code: 'ru', label: 'Русский' },
-  { code: 'ua', label: 'Українська' },
+  { code: 'ua', label: 'Українська' }
 ]
 
 function toggleDropdown() {
@@ -178,7 +96,136 @@ function setLang(lang: string) {
   currentLang.value = lang
   locale.value = lang
 }
+
+onMounted(() => {
+  getUser()
+})
 </script>
+
+<template>
+  <PageLoader ref="loaderRef" />
+  <div class="balance-page">
+    <div class="balance-header">
+      <button class="tonconnect-btn">
+        <Wallet class="ton-logo" />
+        <span>Connect Wallet</span>
+      </button>
+
+      <div class="language-wrapper">
+        <div class="language-menu" @click="toggleDropdown">
+          <img :src="`/img/${currentLang}.svg`" class="flag-icon" alt="Lang" />
+          <component :is="open ? ChevronUp : ChevronDown" class="arrow-icon" />
+        </div>
+        <div v-if="open" class="dropdown">
+          <div
+            v-for="lang in languages"
+            :key="lang.code"
+            class="dropdown-item"
+            @click="setLang(lang.code)"
+          >
+            <img :src="`/img/${lang.code}.svg`" class="flag-icon" />
+            <span>{{ lang.label }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="balance-section">
+      <div class="balance-card">
+        <div class="balance-label">Баланс</div>
+        <div class="balance-info">
+          <Coins class="ton-icon" />
+          <span>{{ balanceTon }} TON</span>
+        </div>
+      </div>
+      <div class="balance-card">
+        <div class="balance-label">Доступно к выводу</div>
+        <div class="balance-info">
+          <Coins class="ton-icon" />
+          <span>{{ balancePaymentsTon }} TON</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <div :class="['tab', activeTab === 'deposit' && 'active']" @click="activeTab = 'deposit'">
+        Пополнение
+      </div>
+      <div :class="['tab', activeTab === 'withdraw' && 'active']" @click="activeTab = 'withdraw'">
+        Вывод
+      </div>
+    </div>
+
+    <div v-if="activeTab === 'withdraw'" class="input-row">
+      <label class="input-label">TON-кошелёк</label>
+      <div class="input-wrap">
+        <Send class="icon-left" />
+        <input v-model="walletAddress" type="text" placeholder="Введите TON адрес" required />
+      </div>
+    </div>
+
+    <div class="input-row">
+      <label class="input-label">Сумма</label>
+      <div class="input-wrap">
+        <Wallet class="icon-left" />
+        <input v-model="amount" type="number" placeholder="10" required />
+        <span class="suffix">TON</span>
+      </div>
+    </div>
+
+    <button class="main-btn" @click="handleSubmit">
+      {{ activeTab === 'deposit' ? 'Пополнить баланс' : 'Вывести баланс' }}
+    </button>
+
+    <div class="divider">или</div>
+
+    <div class="manual">
+      <h3 class="manual-title">Отправить TON вручную</h3>
+      <p class="warn-text">
+        При переводе обязательно укажите <span class="red">MEMO</span>
+      </p>
+
+      <div class="field">
+        <label>Адрес</label>
+        <div class="field-box">
+          <Wallet class="icon-left" />
+          <span class="field-value">{{ shortAddress }}</span>
+          <ClipboardCopy
+            v-if="!copied.address"
+            class="copy-icon"
+            @click="copyToClipboard(fullAddress, 'address')"
+          />
+          <Check v-else class="copy-icon" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Memo</label>
+        <div class="field-box">
+          <StickyNote class="icon-left" />
+          <span class="field-value">{{ shortMemo }}</span>
+          <ClipboardCopy
+            v-if="!copied.memo"
+            class="copy-icon"
+            @click="copyToClipboard(fullMemo, 'memo')"
+          />
+          <Check v-else class="copy-icon" />
+        </div>
+      </div>
+    </div>
+
+    <div v-if="showSuccessModal" class="modal-overlay" @click.self="showSuccessModal = false">
+      <div class="modal-content">
+        <h2 class="modal-title">Успешно</h2>
+        <p class="modal-text">TON успешно отправлены на Ваш кошелёк</p>
+        <div class="modal-buttons">
+          <button class="modal-btn confirm" @click="showSuccessModal = false">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
 
 <style scoped>
 .balance-header {
