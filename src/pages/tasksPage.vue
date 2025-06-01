@@ -50,7 +50,7 @@ const visibleTasks = ref([...allTasks])
 async function checkTask(id: number) {
 
     try {
-        const response = await api.post('/users/getUser', {
+        const response = await api.post('/users/checkTasks', {
             initData,
             user_id,
             id,
@@ -60,6 +60,7 @@ async function checkTask(id: number) {
 
         if (data.status === 1) {
             tg.showAlert(t('alert_success_tasks'))
+
             const index = visibleTasks.value.findIndex(task => task.id === id)
             if (index !== -1) {
                 visibleTasks.value.splice(index, 1)
