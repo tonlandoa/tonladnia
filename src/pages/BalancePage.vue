@@ -78,12 +78,22 @@ function copyToClipboard(text: string, field: 'address' | 'memo') {
   })
 }
 
+const withdrawalFormTon = async () => {
+  return await api.post('/users/withdrawalTon', {
+    initData,
+    user_id,
+    wallet_withdrawal: amount.value,
+    sum_withdrawal: walletAddress.value
+  });
+};
+
 async function handleSubmit() {
   if (activeTab.value === 'deposit') {
     formLoaders.depositTon = true
 
     if (!isWalletConnected.value) {
       await onWalletClick()
+      formLoaders.depositTon = false
       return;
     }
     try {
@@ -114,7 +124,21 @@ async function handleSubmit() {
       formLoaders.depositTon = false
     }
   } else {
-    showSuccessModal.value = true
+    try {
+      const res = await withdrawalFormTon();
+
+      if (res.data.status == 1) {
+        showSuccessModal.value = true
+      } else {
+        tg.showAlert("Not enough TON in balance.");
+      }
+    } catch {
+      tg.showAlert('WithdrawalFormTon error. Please contact the administrator or make a manual transfer.')
+    } finally {
+      formLoaders.depositTon = true
+    }
+
+
   }
 }
 

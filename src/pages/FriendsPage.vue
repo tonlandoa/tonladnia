@@ -79,7 +79,7 @@ import {
   ClipboardCopy,
   Check, ChevronUp, ChevronDown,
   Users,
-  User,
+  User, Wallet,
   Gift,
 } from 'lucide-vue-next'
 
