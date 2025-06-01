@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useTonWallet } from '@/utils/useTonWallet'
 const { isWalletConnected, formattedAddress, onWalletClick } = useTonWallet()
-
+import { createCountdown } from '@/utils/useCountdown'
 import {
     startParam,
     photo_url,
@@ -157,7 +157,6 @@ const typeWriterEffect = () => {
     }
 }
 
-// Хранение данных пользователя
 const userData = ref<{ card_1?: number } | null>(null)
 
 const getUser = async () => {
@@ -180,7 +179,6 @@ onMounted(() => {
     typeWriterEffect()
 })
 
-// Modal logic
 const showModal = ref(false)
 const selectedCard = ref<any>(null)
 const wasActivated = ref(false)
@@ -188,7 +186,6 @@ const wasActivated = ref(false)
 function openModal(card: any) {
     selectedCard.value = card
 
-    // Если это карта 1 и уже активирована
     if (card.id === 1 && userData.value?.card_1 === 1) {
         wasActivated.value = true
         showModal.value = true
@@ -220,8 +217,18 @@ async function confirmBuy() {
         } else {
             closeModal();
         }
+    } else if (selectedCard.value.id === 1 && userData.value?.card_1 !== 1) {
+        const result = await buyCard(1)
+        if (result.data.status == 1) {
+            userData.value && userData.value.card_1 === 1
+
+            closeModal()
+        } else {
+            closeModal()
+        }
+    } else {
+        closeModal()
     }
-    closeModal()
 }
 </script>
 
@@ -301,7 +308,11 @@ async function confirmBuy() {
 
                         <button class="start-btn" @click="openModal(card)">
                             <Play class="play-icon" />
-                            {{ $t('start') }}
+                            {{
+                                card.id === 1 && userData?.card_1 === 1
+                                    ? $t('activated')
+                                    : $t('start')
+                            }}
                         </button>
                     </div>
 
