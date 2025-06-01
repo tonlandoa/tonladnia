@@ -1,10 +1,13 @@
 {
+    "close": "Закрити",
     "buy_memes": "Купити меми",
     "pepe": "Pepe",
     "coming_soon": "Скоро",
     "5_percent": "5%",
     "1_ton": "1 TON",
     "24h": "24г",
+    "next_cycle": "Цикл",
+    "buy": "Купити мем",
     "0_ton": "0 TON",
     "2_ton": "2 TON",
     "profitability": "Доходність",
@@ -16,8 +19,16 @@
     "nav": {
         "home": "Головна",
         "balance": "Баланс",
-        "friends": "Друзі"
+        "friends": "Друзі",
+        "tasks": "Завдання"
     },
+    "activated": "Активовано",
+    "meme_successfully_activated": "Мем успішно активовано",
+    "ok": "Ок",
+    "confirmation": "Підтвердження",
+    "are_you_sure_to_buy": "Ви дійсно хочете купити",
+    "confirm": "Підтвердити",
+    "cancel": "Скасувати",
     "typewriter_texts": [
         "Єдине місце, де ти реально можеш заробити на мемах",
         "Сила мемів",

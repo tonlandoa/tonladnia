@@ -1,1 +1,38 @@
-{}
+{
+    "close": "Close",
+    "buy_memes": "Buy memes",
+    "pepe": "Pepe",
+    "coming_soon": "Coming soon",
+    "5_percent": "5%",
+    "1_ton": "1 TON",
+    "24h": "24h",
+    "next_cycle": "Cycle",
+    "buy": "Buy meme",
+    "0_ton": "0 TON",
+    "2_ton": "2 TON",
+    "profitability": "Profitability",
+    "price": "Price",
+    "cycle_time": "Cycle time",
+    "earned": "Earned",
+    "potential_profit": "Profit",
+    "start": "Start",
+    "nav": {
+        "home": "Home",
+        "balance": "Balance",
+        "friends": "Friends",
+        "tasks": "Tasks"
+    },
+    "activated": "Activated",
+    "meme_successfully_activated": "Meme successfully activated",
+    "ok": "Ok",
+    "confirmation": "Confirmation",
+    "are_you_sure_to_buy": "Are you sure you want to buy",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "typewriter_texts": [
+        "The only place where you can actually earn from memes",
+        "The power of memes",
+        "Memes are a lifestyle",
+        "These are not just funny pictures"
+    ]
+}
