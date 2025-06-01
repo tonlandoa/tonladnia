@@ -1,41 +1,41 @@
 <script setup lang="ts">
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, onMounted, watch } from 'vue'
 import {
   ClipboardCopy,
-  Check, ChevronUp, ChevronDown,
+  Check,
+  ChevronUp,
+  ChevronDown,
   Users,
-  User, Wallet,
+  User,
+  Wallet,
   Gift,
 } from 'lucide-vue-next'
 
-import axios from 'axios';
-
+import axios from 'axios'
+import PageLoader from './pageLoader.vue'
 import {
-  //startParam,
-  //photo_url,
-  //initData,
+  initData,
   tg,
   user_id,
-  //username,
-  //language_code
 } from '@/utils/telegramUser'
 
+import { useI18n } from 'vue-i18n'
+import api from '@/utils/api'
+import type { ReferralFromApi } from '../types/api.types'
+
+const loaderRef = ref<InstanceType<typeof PageLoader> | null>(null)
 
 const formLoaders = reactive({
   getRefferalMsg: false,
 })
 
-
 async function getRefferalMessage() {
   formLoaders.getRefferalMsg = true
   try {
     const { data } = await axios.get('https://www.api-nodeland.com/api/getRefferal?userId=' + user_id)
-
-    tg.shareMessage(data.data.id);
+    tg.shareMessage(data.data.id)
   } catch (e) {
-    formLoaders.getRefferalMsg = false
-    alert(e);
-    return
+    alert(e)
   } finally {
     formLoaders.getRefferalMsg = false
   }
@@ -54,14 +54,6 @@ function copyReferral() {
 }
 
 const activeLevel = ref(1)
-
-const referrals = [
-  { count: 1, refs: [{ name: 'tc_answer', amount: '0.00000' }] },
-  { count: 0, refs: [] },
-  { count: 0, refs: [] },
-]
-
-import { useI18n } from 'vue-i18n'
 
 const { locale } = useI18n()
 const currentLang = ref(locale.value)
@@ -83,10 +75,70 @@ function setLang(lang: string) {
   locale.value = lang
 }
 
-const getActiveLevelRefs = computed(() => referrals[activeLevel.value - 1].refs)
+const loadedLevels = ref<{ [key: string]: boolean }>({
+  level1: false,
+  level2: false,
+  level3: false,
+})
+
+const referrals = ref([
+  { count: 0, refs: [] as any[] },
+  { count: 0, refs: [] as any[] },
+  { count: 0, refs: [] as any[] },
+])
+
+const getUser = async () => {
+  await loaderRef.value?.withLoader(async () => {
+    const response = await api.post('/users/getUser', {
+      initData,
+      user_id,
+    })
+
+    const data = response.data
+
+    referrals.value[0].count = data.referral_count_level1 || 0
+    referrals.value[1].count = data.referral_count_level2 || 0
+    referrals.value[2].count = data.referral_count_level3 || 0
+  })
+}
+
+const getUserReferral = async (level: 'level1' | 'level2' | 'level3') => {
+  if (loadedLevels.value[level]) return
+
+  await loaderRef.value?.withLoader(async () => {
+    const { data } = await api.post('/users/getRefferal', {
+      user_id,
+      initData,
+      level: parseInt(level.replace('level', '')),
+    })
+
+    const refs = (data as ReferralFromApi[]).map((item) => ({
+      id: item.user_id,
+      name: item.login || 'No Name',
+      amount: String(item.deposit_ton || '0'),
+    }))
+
+    const index = parseInt(level.replace('level', '')) - 1
+    referrals.value[index].refs = refs
+    loadedLevels.value[level] = true
+  })
+}
+
+const getActiveLevelRefs = computed(() => referrals.value[activeLevel.value - 1].refs)
+
+watch(activeLevel, (tab) => {
+  getUserReferral(`level${tab}` as 'level1' | 'level2' | 'level3')
+})
+
+onMounted(() => {
+  getUserReferral('level1')
+  getUser()
+})
 </script>
 
+
 <template>
+  <PageLoader ref="loaderRef" />
   <div class="friends-page">
     <div class="balance-header">
       <button class="tonconnect-btn">
@@ -110,7 +162,6 @@ const getActiveLevelRefs = computed(() => referrals[activeLevel.value - 1].refs)
 
     <h1 class="page-title">Друзья</h1>
 
-    <!-- Пригласить друзей -->
     <div class="invite-block">
       <p class="invite-title">
         <span class="highlight">10%</span> ПРЯМО В <span class="highlight-blue">TON</span><br />
@@ -127,18 +178,15 @@ const getActiveLevelRefs = computed(() => referrals[activeLevel.value - 1].refs)
           <span class="spinner" />
         </template>
         <template v-else>
-          ПРИГЛАСИТЬ
-          ДРУЗЕЙ
+          ПРИГЛАСИТЬ ДРУЗЕЙ
         </template>
       </button>
     </div>
 
-    <!-- Статистика -->
     <h2 class="section-title">Реферальная статистика</h2>
     <div class="levels-summary">
       <div class="level-card" v-for="level in 3" :key="level">
         <div class="level-label">
-
           {{ level }} уровень
         </div>
         <div class="level-count">
@@ -147,7 +195,6 @@ const getActiveLevelRefs = computed(() => referrals[activeLevel.value - 1].refs)
       </div>
     </div>
 
-    <!-- Уровни -->
     <div class="level-tabs">
       <div class="tab" :class="{ active: activeLevel === level }" v-for="level in [1, 2, 3]" :key="level"
         @click="activeLevel = level">
@@ -155,7 +202,6 @@ const getActiveLevelRefs = computed(() => referrals[activeLevel.value - 1].refs)
       </div>
     </div>
 
-    <!-- Список -->
     <div class="referral-list">
       <div v-for="(ref, index) in getActiveLevelRefs" :key="index" class="referral-item">
         <div class="referral-name">
