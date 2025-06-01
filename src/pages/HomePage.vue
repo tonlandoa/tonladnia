@@ -196,7 +196,7 @@ function closeModal() {
 }
 
 const buyCard = async (card_id: number) => {
-    return await api.post('/users/buyPlanet', {
+    return await api.post('/users/buyCard', {
         initData,
         user_id,
         card_id
@@ -209,7 +209,7 @@ async function confirmBuy() {
         const result = await buyCard(selectedCard.value.id)
 
         if (result.data.status == 1) {
-
+            closeModal()
         } else {
 
         }
