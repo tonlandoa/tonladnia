@@ -135,7 +135,7 @@ async function handleSubmit() {
     } catch {
       tg.showAlert('WithdrawalFormTon error. Please contact the administrator or make a manual transfer.')
     } finally {
-      formLoaders.depositTon = true
+      formLoaders.depositTon = false
     }
 
 
@@ -227,7 +227,7 @@ onMounted(() => {
         <label class="input-label">Сумма</label>
         <div class="input-wrap">
           <Wallet class="icon-left" />
-          <input v-model="amount" required type="number" placeholder="10" />
+          <input v-model="amount" required type="number" placeholder="0.1" step="0.1" min="0.1" />
           <span class="suffix">TON</span>
         </div>
       </div>
