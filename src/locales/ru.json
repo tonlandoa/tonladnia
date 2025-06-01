@@ -16,7 +16,8 @@
     "nav": {
         "home": "Главная",
         "balance": "Баланс",
-        "friends": "Друзья"
+        "friends": "Друзья",
+        "tasks": "Задания"
     },
     "confirmation": "Подтверждение",
     "are_you_sure_to_buy": "Вы точно хотите купить",

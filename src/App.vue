@@ -16,6 +16,7 @@ import {
   Home,
   Wallet,
   Users,
+  Table,
 } from 'lucide-vue-next'
 
 
@@ -52,6 +53,7 @@ const menuItems = computed(() => [
   { to: '/', label: t('nav.home'), icon: Home },
   { to: '/balance', label: t('nav.balance'), icon: Wallet },
   { to: '/friends', label: t('nav.friends'), icon: Users },
+  { to: '/tasks', label: t('nav.tasks'), icon: Table },
 ])
 </script>
 
