@@ -46,6 +46,7 @@
       }
     }
   },
+  "not_enough_ton": "Not enough TON on balance. You can top up in the 'Balance' section",
   "alert_success_tasks": "Task successfully completed, TON credited to your balance",
   "close": "Close",
   "buy_memes": "Buy memes",
