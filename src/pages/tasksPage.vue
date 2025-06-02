@@ -27,7 +27,7 @@ const loaderRef = ref<InstanceType<typeof PageLoader> | null>(null)
 
 const getTasks = async () => {
     await loaderRef.value?.withLoader(async () => {
-        const { data } = await api.post('/users/getUser', {
+        const { data } = await api.post('/users/getTasksUser', {
             initData,
             user_id,
         });
