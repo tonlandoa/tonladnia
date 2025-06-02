@@ -157,13 +157,7 @@ const typeWriterEffect = () => {
     }
 }
 
-const userData = ref<{
-    card_1?: number
-    card_1_income?: number
-    time_card_1?: string
-    date?: string
-} | null>(null)
-
+const userData = ref<Record<string, any> | null>(null)
 const countdownPerPlanet = ref<Record<number, string>>({})
 const loaderRef = ref<InstanceType<typeof PageLoader> | null>(null)
 
@@ -202,7 +196,6 @@ const getUser = async () => {
     })
 }
 
-
 onMounted(() => {
     getUser()
     typeWriterEffect()
@@ -215,7 +208,7 @@ const wasActivated = ref(false)
 async function openModal(card: any) {
     selectedCard.value = card
 
-    const cardKey = `card_${card.id}` as keyof typeof userData.value
+    const cardKey = `card_${card.id}`
     const userHasCard = userData.value?.[cardKey] === 1
 
     if (userHasCard) {
@@ -264,20 +257,18 @@ async function confirmBuy() {
 
     const result = await buyCard(cardId)
 
-    if (result.data.status == 1) {
-        if (cardId === 1) {
-            const { time, new_time } = result.data
-            if (time && new_time) {
-                createCountdown(time, new_time, (formatted) => {
-                    countdownPerPlanet.value[cardId] = formatted
-                })
-            }
-            userData.value = userData.value || {}
-            userData.value.card_1 = 1
+    if (result.data.status === 1) {
+        const { time, new_time } = result.data
+        if (time && new_time) {
+            createCountdown(time, new_time, (formatted) => {
+                countdownPerPlanet.value[cardId] = formatted
+            })
         }
-    }
-    else {
-        tg.showAlert("Недостаточно TON на балансе, пополнить можно в разделе 'Баланс'");
+
+        userData.value = userData.value || {}
+        userData.value[`card_${cardId}`] = 1
+    } else {
+        tg.showAlert(t('not_enough_ton'))
     }
 
     closeModal()
