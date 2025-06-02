@@ -61,7 +61,7 @@ function handleCustomTask(id: number) {
     const mediaUrl = 'https://www.tonlandia.dev/img/last.png';
 
     tg.shareToStory(mediaUrl, {
-        text: 'https://t.me/TONlandiaBot/game?startapp=' + user_id + ' 🐸 Зарабатывать на мемах уже сейчас!',
+        text: 'https://t.me/TONlandiaBot/game?startapp=' + user_id + ' 🐸 Зарабатывать на мемах уже сейчас! #TONlandia',
         widget_link: {
             url: 'https://t.me/TONlandiaBot/game?startapp=' + user_id,
             name: '🐸 EARN TON FOR MEME'
