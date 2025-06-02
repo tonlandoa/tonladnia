@@ -52,7 +52,7 @@ function setLang(lang: string) {
     locale.value = lang
 }
 
-const clanCards = [
+const clanCards = ref([
     {
         id: 1,
         name: 'pepe',
@@ -119,7 +119,7 @@ const clanCards = [
         potential: 'coming_soon',
         frozen: true,
     },
-]
+])
 
 const textVariants = computed(() => [
     t('typewriter_texts.0'),
@@ -159,6 +159,7 @@ const typeWriterEffect = () => {
 
 const userData = ref<{
     card_1?: number
+    card_1_income?: number
     time_card_1?: string
     date?: string
 } | null>(null)
@@ -173,6 +174,16 @@ const getUser = async () => {
         })
 
         userData.value = data
+
+        // Обновление earned с сервера
+        if (data.card_1_income !== undefined) {
+            const updatedCards = [...clanCards.value]
+            const cardIndex = updatedCards.findIndex(card => card.id === 1)
+            if (cardIndex !== -1) {
+                updatedCards[cardIndex].earned = `${data.card_1_income} TON`
+            }
+            clanCards.value = updatedCards
+        }
 
         const now = new Date(data.date.replace(/-/g, '/')).getTime()
 
@@ -208,7 +219,6 @@ function openModal(card: any) {
     } else {
         wasActivated.value = false
         showModal.value = true
-
     }
 }
 
@@ -250,6 +260,7 @@ async function confirmBuy() {
 
     closeModal()
 }
+
 </script>
 
 <template>
