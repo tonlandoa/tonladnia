@@ -12,11 +12,18 @@ const allTasks = [
         id: 1,
         link: 'https://t.me/TonlandiaCommunity',
         icon: '/img/channel.jpg',
+        pin: false,
     },
     {
         id: 2,
         link: 'https://t.me/TonlandiaChat',
         icon: '/img/pepafinal.png',
+        pin: false,
+    },
+    {
+        id: 3,
+        icon: '/img/os.png',
+        pin: true,
     },
 ]
 
@@ -32,7 +39,11 @@ const getTasks = async () => {
         })
 
         const completedIds = data.tasks.map((task: any) => task.tasks_id)
-        visibleTasks.value = allTasks.filter(task => !completedIds.includes(task.id))
+
+        // Сортировка: pin=true идут первыми, потом остальные
+        visibleTasks.value = allTasks
+            .filter(task => !completedIds.includes(task.id))
+            .sort((a, b) => Number(b.pin || false) - Number(a.pin || false))
     })
 }
 
@@ -44,6 +55,19 @@ function markTaskAsClicked(id: number) {
 
 function isTaskClicked(id: number): boolean {
     return clickedTasks.value.includes(id)
+}
+
+function handleCustomTask(id: number) {
+    const mediaUrl = 'https://www.tonlandia.dev/img/last.png';
+
+    tg.shareToStory(mediaUrl, {
+        text: 'https://t.me/TONlandiaBot/game?startapp=' + user_id + ' 🐸 Зарабатывать на мемах уже сейчас!',
+        widget_link: {
+            url: 'https://t.me/TONlandiaBot/game?startapp=' + user_id,
+            name: '🐸 EARN TON FOR MEME'
+        }
+    });
+    markTaskAsClicked(id)
 }
 
 async function checkTask(id: number) {
@@ -91,20 +115,21 @@ onMounted(() => {
                     </div>
                 </div>
                 <div class="btn_list">
-                    <a
-                        :href="task.link"
-                        target="_blank"
-                        class="task-btn"
-                        @click="markTaskAsClicked(task.id)"
-                    >
-                        {{ t('tasks.button') }}
-                    </a>
-                    <button
-                        style="margin-top: 10px; background: orange;"
-                        class="task-btn"
-                        :disabled="!isTaskClicked(task.id)"
-                        @click="checkTask(task.id)"
-                    >
+                    <!-- Условная кнопка: ссылка или alert -->
+                    <template v-if="task.id === 1 || task.id === 2">
+                        <a :href="task.link" target="_blank" class="task-btn" @click="markTaskAsClicked(task.id)">
+                            {{ t('tasks.button') }}
+                        </a>
+                    </template>
+                    <template v-else>
+                        <button class="task-btn" @click="handleCustomTask(task.id)">
+                            {{ t('tasks.button') }}
+                        </button>
+                    </template>
+
+                    <!-- Проверка выполнения -->
+                    <button style="margin-top: 10px; background: orange;" class="task-btn"
+                        :disabled="!isTaskClicked(task.id)" @click="checkTask(task.id)">
                         {{ t('tasks.button2') }}
                     </button>
                 </div>

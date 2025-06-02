@@ -39,6 +39,10 @@
       "2": {
         "name": "Subscribe to the chat",
         "description": "Reward: 0.005 TON"
+      },
+      "3": {
+        "name": "Post a Telegram Story",
+        "description": "Reward: 0.001 TON"
       }
     }
   },

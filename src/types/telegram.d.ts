@@ -26,6 +26,7 @@ declare global {
             themeParams?: Record<string, string>;
             setHeaderColor: (color: string) => void;
             disableVerticalSwipes: () => void;
+            shareToStory(media_url: string, params?: StoryShareParams): void
             showAlert: (message: string, callback?: () => void) => void;
             shareMessage: (message_id: string, callback?: (sent: boolean) => void) => void;
             HapticFeedback: {
