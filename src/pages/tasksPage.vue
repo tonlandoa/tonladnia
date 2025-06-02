@@ -20,7 +20,6 @@ const allTasks = [
     },
 ]
 
-
 const visibleTasks = ref([...allTasks])
 
 const loaderRef = ref<InstanceType<typeof PageLoader> | null>(null)
@@ -30,14 +29,16 @@ const getTasks = async () => {
         const { data } = await api.post('/users/getTasksUser', {
             initData,
             user_id,
-        });
+        })
 
-        console.log(data);
-    });
-};
+        console.log('Выполненные задачи:', data.tasks)
+
+        const completedIds = data.tasks.map((task: any) => task.tasks_id)
+        visibleTasks.value = allTasks.filter(task => !completedIds.includes(task.id))
+    })
+}
 
 async function checkTask(id: number) {
-
     try {
         const response = await api.post('/users/checkTasks', {
             initData,
@@ -62,9 +63,8 @@ async function checkTask(id: number) {
     }
 }
 
-
 onMounted(() => {
-    getTasks();
+    getTasks()
 })
 </script>
 
