@@ -21,7 +21,7 @@ const allTasks = [
 ]
 
 const visibleTasks = ref([...allTasks])
-
+const clickedTasks = ref<number[]>([])
 const loaderRef = ref<InstanceType<typeof PageLoader> | null>(null)
 
 const getTasks = async () => {
@@ -31,11 +31,19 @@ const getTasks = async () => {
             user_id,
         })
 
-        console.log('Выполненные задачи:', data.tasks)
-
         const completedIds = data.tasks.map((task: any) => task.tasks_id)
         visibleTasks.value = allTasks.filter(task => !completedIds.includes(task.id))
     })
+}
+
+function markTaskAsClicked(id: number) {
+    if (!clickedTasks.value.includes(id)) {
+        clickedTasks.value.push(id)
+    }
+}
+
+function isTaskClicked(id: number): boolean {
+    return clickedTasks.value.includes(id)
 }
 
 async function checkTask(id: number) {
@@ -83,10 +91,20 @@ onMounted(() => {
                     </div>
                 </div>
                 <div class="btn_list">
-                    <a :href="task.link" target="_blank" class="task-btn">
+                    <a
+                        :href="task.link"
+                        target="_blank"
+                        class="task-btn"
+                        @click="markTaskAsClicked(task.id)"
+                    >
                         {{ t('tasks.button') }}
                     </a>
-                    <button style="margin-top: 10px; background: orange;" class="task-btn" @click="checkTask(task.id)">
+                    <button
+                        style="margin-top: 10px; background: orange;"
+                        class="task-btn"
+                        :disabled="!isTaskClicked(task.id)"
+                        @click="checkTask(task.id)"
+                    >
                         {{ t('tasks.button2') }}
                     </button>
                 </div>
@@ -94,7 +112,6 @@ onMounted(() => {
         </TransitionGroup>
     </div>
 </template>
-
 
 <style scoped>
 .tasks-section {
@@ -180,6 +197,12 @@ onMounted(() => {
 
 .task-btn:hover {
     opacity: 0.9;
+}
+
+.task-btn:disabled {
+    background: gray !important;
+    cursor: not-allowed;
+    opacity: 0.6;
 }
 
 /* Анимация появления и исчезновения задач */
