@@ -212,12 +212,32 @@ const showModal = ref(false)
 const selectedCard = ref<any>(null)
 const wasActivated = ref(false)
 
-function openModal(card: any) {
+async function openModal(card: any) {
     selectedCard.value = card
 
-    if (card.id === 1 && userData.value?.card_1 === 1) {
+    const cardKey = `card_${card.id}` as keyof typeof userData.value
+    const userHasCard = userData.value?.[cardKey] === 1
+
+    if (userHasCard) {
         wasActivated.value = true
         showModal.value = true
+
+        const res = await api.post('/users/activeMem', {
+            initData,
+            user_id,
+            card_id: card.id
+        })
+
+        if (res.data.status === 1) {
+            const rawTime = res.data.time
+            const newTime = res.data.new_time
+
+            if (rawTime && newTime) {
+                createCountdown(rawTime, newTime, (formatted) => {
+                    countdownPerPlanet.value[card.id] = formatted
+                })
+            }
+        }
     } else {
         wasActivated.value = false
         showModal.value = true
