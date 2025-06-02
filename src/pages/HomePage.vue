@@ -175,31 +175,35 @@ const getUser = async () => {
 
         userData.value = data
 
-        // Обновление earned с сервера
-        if (data.card_1_income !== undefined) {
-            const updatedCards = [...clanCards.value]
-            const cardIndex = updatedCards.findIndex(card => card.id === 1)
-            if (cardIndex !== -1) {
-                updatedCards[cardIndex].earned = `${data.card_1_income} TON`
-            }
-            clanCards.value = updatedCards
-        }
-
+        const updatedCards = [...clanCards.value]
         const now = new Date(data.date.replace(/-/g, '/')).getTime()
 
-        const timeKey = 'time_card_1'
-        const cardKey = 'card_1'
+        updatedCards.forEach((card) => {
+            const id = card.id
+            const incomeKey = `card_${id}_income`
+            const timeKey = `time_card_${id}`
+            const cardKey = `card_${id}`
 
-        if (data[cardKey] === 1 && data[timeKey]) {
-            const endTime = new Date(data[timeKey].replace(/-/g, '/')).getTime()
-            if (endTime > now) {
-                createCountdown(data.date, data[timeKey], (formatted) => {
-                    countdownPerPlanet.value[1] = formatted
-                })
+            // Обновляем заработок, если есть
+            if (data[incomeKey] !== undefined) {
+                card.earned = `${data[incomeKey]} TON`
             }
-        }
+
+            // Запускаем таймер, если карта активирована и есть время
+            if (data[cardKey] === 1 && data[timeKey]) {
+                const endTime = new Date(data[timeKey].replace(/-/g, '/')).getTime()
+                if (endTime > now) {
+                    createCountdown(data.date, data[timeKey], (formatted) => {
+                        countdownPerPlanet.value[id] = formatted
+                    })
+                }
+            }
+        })
+
+        clanCards.value = updatedCards
     })
 }
+
 
 onMounted(() => {
     getUser()

@@ -21,7 +21,7 @@
     "friends": {
         "connect_wallet": "Подключить кошелёк",
         "title": "Друзья",
-        "invite_title_html": "<span class='highlight'>10%</span> ПРЯМО В <span class='highlight-blue'>TON</span><br />ОТ ВАШИХ ДРУЗЕЙ",
+        "invite_title_html": "<span class='highlight'>15%</span> ПРЯМО В <span class='highlight-blue'>TON</span><br />ОТ ВАШИХ ДРУЗЕЙ",
         "invite_btn": "ПРИГЛАСИТЬ ДРУЗЕЙ",
         "stats_title": "Реферальная статистика",
         "level": "{level} уровень",

@@ -21,7 +21,7 @@
     "friends": {
         "connect_wallet": "Підключити гаманець",
         "title": "Друзі",
-        "invite_title_html": "<span class='highlight'>10%</span> НАПРЯМУ В <span class='highlight-blue'>TON</span><br />ВІД ВАШИХ ДРУЗІВ",
+        "invite_title_html": "<span class='highlight'>15%</span> НАПРЯМУ В <span class='highlight-blue'>TON</span><br />ВІД ВАШИХ ДРУЗІВ",
         "invite_btn": "ЗАПРОСИТИ ДРУЗІВ",
         "stats_title": "Реферальна статистика",
         "level": "{level} рівень",

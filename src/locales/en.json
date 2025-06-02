@@ -21,7 +21,7 @@
   "friends": {
     "connect_wallet": "Connect Wallet",
     "title": "Friends",
-    "invite_title_html": "<span class='highlight'>10%</span> DIRECTLY IN <span class='highlight-blue'>TON</span><br />FROM YOUR FRIENDS",
+    "invite_title_html": "<span class='highlight'>15%</span> DIRECTLY IN <span class='highlight-blue'>TON</span><br />FROM YOUR FRIENDS",
     "invite_btn": "INVITE FRIENDS",
     "stats_title": "Referral Stats",
     "level": "{level} level",
