@@ -1,34 +1,9 @@
-<template>
-    <div class="tasks-section">
-        <h2 class="tasks-title">🎯 {{ t('tasks.title') }}</h2>
-
-        <TransitionGroup name="fade" tag="div" appear>
-            <div v-for="task in visibleTasks" :key="`task-${task.id}`" class="task-card">
-                <div class="task-content">
-                    <img :src="task.icon" class="task-icon" />
-                    <div class="task-text">
-                        <h3 class="task-name">{{ t(`tasks.list.${task.id}.name`) }}</h3>
-                        <p class="task-desc">{{ t(`tasks.list.${task.id}.description`) }}</p>
-                    </div>
-                </div>
-                <div class="btn_list">
-                    <a :href="task.link" target="_blank" class="task-btn">
-                        {{ t('tasks.button') }}
-                    </a>
-                    <button style="margin-top: 10px; background: orange;" class="task-btn" @click="checkTask(task.id)">
-                        {{ t('tasks.button2') }}
-                    </button>
-                </div>
-            </div>
-        </TransitionGroup>
-    </div>
-</template>
-
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { initData, tg, user_id } from '@/utils/telegramUser'
 import api from '@/utils/api'
+import PageLoader from './pageLoader.vue'
 
 const { t } = useI18n()
 
@@ -45,7 +20,21 @@ const allTasks = [
     },
 ]
 
+
 const visibleTasks = ref([...allTasks])
+
+const loaderRef = ref<InstanceType<typeof PageLoader> | null>(null)
+
+const getTasks = async () => {
+    await loaderRef.value?.withLoader(async () => {
+        const { data } = await api.post('/users/getUser', {
+            initData,
+            user_id,
+        });
+
+        console.log(data);
+    });
+};
 
 async function checkTask(id: number) {
 
@@ -72,7 +61,40 @@ async function checkTask(id: number) {
         console.error('Ошибка при выполнении checkTask:', error)
     }
 }
+
+
+onMounted(() => {
+    getTasks();
+})
 </script>
+
+<template>
+    <PageLoader ref="loaderRef" />
+    <div class="tasks-section">
+        <h2 class="tasks-title">🎯 {{ t('tasks.title') }}</h2>
+
+        <TransitionGroup name="fade" tag="div" appear>
+            <div v-for="task in visibleTasks" :key="`task-${task.id}`" class="task-card">
+                <div class="task-content">
+                    <img :src="task.icon" class="task-icon" />
+                    <div class="task-text">
+                        <h3 class="task-name">{{ t(`tasks.list.${task.id}.name`) }}</h3>
+                        <p class="task-desc">{{ t(`tasks.list.${task.id}.description`) }}</p>
+                    </div>
+                </div>
+                <div class="btn_list">
+                    <a :href="task.link" target="_blank" class="task-btn">
+                        {{ t('tasks.button') }}
+                    </a>
+                    <button style="margin-top: 10px; background: orange;" class="task-btn" @click="checkTask(task.id)">
+                        {{ t('tasks.button2') }}
+                    </button>
+                </div>
+            </div>
+        </TransitionGroup>
+    </div>
+</template>
+
 
 <style scoped>
 .tasks-section {

@@ -184,12 +184,10 @@ const getUser = async () => {
             const timeKey = `time_card_${id}`
             const cardKey = `card_${id}`
 
-            // Обновляем заработок, если есть
             if (data[incomeKey] !== undefined) {
                 card.earned = `${data[incomeKey]} TON`
             }
 
-            // Запускаем таймер, если карта активирована и есть время
             if (data[cardKey] === 1 && data[timeKey]) {
                 const endTime = new Date(data[timeKey].replace(/-/g, '/')).getTime()
                 if (endTime > now) {
