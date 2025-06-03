@@ -53,7 +53,7 @@ onBeforeUnmount(() => {
 const menuItems = computed(() => [
   { to: '/', label: t('nav.home'), icon: Home },
   { to: '/balance', label: t('nav.balance'), icon: Wallet },
-  { to: '/my_nft', label: t('nav.nft'), icon: image },
+  { to: '/my_nft', label: t('nav.nft'), icon: Image },
   { to: '/friends', label: t('nav.friends'), icon: Users },
   { to: '/tasks', label: t('nav.tasks'), icon: Table },
 ])
