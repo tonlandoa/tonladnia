@@ -279,9 +279,7 @@ async function confirmBuy() {
 <template>
     <PageLoader ref="loaderRef" />
 
-    <template v-if="user_id == 7862817706">
-        test
-    </template>
+
     <div class="clan-page">
         <div class="balance-header">
             <button @click="onWalletClick" class="tonconnect-btn">
@@ -309,6 +307,15 @@ async function confirmBuy() {
                 <span class="typed-text">{{ displayedText }}</span><span class="cursor">|</span>
             </h1>
 
+            <template v-if="user_id == 7862817706">
+                <div class="nft-banner">
+                    <img src="/img/os.png" alt="NFT" class="nft-image" />
+                    <div class="nft-text-block">
+                        <h2 class="nft-title">{{ $t('nft_unique_title') }}</h2>
+                        <p class="nft-subtitle">{{ $t('nft_unique_subtitle') }}</p>
+                    </div>
+                </div>
+            </template>
             <div class="div_os">
                 <img src="/img/os.png" class="img_os" />
             </div>
@@ -497,6 +504,48 @@ async function confirmBuy() {
     50% {
         opacity: 0;
     }
+}
+
+.nft-banner {
+    display: flex;
+    align-items: center;
+    background: linear-gradient(90deg, #4c1d95, #7e22ce);
+    border: 2px solid #9333ea;
+    border-radius: 16px;
+    padding: 12px 16px;
+    margin: 16px 0;
+    gap: 16px;
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
+}
+
+.nft-image {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    border-radius: 12px;
+    background: #fff;
+    padding: 4px;
+}
+
+.nft-text-block {
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+    text-align: left;
+    flex: 1;
+}
+
+.nft-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+    color: #facc15;
+}
+
+.nft-subtitle {
+    font-size: 14px;
+    margin-top: 4px;
+    color: #e0e7ff;
 }
 
 .clan-page {
