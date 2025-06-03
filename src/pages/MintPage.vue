@@ -242,6 +242,7 @@ function revealNft() {
 }
 
 .text-block {
+    margin: 0px;
     text-align: center;
     margin-bottom: 24px;
 }
@@ -255,12 +256,13 @@ function revealNft() {
 }
 
 .subtitle {
+    margin: 0;
     font-size: 16px;
     color: #e0e7ff;
 }
 
 .gift-area {
-    margin: 20px 0;
+    
     height: 220px;
     display: flex;
     align-items: center;
@@ -290,7 +292,7 @@ function revealNft() {
 }
 
 .mint-btn {
-    margin-top: 24px;
+  
     background: linear-gradient(135deg, #7c3aed, #c084fc);
     color: white;
     padding: 16px 24px;

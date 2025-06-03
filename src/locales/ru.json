@@ -1,6 +1,5 @@
 {
     "open_again": "Открыть снова",
-    
     "get_unique_nft": "Получи уникальную NFT",
     "earn_in_season_two": "Заработай в карточной игре второго сезона",
     "mint_nft": "MINT NFT",
@@ -75,6 +74,7 @@
     "nav": {
         "home": "Главная",
         "balance": "Баланс",
+        "nft": "Мои NFT",
         "friends": "Друзья",
         "tasks": "Задания"
     },
