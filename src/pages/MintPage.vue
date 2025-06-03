@@ -46,6 +46,8 @@ const nftRevealed = ref(false)
 const showConfetti = ref(false)
 const loading = ref(false)
 
+const showErrorModal = ref(false)
+
 async function mintNFT() {
     if (nftRevealed.value || loading.value) return
     loading.value = true
@@ -56,18 +58,23 @@ async function mintNFT() {
             user_id
         })
 
-        const { nft_id } = response.data
+        const { status, nft_id } = response.data
 
-        revealedId.value = nft_id
-        revealedNft.value = nftImages[nft_id - 1] || nftImages[0]
-        nftRevealed.value = true
-        showConfetti.value = true
+        if (status === 'success') {
+            revealedId.value = nft_id
+            revealedNft.value = nftImages[nft_id - 1] || nftImages[0]
+            nftRevealed.value = true
+            showConfetti.value = true
 
-        setTimeout(() => {
-            resetNft()
-        }, 5000)
+            setTimeout(() => {
+                resetNft()
+            }, 10000)
+        } else {
+            showErrorModal.value = true
+        }
     } catch (error) {
         console.error('Error minting NFT:', error)
+        showErrorModal.value = true
     } finally {
         loading.value = false
     }
@@ -78,6 +85,10 @@ function resetNft() {
     revealedId.value = null
     nftRevealed.value = false
     showConfetti.value = false
+}
+
+function closeModal() {
+    showErrorModal.value = false
 }
 </script>
 
@@ -136,10 +147,67 @@ function resetNft() {
                 '--size': 6 + Math.random() * 6
             }"></div>
         </div>
+
+        <div v-if="showErrorModal" class="modal-overlay" @click.self="closeModal">
+            <div class="modal">
+                <h2>Ошибка</h2>
+                <p>Для минта NFT у Вас должен быть 1 TON на балансе</p>
+                <p><br /><a href="/balance" class="modal-link">Пополнить баланс прямо сейчас</a></p>
+                <button class="close-btn" @click="closeModal">Закрыть</button>
+            </div>
+        </div>
     </div>
 </template>
 
 <style scoped>
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal {
+    background: #1e1b4b;
+    color: white;
+    padding: 24px;
+    border-radius: 16px;
+    max-width: 90%;
+    width: 320px;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
+}
+
+.modal h2 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: #f87171;
+}
+
+.modal-link {
+    color: #60a5fa;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.close-btn {
+    margin-top: 16px;
+    background: #475569;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.close-btn:hover {
+    background: #334155;
+}
+
 .balance-header {
     position: fixed;
     top: 0;
