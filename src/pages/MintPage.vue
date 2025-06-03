@@ -1,11 +1,18 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import axios from 'axios'
 import { useTonWallet } from '@/utils/useTonWallet'
 import { useI18n } from 'vue-i18n'
 import { Wallet, ChevronUp, ChevronDown } from 'lucide-vue-next'
 
+import {
+    initData,
+    user_id,
+} from '@/utils/telegramUser'
+
 const { isWalletConnected, formattedAddress, onWalletClick } = useTonWallet()
 const { t, locale } = useI18n()
+
 const currentLang = ref(locale.value)
 const open = ref(false)
 
@@ -30,37 +37,47 @@ const nftImages = [
     '/img/diamond.png',
     '/img/epic.png',
     '/img/gold.png',
-    '/img/legendary.png',
+    '/img/legendary.png'
 ]
 
 const revealedNft = ref('')
+const revealedId = ref<number | null>(null)
 const nftRevealed = ref(false)
 const showConfetti = ref(false)
+const loading = ref(false)
 
-function resetNft() {
-    revealedNft.value = ''
-    nftRevealed.value = false
-}
+async function mintNFT() {
+    if (nftRevealed.value || loading.value) return
+    loading.value = true
 
-function revealNft() {
-    if (nftRevealed.value) return
+    try {
+        const response = await axios.post('/users/mintNFT', {
+            initData,
+            user_id
+        })
 
-    const giftBox = document.querySelector('.gift-box')
-    giftBox?.classList.add('shake')
+        const { nft_id } = response.data
 
-    setTimeout(() => {
-        giftBox?.classList.remove('shake')
-
-        const random = Math.floor(Math.random() * nftImages.length)
-        revealedNft.value = nftImages[random]
+        revealedId.value = nft_id
+        revealedNft.value = nftImages[nft_id] || nftImages[0]
         nftRevealed.value = true
         showConfetti.value = true
 
         setTimeout(() => {
-            showConfetti.value = false
             resetNft()
         }, 5000)
-    }, 800)
+    } catch (error) {
+        console.error('Error minting NFT:', error)
+    } finally {
+        loading.value = false
+    }
+}
+
+function resetNft() {
+    revealedNft.value = ''
+    revealedId.value = null
+    nftRevealed.value = false
+    showConfetti.value = false
 }
 </script>
 
@@ -94,18 +111,18 @@ function revealNft() {
 
             <div class="gift-area">
                 <transition name="explode">
-                    <div v-if="!nftRevealed" class="gift-box">
-                        🎁
-                    </div>
+                    <div v-if="!nftRevealed" class="gift-box">🎁</div>
                 </transition>
 
                 <transition name="nft-reveal">
-                    <img v-if="revealedNft" :src="revealedNft" class="nft-image" alt="NFT" />
+                    <div v-if="revealedNft" class="nft-result">
+                        <img :src="revealedNft" class="nft-image" alt="NFT" />
+                        <p class="nft-id">#{{ revealedId }}</p>
+                    </div>
                 </transition>
             </div>
 
-            <!-- 👇 Кнопка отображается только когда nft не показан -->
-            <button v-if="!nftRevealed" class="mint-btn" @click="revealNft">
+            <button v-if="!nftRevealed && !loading" class="mint-btn" @click="mintNFT">
                 {{ t('mint_nft') }}
             </button>
         </div>
@@ -153,6 +170,20 @@ function revealNft() {
     cursor: pointer;
     transition: background 0.2s, border 0.2s;
     font-family: 'Inter', sans-serif;
+}
+
+.nft-result {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.nft-id {
+    margin-top: 12px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #facc15;
+    text-shadow: 1px 1px 3px #000;
 }
 
 .ton-logo {
@@ -262,7 +293,7 @@ function revealNft() {
 }
 
 .gift-area {
-    
+
     height: 220px;
     display: flex;
     align-items: center;
@@ -292,7 +323,7 @@ function revealNft() {
 }
 
 .mint-btn {
-  
+
     background: linear-gradient(135deg, #7c3aed, #c084fc);
     color: white;
     padding: 16px 24px;
