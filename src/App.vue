@@ -17,7 +17,7 @@ import {
   Wallet,
   Users,
   Table,
-  image
+  Image
 } from 'lucide-vue-next'
 
 
