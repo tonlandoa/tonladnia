@@ -320,9 +320,7 @@ async function confirmBuy() {
                     </div>
                 </div>
             </template>
-            <div class="div_os">
-                <img src="/img/os.png" class="img_os" />
-            </div>
+
 
             <h1 class="headline">{{ $t('buy_memes') }}</h1>
 
