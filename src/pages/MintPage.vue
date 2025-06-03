@@ -1,17 +1,16 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useTonWallet } from '@/utils/useTonWallet'
-import { tonConnectUI } from '@/utils/tonconnect'
+
 import { useI18n } from 'vue-i18n'
 import {
     Wallet,
-    StickyNote,
-    ClipboardCopy,
-    Send,
-    Coins,
+   
+
+
     ChevronUp,
     ChevronDown,
-    Check
+
 } from 'lucide-vue-next'
 
 const { isWalletConnected, formattedAddress, onWalletClick } = useTonWallet()
