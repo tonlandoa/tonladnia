@@ -43,7 +43,7 @@ onMounted(fetchMyNFTs)
                 <img :src="getImageById(nft.nft_id)" alt="NFT" class="nft-image" />
                 <div class="nft-info">
                     <p class="nft-label">NFT #{{ nft.nft_id }}</p>
-                    <p class="nft-date">{{ t('minted_at') }}: {{ nft.minted_at }}</p>
+                 
                 </div>
             </div>
         </div>
