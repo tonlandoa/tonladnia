@@ -313,6 +313,10 @@ async function confirmBuy() {
                     <div class="nft-text-block">
                         <h2 class="nft-title">{{ $t('nft_unique_title') }}</h2>
                         <p class="nft-subtitle">{{ $t('nft_unique_subtitle') }}</p>
+                        <button class="nft-mint-btn"
+                            @click="tg.openLink('https://your-nft-mint-page.com', { try_instant_view: true })">
+                            {{ $t('start_mint') }}
+                        </button>
                     </div>
                 </div>
             </template>
@@ -462,6 +466,25 @@ async function confirmBuy() {
     justify-content: center;
 }
 
+.nft-mint-btn {
+    margin-top: 12px;
+    background: linear-gradient(135deg, #16a34a, #22c55e);
+    color: white;
+    padding: 10px 14px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.nft-mint-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+}
+
+
 .headline {
     text-align: center;
     font-size: 28px;
@@ -523,7 +546,7 @@ async function confirmBuy() {
     height: 80px;
     object-fit: contain;
     border-radius: 12px;
-    background: #fff;
+
     padding: 4px;
 }
 
