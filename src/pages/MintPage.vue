@@ -59,7 +59,7 @@ async function mintNFT() {
         const { nft_id } = response.data
 
         revealedId.value = nft_id
-        revealedNft.value = nftImages[nft_id] || nftImages[0]
+        revealedNft.value = nftImages[nft_id - 1] || nftImages[0]
         nftRevealed.value = true
         showConfetti.value = true
 
