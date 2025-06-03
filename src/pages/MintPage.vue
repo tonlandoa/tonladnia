@@ -56,7 +56,6 @@ function revealNft() {
         nftRevealed.value = true
         showConfetti.value = true
 
-        // Скрыть NFT и вернуть подарок через 5 секунд
         setTimeout(() => {
             showConfetti.value = false
             resetNft()
@@ -104,11 +103,12 @@ function revealNft() {
                     <img v-if="revealedNft" :src="revealedNft" class="nft-image" alt="NFT" />
                 </transition>
             </div>
-
-            <button class="mint-btn" @click="revealNft">
-                {{ nftRevealed ? $t('open_again') : $t('mint_nft') }}
-            </button>
         </div>
+
+        <!-- ✅ Кнопка ВСЕГДА рендерится -->
+        <button class="mint-btn" @click="revealNft">
+            {{ nftRevealed ? $t('open_again') : $t('mint_nft') }}
+        </button>
 
         <div v-if="showConfetti" class="confetti-wrapper">
             <div v-for="i in 200" :key="i" class="confetti" :style="{
@@ -121,6 +121,7 @@ function revealNft() {
         </div>
     </div>
 </template>
+
 <style scoped>
 .balance-header {
     position: fixed;
