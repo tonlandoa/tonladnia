@@ -307,19 +307,19 @@ async function confirmBuy() {
                 <span class="typed-text">{{ displayedText }}</span><span class="cursor">|</span>
             </h1>
 
-            <template>
-                <div class="nft-banner">
-                    <img src="/img/os.png" alt="NFT" class="nft-image" />
-                    <div class="nft-text-block">
-                        <h2 class="nft-title">{{ $t('nft_unique_title') }}</h2>
-                        <p class="nft-subtitle">{{ $t('nft_unique_subtitle') }}</p>
-                        <a href="/mint" class="nft-mint-btn">
 
-                            {{ $t('start_mint') }}
-                        </a>
-                    </div>
+            <div class="nft-banner">
+                <img src="/img/os.png" alt="NFT" class="nft-image" />
+                <div class="nft-text-block">
+                    <h2 class="nft-title">{{ $t('nft_unique_title') }}</h2>
+                    <p class="nft-subtitle">{{ $t('nft_unique_subtitle') }}</p>
+                    <a href="/mint" class="nft-mint-btn">
+
+                        {{ $t('start_mint') }}
+                    </a>
                 </div>
-            </template>
+            </div>
+
 
 
             <h1 class="headline">{{ $t('buy_memes') }}</h1>
