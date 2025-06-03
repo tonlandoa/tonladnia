@@ -476,6 +476,8 @@ async function confirmBuy() {
     font-weight: 700;
     font-size: 14px;
     cursor: pointer;
+    text-align: center;
+    text-decoration: none;
     transition: transform 0.2s, box-shadow 0.2s;
 }
 
