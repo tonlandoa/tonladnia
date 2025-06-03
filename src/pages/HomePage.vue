@@ -307,7 +307,7 @@ async function confirmBuy() {
                 <span class="typed-text">{{ displayedText }}</span><span class="cursor">|</span>
             </h1>
 
-            <template v-if="user_id == 7862817706">
+            <template v-if="user_id == 7981172932">
                 <div class="nft-banner">
                     <img src="/img/os.png" alt="NFT" class="nft-image" />
                     <div class="nft-text-block">

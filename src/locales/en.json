@@ -1,52 +1,67 @@
 {
+  "gift": {
+    "title": "Get a unique NFT",
+    "subtitle": "Earn in the second season",
+    "mint_button": "Mint NFT",
+    "error_title": "Error",
+    "error_message": "You need at least 1 TON on your balance to mint NFT",
+    "replenish_now": "Top up your balance now",
+    "close": "Close"
+  },
+  "open_again": "Open again",
+  "get_unique_nft": "Get your unique NFT",
+  "earn_in_season_two": "Earn in the second season card game",
+  "mint_nft": "MINT NFT",
+  "nft_unique_title": "Hurry up to mint unique NFTs",
+  "nft_unique_subtitle": "They will help you earn in the second season!",
+  "start_mint": "Start mint",
   "balance": {
-    "connect_wallet": "Connect Wallet",
+    "connect_wallet": "Connect wallet",
     "total_balance": "Balance",
-    "available": "Available for withdrawal",
+    "available": "Available to withdraw",
     "deposit_tab": "Deposit",
     "withdraw_tab": "Withdraw",
-    "wallet_label": "TON Wallet",
+    "wallet_label": "TON wallet",
     "wallet_placeholder": "Enter TON address",
     "amount": "Amount",
     "amount_placeholder": "0.1",
-    "deposit_btn": "Top Up Balance",
-    "withdraw_btn": "Withdraw Balance",
-    "manual_title": "Send TON Manually",
-    "memo_warning": "Be sure to include the <span class='red'>MEMO</span> when transferring",
+    "deposit_btn": "Top up balance",
+    "withdraw_btn": "Withdraw balance",
+    "manual_title": "Send TON manually",
+    "memo_warning": "Make sure to include <span class='red'>MEMO</span> when sending",
     "address": "Address",
     "memo": "Memo",
     "success_title": "Success",
     "success_text": "TON successfully sent to your wallet"
   },
   "friends": {
-    "connect_wallet": "Connect Wallet",
+    "connect_wallet": "Connect wallet",
     "title": "Friends",
-    "invite_title_html": "<span class='highlight'>15%</span> DIRECTLY IN <span class='highlight-blue'>TON</span><br />FROM YOUR FRIENDS",
+    "invite_title_html": "<span class='highlight'>15%</span> DIRECT IN <span class='highlight-blue'>TON</span><br />FROM YOUR FRIENDS",
     "invite_btn": "INVITE FRIENDS",
-    "stats_title": "Referral Stats",
+    "stats_title": "Referral statistics",
     "level": "{level} level",
     "no_referrals": "No referrals yet"
   },
   "tasks": {
     "button2": "Check",
     "title": "Tasks",
-    "button": "Do Task",
+    "button": "Complete",
     "list": {
       "1": {
         "name": "Subscribe to the channel",
         "description": "Reward: 0.005 TON"
       },
       "2": {
-        "name": "Subscribe to the chat",
+        "name": "Join the chat",
         "description": "Reward: 0.005 TON"
       },
       "3": {
-        "name": "Post a Telegram Story",
+        "name": "Post a Telegram story",
         "description": "Reward: 0.001 TON"
       }
     }
   },
-  "not_enough_ton": "Not enough TON on balance. You can top up in the 'Balance' section",
   "alert_success_tasks": "Task successfully completed, TON credited to your balance",
   "close": "Close",
   "buy_memes": "Buy memes",
@@ -61,25 +76,27 @@
   "2_ton": "2 TON",
   "profitability": "Profitability",
   "price": "Price",
-  "cycle_time": "Cycle Time",
+  "cycle_time": "Cycle time",
   "earned": "Earned",
   "potential_profit": "Profit",
   "start": "Start",
   "nav": {
     "home": "Home",
     "balance": "Balance",
+    "nft": "My NFT",
     "friends": "Friends",
     "tasks": "Tasks"
   },
+  "not_enough_ton": "Not enough TON on your balance, top up in the 'Balance' section",
   "activated": "Activated",
-  "meme_successfully_activated": "Meme successfully activated",
-  "ok": "OK",
+  "meme_successfully_activated": "Meme successfully activated, refresh page to see timer",
+  "ok": "Ok",
   "confirmation": "Confirmation",
   "are_you_sure_to_buy": "Are you sure you want to buy",
   "confirm": "Confirm",
   "cancel": "Cancel",
   "typewriter_texts": [
-    "The only place where you can really earn on memes",
+    "The only place where you can really earn from memes",
     "The power of memes",
     "Memes are a lifestyle",
     "They're not just funny pictures"

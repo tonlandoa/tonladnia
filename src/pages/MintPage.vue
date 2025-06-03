@@ -91,7 +91,6 @@ function closeModal() {
     showErrorModal.value = false
 }
 </script>
-
 <template>
     <div class="gift-page">
         <div class="balance-header">
@@ -108,7 +107,7 @@ function closeModal() {
                 <div v-if="open" class="dropdown">
                     <div v-for="lang in languages" :key="lang.code" class="dropdown-item" @click="setLang(lang.code)">
                         <img :src="`/img/${lang.code}.svg`" class="flag-icon" />
-                        <span>{{ lang.label }}</span>
+                        <span>{{ t(`languages.${lang.code}`) }}</span>
                     </div>
                 </div>
             </div>
@@ -116,8 +115,8 @@ function closeModal() {
 
         <div class="content-wrapper">
             <div class="text-block">
-                <h1 class="title">{{ $t('get_unique_nft') }}</h1>
-                <p class="subtitle">{{ $t('earn_in_season_two') }}</p>
+                <h1 class="title">{{ t('gift.title') }}</h1>
+                <p class="subtitle">{{ t('gift.subtitle') }}</p>
             </div>
 
             <div class="gift-area">
@@ -134,7 +133,7 @@ function closeModal() {
             </div>
 
             <button v-if="!nftRevealed && !loading" class="mint-btn" @click="mintNFT">
-                {{ t('mint_nft') }}
+                {{ t('gift.mint_button') }}
             </button>
         </div>
 
@@ -150,10 +149,10 @@ function closeModal() {
 
         <div v-if="showErrorModal" class="modal-overlay" @click.self="closeModal">
             <div class="modal">
-                <h2>Ошибка</h2>
-                <p>Для минта NFT у Вас должен быть 1 TON на балансе</p>
-                <p><br /><a href="/balance" class="modal-link">Пополнить баланс прямо сейчас</a></p>
-                <button class="close-btn" @click="closeModal">Закрыть</button>
+                <h2>{{ t('gift.error_title') }}</h2>
+                <p>{{ t('gift.error_message') }}</p>
+                <p><br /><a href="/balance" class="modal-link">{{ t('gift.replenish_now') }}</a></p>
+                <button class="close-btn" @click="closeModal">{{ t('gift.close') }}</button>
             </div>
         </div>
     </div>

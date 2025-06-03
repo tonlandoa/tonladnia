@@ -1,27 +1,43 @@
 {
+    "gift": {
+        "title": "Отримайте унікальний NFT",
+        "subtitle": "Заробляйте у другому сезоні",
+        "mint_button": "Мінтити NFT",
+        "error_title": "Помилка",
+        "error_message": "Щоб мінтити NFT, на балансі має бути 1 TON",
+        "replenish_now": "Поповнити баланс прямо зараз",
+        "close": "Закрити"
+    },
+    "open_again": "Відкрити знову",
+    "get_unique_nft": "Отримай унікальний NFT",
+    "earn_in_season_two": "Заробляй у картковій грі другого сезону",
+    "mint_nft": "MINT NFT",
+    "nft_unique_title": "Встигни мінтити унікальні NFT",
+    "nft_unique_subtitle": "Вони допоможуть заробити в другому сезоні!",
+    "start_mint": "Почати мінт",
     "balance": {
         "connect_wallet": "Підключити гаманець",
         "total_balance": "Баланс",
-        "available": "Доступно для виведення",
+        "available": "Доступно до виводу",
         "deposit_tab": "Поповнення",
-        "withdraw_tab": "Виведення",
+        "withdraw_tab": "Вивід",
         "wallet_label": "TON-гаманець",
-        "wallet_placeholder": "Введіть адресу TON",
+        "wallet_placeholder": "Введіть TON-адресу",
         "amount": "Сума",
         "amount_placeholder": "0.1",
         "deposit_btn": "Поповнити баланс",
         "withdraw_btn": "Вивести баланс",
         "manual_title": "Надіслати TON вручну",
-        "memo_warning": "При переказі обов’язково вкажіть <span class='red'>MEMO</span>",
+        "memo_warning": "Під час переказу обов’язково вкажіть <span class='red'>MEMO</span>",
         "address": "Адреса",
         "memo": "Memo",
         "success_title": "Успішно",
-        "success_text": "TON успішно надіслано на ваш гаманець"
+        "success_text": "TON успішно надіслані на ваш гаманець"
     },
     "friends": {
         "connect_wallet": "Підключити гаманець",
         "title": "Друзі",
-        "invite_title_html": "<span class='highlight'>15%</span> НАПРЯМУ В <span class='highlight-blue'>TON</span><br />ВІД ВАШИХ ДРУЗІВ",
+        "invite_title_html": "<span class='highlight'>15%</span> ПРЯМО В <span class='highlight-blue'>TON</span><br />ВІД ВАШИХ ДРУЗІВ",
         "invite_btn": "ЗАПРОСИТИ ДРУЗІВ",
         "stats_title": "Реферальна статистика",
         "level": "{level} рівень",
@@ -34,20 +50,19 @@
         "list": {
             "1": {
                 "name": "Підпишись на канал",
-                "description": "Винагорода: 0.005 TON"
+                "description": "Нагорода: 0.005 TON"
             },
             "2": {
                 "name": "Підпишись на чат",
-                "description": "Винагорода: 0.005 TON"
+                "description": "Нагорода: 0.005 TON"
             },
             "3": {
-                "name": "Опублікувати історію в Telegram",
+                "name": "Виклади історію в Telegram",
                 "description": "Нагорода: 0.001 TON"
             }
         }
     },
-    "not_enough_ton": "Недостатньо TON на балансі. Поповнити можна в розділі 'Баланс'",
-    "alert_success_tasks": "Завдання успішно виконано, TON нараховано на ваш баланс",
+    "alert_success_tasks": "Завдання успішно виконано, TON нараховано на баланс",
     "close": "Закрити",
     "buy_memes": "Купити меми",
     "pepe": "Pepe",
@@ -60,7 +75,7 @@
     "0_ton": "0 TON",
     "2_ton": "2 TON",
     "profitability": "Прибутковість",
-    "price": "Ціна",
+    "price": "Вартість",
     "cycle_time": "Час циклу",
     "earned": "Зароблено",
     "potential_profit": "Прибуток",
@@ -68,20 +83,22 @@
     "nav": {
         "home": "Головна",
         "balance": "Баланс",
+        "nft": "Мої NFT",
         "friends": "Друзі",
         "tasks": "Завдання"
     },
+    "not_enough_ton": "Недостатньо TON на балансі, поповніть у розділі 'Баланс'",
     "activated": "Активовано",
-    "meme_successfully_activated": "Мем успішно активовано, обновите страницу для отображения таймера",
+    "meme_successfully_activated": "Мем успішно активовано, оновіть сторінку для відображення таймера",
     "ok": "Ок",
     "confirmation": "Підтвердження",
     "are_you_sure_to_buy": "Ви впевнені, що хочете купити",
     "confirm": "Підтвердити",
     "cancel": "Скасувати",
     "typewriter_texts": [
-        "Єдине місце, де ти реально можеш заробити на мемах",
+        "Єдине місце, де можна заробити на мемах",
         "Сила мемів",
-        "Меми — це стиль життя",
+        "Меми — стиль життя",
         "Це не просто смішні картинки"
     ]
 }
