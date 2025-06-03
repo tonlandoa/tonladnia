@@ -51,7 +51,7 @@ async function mintNFT() {
     loading.value = true
 
     try {
-        const response = await axios.post('/users/mintNFT', {
+        const response = await axios.post('https://api-backland.com/users/mintNFT', {
             initData,
             user_id
         })
