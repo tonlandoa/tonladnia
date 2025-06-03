@@ -278,6 +278,10 @@ async function confirmBuy() {
 
 <template>
     <PageLoader ref="loaderRef" />
+
+    <template v-if="user_id == 7862817706">
+        test
+    </template>
     <div class="clan-page">
         <div class="balance-header">
             <button @click="onWalletClick" class="tonconnect-btn">
