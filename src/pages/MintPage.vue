@@ -5,7 +5,7 @@ import { useTonWallet } from '@/utils/useTonWallet'
 import { useI18n } from 'vue-i18n'
 import {
     Wallet,
-   
+
 
 
     ChevronUp,
@@ -17,7 +17,7 @@ const { isWalletConnected, formattedAddress, onWalletClick } = useTonWallet()
 
 
 
-const { locale } = useI18n()
+const { t, locale } = useI18n()
 const currentLang = ref(locale.value)
 const open = ref(false)
 
