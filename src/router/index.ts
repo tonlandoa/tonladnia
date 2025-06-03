@@ -9,7 +9,7 @@ import TasksPage from '@/pages/tasksPage.vue'
 
 const routes: Array<RouteRecordRaw> = [
   { path: '/', name: 'Home', component: HomePage },
-  { path: '/mint', name: 'Balance', component: MintPage },
+  { path: '/mint', name: 'Mint', component: MintPage },
   { path: '/balance', name: 'Balance', component: BalancePage },
   { path: '/friends', name: 'Frieds', component: FrinedsPage },
   { path: '/tasks', name: 'Tasks', component: TasksPage }
