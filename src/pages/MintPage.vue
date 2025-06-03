@@ -102,13 +102,13 @@ function revealNft() {
                 <transition name="nft-reveal">
                     <img v-if="revealedNft" :src="revealedNft" class="nft-image" alt="NFT" />
                 </transition>
+
+                <!-- ✅ переместили кнопку внутрь gift-area -->
+                <button class="mint-btn" @click="revealNft">
+                    {{ nftRevealed ? $t('open_again') : $t('mint_nft') }}
+                </button>
             </div>
         </div>
-
-        <!-- ✅ Кнопка ВСЕГДА рендерится -->
-        <button class="mint-btn" @click="revealNft">
-            {{ nftRevealed ? $t('open_again') : $t('mint_nft') }}
-        </button>
 
         <div v-if="showConfetti" class="confetti-wrapper">
             <div v-for="i in 200" :key="i" class="confetti" :style="{
@@ -121,7 +121,6 @@ function revealNft() {
         </div>
     </div>
 </template>
-
 <style scoped>
 .balance-header {
     position: fixed;
@@ -290,8 +289,8 @@ function revealNft() {
 }
 
 .mint-btn {
-    position: fixed;
-    bottom: 20px;
+    position: absolute;
+    bottom: -60px;
     left: 50%;
     transform: translateX(-50%);
     background: linear-gradient(135deg, #7c3aed, #c084fc);
@@ -305,7 +304,8 @@ function revealNft() {
     width: calc(100% - 40px);
     max-width: 300px;
     transition: all 0.3s ease;
-    z-index: 10;
+    z-index: 200;
+    /* Поверх всего */
     box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4);
 }
 
