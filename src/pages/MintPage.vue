@@ -1,34 +1,42 @@
-<template>
-    <div class="gift-page">
-        <div class="text-block">
-            <h1 class="title">{{ $t('get_unique_nft') }}</h1>
-            <p class="subtitle">{{ $t('earn_in_season_two') }}</p>
-        </div>
-
-        <div class="gift-area">
-            <transition name="explode">
-                <div v-if="!nftRevealed" class="gift-box" @click="revealNft">
-                    🎁
-                </div>
-            </transition>
-
-            <transition name="fade">
-                <img v-if="nftRevealed" :src="revealedNft" class="nft-image" alt="NFT" />
-            </transition>
-        </div>
-
-        <button class="mint-btn" v-if="!nftRevealed" @click="revealNft">
-            {{ $t('mint_nft') }}
-        </button>
-
-        <div v-if="showConfetti" class="confetti-wrapper">
-            <div v-for="i in 100" :key="i" class="confetti"></div>
-        </div>
-    </div>
-</template>
-
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useTonWallet } from '@/utils/useTonWallet'
+import { tonConnectUI } from '@/utils/tonconnect'
+import { useI18n } from 'vue-i18n'
+import {
+    Wallet,
+    StickyNote,
+    ClipboardCopy,
+    Send,
+    Coins,
+    ChevronUp,
+    ChevronDown,
+    Check
+} from 'lucide-vue-next'
+
+const { isWalletConnected, formattedAddress, onWalletClick } = useTonWallet()
+
+
+
+const { locale } = useI18n()
+const currentLang = ref(locale.value)
+const open = ref(false)
+
+const languages = [
+    { code: 'en', label: 'English' },
+    { code: 'ru', label: 'Русский' },
+    { code: 'ua', label: 'Українська' }
+]
+
+function toggleDropdown() {
+    open.value = !open.value
+}
+
+function setLang(lang: string) {
+    open.value = false
+    currentLang.value = lang
+    locale.value = lang
+}
 
 const nftImages = [
     '/img/common.png',
@@ -57,7 +65,152 @@ function revealNft() {
 }
 </script>
 
+
+<template>
+
+    <div class="gift-page">
+        <div class="balance-header">
+            <button @click="onWalletClick" class="tonconnect-btn">
+                <Wallet class="ton-logo" />
+                {{ isWalletConnected ? formattedAddress : t('balance.connect_wallet') }}
+            </button>
+
+            <div class="language-wrapper">
+                <div class="language-menu" @click="toggleDropdown">
+                    <img :src="`/img/${currentLang}.svg`" class="flag-icon" alt="Lang" />
+                    <component :is="open ? ChevronUp : ChevronDown" class="arrow-icon" />
+                </div>
+                <div v-if="open" class="dropdown">
+                    <div v-for="lang in languages" :key="lang.code" class="dropdown-item" @click="setLang(lang.code)">
+                        <img :src="`/img/${lang.code}.svg`" class="flag-icon" />
+                        <span>{{ lang.label }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-block">
+            <h1 class="title">{{ $t('get_unique_nft') }}</h1>
+            <p class="subtitle">{{ $t('earn_in_season_two') }}</p>
+        </div>
+
+        <div class="gift-area">
+            <transition name="explode">
+                <div v-if="!nftRevealed" class="gift-box" @click="revealNft">
+                    🎁
+                </div>
+            </transition>
+
+            <transition name="fade">
+                <img v-if="nftRevealed" :src="revealedNft" class="nft-image" alt="NFT" />
+            </transition>
+        </div>
+
+        <button class="mint-btn" v-if="!nftRevealed" @click="revealNft">
+            {{ $t('mint_nft') }}
+        </button>
+
+        <div v-if="showConfetti" class="confetti-wrapper">
+            <div v-for="i in 100" :key="i" class="confetti"></div>
+        </div>
+    </div>
+</template>
+
 <style scoped>
+.balance-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: #2d1d56;
+    border-bottom: 1px solid #3d2d6d;
+}
+
+.tonconnect-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #0098ea;
+    color: white;
+    border: 1px solid #023e5e;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 10px 18px;
+    cursor: pointer;
+    transition: background 0.2s, border 0.2s;
+    font-family: 'Inter', sans-serif;
+}
+
+.ton-logo {
+    width: 20px;
+    height: 20px;
+}
+
+.language-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.language-menu {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 1px solid #2c2f3b;
+    background-color: #161c2d;
+    transition: background 0.2s;
+}
+
+.language-menu:hover {
+    background-color: #1f2637;
+}
+
+.flag-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.arrow-icon {
+    width: 18px;
+    height: 18px;
+}
+
+.dropdown {
+    position: absolute;
+    top: 45px;
+    right: 0;
+    background-color: #1c2438;
+    border: 1px solid #2e374a;
+    border-radius: 10px;
+    padding: 5px 0;
+    width: 150px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 999;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    gap: 10px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.dropdown-item:hover {
+    background-color: #2a3245;
+}
+
 .gift-page {
     min-height: 100dvh;
     background: linear-gradient(to bottom, #3c1e62, #1e1b4b);
