@@ -307,7 +307,7 @@ async function confirmBuy() {
                 <span class="typed-text">{{ displayedText }}</span><span class="cursor">|</span>
             </h1>
 
-            <template v-if="user_id == 7981172932">
+            <template>
                 <div class="nft-banner">
                     <img src="/img/os.png" alt="NFT" class="nft-image" />
                     <div class="nft-text-block">
@@ -479,6 +479,17 @@ async function confirmBuy() {
     text-align: center;
     text-decoration: none;
     transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.nft-mint-btn.sold-out {
+    background: #d1d5db;
+    /* ярко-серый */
+    color: #6b7280;
+    /* тёмно-серый текст */
+    cursor: not-allowed;
+    pointer-events: none;
+    box-shadow: none;
+    transform: none;
 }
 
 .nft-mint-btn:hover {
