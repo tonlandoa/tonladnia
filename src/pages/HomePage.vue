@@ -313,10 +313,10 @@ async function confirmBuy() {
                     <div class="nft-text-block">
                         <h2 class="nft-title">{{ $t('nft_unique_title') }}</h2>
                         <p class="nft-subtitle">{{ $t('nft_unique_subtitle') }}</p>
-                        <button class="nft-mint-btn"
-                            @click="tg.openLink('https://your-nft-mint-page.com', { try_instant_view: true })">
+                        <a href="/mint" class="nft-mint-btn">
+
                             {{ $t('start_mint') }}
-                        </button>
+                        </a>
                     </div>
                 </div>
             </template>
