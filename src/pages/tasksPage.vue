@@ -25,6 +25,12 @@ const allTasks = [
         icon: '/img/os.png',
         pin: true,
     },
+    {
+        id: 4,
+        link: 'https://t.me/MineVerseBot/app?startapp=r_100000000080',
+        icon: '/img/logo_mineverse.png',
+        pin: true,
+    },
 ]
 
 const visibleTasks = ref([...allTasks])
@@ -40,7 +46,6 @@ const getTasks = async () => {
 
         const completedIds = data.tasks.map((task: any) => task.tasks_id)
 
-        // Сортировка: pin=true идут первыми, потом остальные
         visibleTasks.value = allTasks
             .filter(task => !completedIds.includes(task.id))
             .sort((a, b) => Number(b.pin || false) - Number(a.pin || false))
@@ -116,7 +121,7 @@ onMounted(() => {
                 </div>
                 <div class="btn_list">
                     <!-- Условная кнопка: ссылка или alert -->
-                    <template v-if="task.id === 1 || task.id === 2">
+                    <template v-if="task.id === 1 || task.id === 2 || task.id === 4">
                         <a :href="task.link" target="_blank" class="task-btn" @click="markTaskAsClicked(task.id)">
                             {{ t('tasks.button') }}
                         </a>
