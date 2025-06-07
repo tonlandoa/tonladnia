@@ -50,7 +50,7 @@ function withdrawNft() {
         alert('Введите TON-кошелёк')
         return
     }
-    alert(`NFT будет успешно отправлена на кошелёк ${tonAddress.value}`)
+    alert(`Заработает через несколько минут ${tonAddress.value}`)
     showModal.value = false
 }
 onMounted(fetchMyNFTs)
