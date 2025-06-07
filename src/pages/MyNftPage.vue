@@ -50,13 +50,21 @@ function withdrawNft() {
         alert('Введите TON-кошелёк')
         return
     }
-    alert(`NFT будет успешно отправлена на кошелёк ${tonAddress.value}`)
+    alert(`Заработает через несколько минут ${tonAddress.value}`)
     showModal.value = false
 }
 
 function closeModal() {
     showModal.value = false
 }
+
+function handleOverlayClick(e: MouseEvent) {
+    if ((e.target as HTMLElement).classList.contains('modal-overlay')) {
+        closeModal()
+    }
+}
+
+onMounted(fetchMyNFTs)
 </script>
 
 <template>
@@ -79,9 +87,9 @@ function closeModal() {
             </div>
         </div>
 
-        <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
+        <div v-if="showModal" class="modal-overlay" @click="handleOverlayClick">
             <div class="modal-content">
-                <div class="modal-close" @click="closeModal">✕</div>
+                <button class="modal-close" @click="closeModal">✕</button>
                 <h2 class="modal-title">Введите TON-кошелёк</h2>
                 <input
                     v-model="tonAddress"
@@ -89,8 +97,8 @@ function closeModal() {
                     placeholder="TON адрес"
                 />
                 <div class="modal-buttons">
-                    <button class="modal-btn confirm" @click="withdrawNft">Вывести</button>
                     <button class="modal-btn cancel" @click="closeModal">Отмена</button>
+                    <button class="modal-btn confirm" @click="withdrawNft">Вывести</button>
                 </div>
             </div>
         </div>
@@ -190,24 +198,28 @@ function closeModal() {
 }
 
 .modal-content {
-    position: relative;
     background: #1f1b35;
     border: 1px solid #4b3c72;
     border-radius: 16px;
-    padding: 24px 20px 15px;
+    padding: 24px;
+    padding-top: 5px;
+    padding-bottom: 15px;
     width: 90%;
     max-width: 350px;
     text-align: center;
     color: white;
+    position: relative;
 }
 
 .modal-close {
     position: absolute;
     top: 8px;
     right: 12px;
-    font-size: 18px;
+    background: transparent;
+    border: none;
+    font-size: 22px;
+    color: #9ca3af;
     cursor: pointer;
-    color: #facc15;
 }
 
 .modal-title {
@@ -222,11 +234,11 @@ function closeModal() {
     padding: 10px;
     border-radius: 10px;
     border: 1px solid #7c3aed;
-    background: #2e2a4f;
-    color: white;
-    font-size: 14px;
+    font-size: 16px;
     margin-bottom: 20px;
     outline: none;
+    background: #1e1b4b;
+    color: white;
 }
 
 .modal-buttons {
