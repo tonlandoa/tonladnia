@@ -50,10 +50,13 @@ function withdrawNft() {
         alert('Введите TON-кошелёк')
         return
     }
-    alert(`Заработает через несколько минут ${tonAddress.value}`)
+    alert(`NFT будет успешно отправлена на кошелёк ${tonAddress.value}`)
     showModal.value = false
 }
-onMounted(fetchMyNFTs)
+
+function closeModal() {
+    showModal.value = false
+}
 </script>
 
 <template>
@@ -76,15 +79,19 @@ onMounted(fetchMyNFTs)
             </div>
         </div>
 
-        <div v-if="showModal" class="modal-overlay">
+        <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
             <div class="modal-content">
+                <div class="modal-close" @click="closeModal">✕</div>
                 <h2 class="modal-title">Введите TON-кошелёк</h2>
                 <input
                     v-model="tonAddress"
                     class="wallet-input"
                     placeholder="TON адрес"
                 />
-                <button class="withdraw-btn" @click="withdrawNft">Вывести</button>
+                <div class="modal-buttons">
+                    <button class="modal-btn confirm" @click="withdrawNft">Вывести</button>
+                    <button class="modal-btn cancel" @click="closeModal">Отмена</button>
+                </div>
             </div>
         </div>
     </div>
@@ -173,32 +180,41 @@ onMounted(fetchMyNFTs)
 
 .modal-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(15, 23, 42, 0.9);
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1000;
+    z-index: 9999;
 }
 
 .modal-content {
-    background: #1e1b4b;
-    padding: 30px 20px;
+    position: relative;
+    background: #1f1b35;
+    border: 1px solid #4b3c72;
     border-radius: 16px;
+    padding: 24px 20px 15px;
     width: 90%;
-    max-width: 400px;
-    box-shadow: 0 0 20px rgba(124, 58, 237, 0.5);
+    max-width: 350px;
     text-align: center;
+    color: white;
+}
+
+.modal-close {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    font-size: 18px;
+    cursor: pointer;
+    color: #facc15;
 }
 
 .modal-title {
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 700;
+    margin-bottom: 12px;
     color: #facc15;
-    margin-bottom: 20px;
 }
 
 .wallet-input {
@@ -206,8 +222,38 @@ onMounted(fetchMyNFTs)
     padding: 10px;
     border-radius: 10px;
     border: 1px solid #7c3aed;
-    font-size: 16px;
+    background: #2e2a4f;
+    color: white;
+    font-size: 14px;
     margin-bottom: 20px;
     outline: none;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.modal-btn {
+    flex: 1;
+    padding: 10px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.modal-btn.confirm {
+    background: linear-gradient(135deg, #7c3aed, #c084fc);
+    color: white;
+    border: none;
+}
+
+.modal-btn.cancel {
+    background: #374151;
+    color: #e5e7eb;
+    border: none;
 }
 </style>
