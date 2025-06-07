@@ -1,16 +1,18 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
-
 import { useI18n } from 'vue-i18n'
 
 import { user_id, initData } from '@/utils/telegramUser'
-
 
 const { t } = useI18n()
 
 const nftList = ref<any[]>([])
 const loading = ref(true)
+
+const showModal = ref(false)
+const selectedNftId = ref<number | null>(null)
+const tonAddress = ref('')
 
 async function fetchMyNFTs() {
     try {
@@ -26,12 +28,36 @@ async function fetchMyNFTs() {
     }
 }
 
+function getImageById(id: number) {
+    const images = [
+        '/img/common.png',
+        '/img/diamond.png',
+        '/img/epic.png',
+        '/img/gold.png',
+        '/img/legendary.png'
+    ]
+    return images[id - 1] || images[0]
+}
+
+function openWithdrawModal(nftId: number) {
+    selectedNftId.value = nftId
+    tonAddress.value = ''
+    showModal.value = true
+}
+
+function withdrawNft() {
+    if (!tonAddress.value) {
+        alert('Введите TON-кошелёк')
+        return
+    }
+    alert(`NFT будет успешно отправлена на кошелёк ${tonAddress.value}`)
+    showModal.value = false
+}
 onMounted(fetchMyNFTs)
 </script>
 
 <template>
     <div class="nft-page">
-
         <h1 class="page-title">{{ t('my_nfts') }}</h1>
 
         <div v-if="loading" class="loading">{{ t('loading') }}...</div>
@@ -43,25 +69,26 @@ onMounted(fetchMyNFTs)
                 <img :src="getImageById(nft.nft_id)" alt="NFT" class="nft-image" />
                 <div class="nft-info">
                     <p class="nft-label">NFT #{{ nft.nft_id }}</p>
-                 
+                    <button class="withdraw-btn" @click="openWithdrawModal(nft.nft_id)">
+                        {{ t('withdraw') }}
+                    </button>
                 </div>
+            </div>
+        </div>
+
+        <div v-if="showModal" class="modal-overlay">
+            <div class="modal-content">
+                <h2 class="modal-title">Введите TON-кошелёк</h2>
+                <input
+                    v-model="tonAddress"
+                    class="wallet-input"
+                    placeholder="TON адрес"
+                />
+                <button class="withdraw-btn" @click="withdrawNft">Вывести</button>
             </div>
         </div>
     </div>
 </template>
-
-<script lang="ts">
-function getImageById(id: number) {
-    const images = [
-        '/img/common.png',
-        '/img/diamond.png',
-        '/img/epic.png',
-        '/img/gold.png',
-        '/img/legendary.png'
-    ]
-    return images[id - 1] || images[0]
-}
-</script>
 
 <style scoped>
 .nft-page {
@@ -70,32 +97,6 @@ function getImageById(id: number) {
     color: white;
     min-height: 100vh;
     font-family: 'Rubik', sans-serif;
-}
-
-.balance-header {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 20px;
-}
-
-.tonconnect-btn {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background-color: #0098ea;
-    color: white;
-    border: 1px solid #023e5e;
-    border-radius: 12px;
-    font-size: 16px;
-    font-weight: 500;
-    padding: 10px 18px;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-.ton-logo {
-    width: 20px;
-    height: 20px;
 }
 
 .page-title {
@@ -153,8 +154,60 @@ function getImageById(id: number) {
     margin-bottom: 4px;
 }
 
-.nft-date {
-    font-size: 12px;
-    opacity: 0.8;
+.withdraw-btn {
+    background: linear-gradient(135deg, #7c3aed, #c084fc);
+    border: none;
+    color: #fff;
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    justify-content: center;
+    transition: 0.2s ease;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: #1e1b4b;
+    padding: 30px 20px;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 0 20px rgba(124, 58, 237, 0.5);
+    text-align: center;
+}
+
+.modal-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #facc15;
+    margin-bottom: 20px;
+}
+
+.wallet-input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #7c3aed;
+    font-size: 16px;
+    margin-bottom: 20px;
+    outline: none;
 }
 </style>
