@@ -91,11 +91,7 @@ onMounted(fetchMyNFTs)
             <div class="modal-content">
                 <button class="modal-close" @click="closeModal">✕</button>
                 <h2 class="modal-title">Введите TON-кошелёк</h2>
-                <input
-                    v-model="tonAddress"
-                    class="wallet-input"
-                    placeholder="TON адрес"
-                />
+                <input v-model="tonAddress" class="wallet-input" placeholder="TON адрес" />
                 <div class="modal-buttons">
                     <button class="modal-btn cancel" @click="closeModal">Отмена</button>
                     <button class="modal-btn confirm" @click="withdrawNft">Вывести</button>
@@ -239,6 +235,8 @@ onMounted(fetchMyNFTs)
     outline: none;
     background: #1e1b4b;
     color: white;
+    box-sizing: border-box;
+   
 }
 
 .modal-buttons {
