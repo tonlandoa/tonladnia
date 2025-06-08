@@ -12,6 +12,7 @@ const loading = ref(true)
 
 const showModal = ref(false)
 const selectedNftId = ref<number | null>(null)
+const requestId = ref<number | null>(null)
 const tonAddress = ref('')
 const isWithdrawn = ref(false)
 
@@ -40,8 +41,9 @@ function getImageById(id: number) {
     return images[id - 1] || images[0]
 }
 
-function openWithdrawModal(nftId: number) {
+function openWithdrawModal(nftId: number, id: number) {
     selectedNftId.value = nftId
+    requestId.value = id
     tonAddress.value = ''
     isWithdrawn.value = false
     showModal.value = true
@@ -77,7 +79,7 @@ onMounted(fetchMyNFTs)
                 <img :src="getImageById(nft.nft_id)" alt="NFT" class="nft-image" />
                 <div class="nft-info">
                     <p class="nft-label">NFT #{{ nft.nft_id }}</p>
-                    <button class="withdraw-btn" @click="openWithdrawModal(nft.nft_id)">
+                    <button class="withdraw-btn" @click="openWithdrawModal(nft.nft_id, nft.id)">
                         {{ t('withdraw') }}
                     </button>
                 </div>
@@ -87,6 +89,7 @@ onMounted(fetchMyNFTs)
         <div v-if="showModal" class="modal-overlay" @click="handleOverlayClick">
             <div class="modal-content">
                 <button class="modal-close" @click="closeModal">✕</button>
+
                 <template v-if="!isWithdrawn">
                     <h2 class="modal-title">{{ t('enter_wallet') }}</h2>
                     <input required v-model="tonAddress" class="wallet-input" :placeholder="t('ton_address')" />
@@ -95,10 +98,12 @@ onMounted(fetchMyNFTs)
                         <button class="modal-btn confirm" @click="withdrawNft">{{ t('withdraw') }}</button>
                     </div>
                 </template>
+
                 <template v-else>
-                    <h2 class="modal-title">
-                        {{ t('nft_will_be_sent', { id: selectedNftId, address: tonAddress }) }}
-                    </h2>
+                    <div class="modal-title">
+                        <p class="modal-line">{{ t('request_number', { id: requestId }) }}</p>
+                        <p class="modal-line">{{ t('nft_will_be_sent', { id: selectedNftId, address: tonAddress }) }}</p>
+                    </div>
                 </template>
             </div>
         </div>
@@ -106,7 +111,6 @@ onMounted(fetchMyNFTs)
 </template>
 
 <style scoped>
-/* остался прежний — не изменял */
 .nft-page {
     padding: 20px;
     background: linear-gradient(to bottom, #3c1e62, #1e1b4b);
@@ -227,6 +231,13 @@ onMounted(fetchMyNFTs)
     margin-bottom: 16px;
     color: #facc15;
     white-space: pre-line;
+}
+
+.modal-line {
+    margin-bottom: 12px;
+    color: #facc15;
+    font-size: 16px;
+    font-weight: 600;
 }
 
 .wallet-input {
