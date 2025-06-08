@@ -41,24 +41,34 @@ function getImageById(id: number) {
     return images[id - 1] || images[0]
 }
 
-async function openWithdrawModal(nftId: number, id: number) {
+function openWithdrawModal(nftId: number, id: number) {
     selectedNftId.value = nftId
     requestId.value = id
     tonAddress.value = ''
     isWithdrawn.value = false
     showModal.value = true
-
-    const response = await axios.post('https://api-backland.com/users/outNft', {
-        initData,
-        user_id,
-        requestId
-    });
-
-    alert(response);
 }
 
-function withdrawNft() {
-    isWithdrawn.value = true
+async function withdrawNft() {
+    if (!tonAddress.value.trim()) {
+        alert(t('please_enter_address'))
+        return
+    }
+
+    try {
+        const response = await axios.post('https://api-backland.com/users/outNft', {
+            initData,
+            user_id,
+            requestId: requestId.value,
+            tonAddress: tonAddress.value
+        })
+
+        console.log('Ответ сервера:', response.data)
+        isWithdrawn.value = true
+    } catch (error) {
+        console.error('Ошибка при выводе NFT:', error)
+        alert(t('error_try_again'))
+    }
 }
 
 function closeModal() {
@@ -109,9 +119,7 @@ onMounted(fetchMyNFTs)
 
                 <template v-else>
                     <div class="modal-title">
-
-                        <p class="modal-line">{{ t('nft_will_be_sent', { id: selectedNftId, address: tonAddress }) }}
-                        </p>
+                        <p class="modal-line">{{ t('nft_will_be_sent', { id: selectedNftId, address: tonAddress }) }}</p>
                     </div>
                 </template>
             </div>

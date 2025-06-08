@@ -1,4 +1,6 @@
 {
+    "please_enter_address": "Пожалуйста, введите TON-адрес",
+    "error_try_again": "Ошибка. Попробуйте ещё раз.",
     "my_nfts": "Мои NFT",
     "loading": "Загрузка",
     "no_nfts_yet": "У вас ещё нет NFT",

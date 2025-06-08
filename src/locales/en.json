@@ -1,4 +1,6 @@
 {
+  "please_enter_address": "Please enter your TON address",
+  "error_try_again": "Error. Please try again.",
   "my_nfts": "My NFTs",
   "loading": "Loading",
   "no_nfts_yet": "You don't have any NFTs yet",
@@ -9,45 +11,45 @@
   "minted_at": "Minted at",
   "gift": {
     "title": "Get a unique NFT",
-    "subtitle": "Earn in the second season",
+    "subtitle": "Earn in Season 2",
     "mint_button": "Mint NFT",
     "error_title": "Error",
-    "error_message": "You need at least 1 TON to mint an NFT",
-    "replenish_now": "Replenish balance now",
+    "error_message": "You need 1 TON on your balance to mint an NFT",
+    "replenish_now": "Top up your balance now",
     "close": "Close"
   },
   "open_again": "Open again",
-  "get_unique_nft": "Get your unique NFT",
-  "earn_in_season_two": "Earn in the card game of season two",
+  "get_unique_nft": "Get a unique NFT",
+  "earn_in_season_two": "Earn in the Season 2 card game",
   "mint_nft": "MINT NFT",
-  "nft_unique_title": "Hurry to mint unique NFTs",
-  "nft_unique_subtitle": "They'll help you earn in season two!",
+  "nft_unique_title": "Hurry up to mint unique NFTs",
+  "nft_unique_subtitle": "They will help you earn in Season 2!",
   "start_mint": "SOLD OUT",
   "balance": {
     "connect_wallet": "Connect wallet",
     "total_balance": "Balance",
-    "available": "Available to withdraw",
+    "available": "Available for withdrawal",
     "deposit_tab": "Deposit",
     "withdraw_tab": "Withdraw",
     "wallet_label": "TON wallet",
     "wallet_placeholder": "Enter TON address",
     "amount": "Amount",
     "amount_placeholder": "0.1",
-    "deposit_btn": "Top up balance",
-    "withdraw_btn": "Withdraw balance",
+    "deposit_btn": "Deposit",
+    "withdraw_btn": "Withdraw",
     "manual_title": "Send TON manually",
-    "memo_warning": "Be sure to include the <span class='red'>MEMO</span> when sending",
+    "memo_warning": "When sending, make sure to specify the <span class='red'>MEMO</span>",
     "address": "Address",
     "memo": "Memo",
     "success_title": "Success",
-    "success_text": "TON successfully sent to your wallet"
+    "success_text": "TON has been successfully sent to your wallet"
   },
   "friends": {
     "connect_wallet": "Connect wallet",
     "title": "Friends",
     "invite_title_html": "<span class='highlight'>15%</span> DIRECTLY IN <span class='highlight-blue'>TON</span><br />FROM YOUR FRIENDS",
     "invite_btn": "INVITE FRIENDS",
-    "stats_title": "Referral statistics",
+    "stats_title": "Referral Statistics",
     "level": "{level} level",
     "no_referrals": "No referrals yet"
   },
@@ -61,7 +63,7 @@
         "description": "Reward: 0.005 TON"
       },
       "2": {
-        "name": "Subscribe to the chat",
+        "name": "Join the chat",
         "description": "Reward: 0.005 TON"
       },
       "3": {
@@ -99,16 +101,16 @@
     "friends": "Friends",
     "tasks": "Tasks"
   },
-  "not_enough_ton": "Not enough TON in your balance. Top up in the 'Balance' section",
+  "not_enough_ton": "Not enough TON on the balance, top up in the 'Balance' section",
   "activated": "Activated",
-  "meme_successfully_activated": "Meme activated successfully, refresh the page to show the timer",
-  "ok": "Ok",
+  "meme_successfully_activated": "Meme activated successfully, refresh the page to show timer",
+  "ok": "OK",
   "confirmation": "Confirmation",
   "are_you_sure_to_buy": "Are you sure you want to buy",
   "confirm": "Confirm",
   "cancel": "Cancel",
   "typewriter_texts": [
-    "The only place you can really earn from memes",
+    "The only place where you can really earn from memes",
     "Power of memes",
     "Memes are a lifestyle",
     "These are not just funny pictures"
