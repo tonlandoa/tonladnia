@@ -13,6 +13,7 @@ const loading = ref(true)
 const showModal = ref(false)
 const selectedNftId = ref<number | null>(null)
 const tonAddress = ref('')
+const isWithdrawn = ref(false)
 
 async function fetchMyNFTs() {
     try {
@@ -42,16 +43,12 @@ function getImageById(id: number) {
 function openWithdrawModal(nftId: number) {
     selectedNftId.value = nftId
     tonAddress.value = ''
+    isWithdrawn.value = false
     showModal.value = true
 }
 
 function withdrawNft() {
-    if (!tonAddress.value) {
-        alert('Введите TON-кошелёк')
-        return
-    }
-    alert(`В разработке ${tonAddress.value}`)
-    showModal.value = false
+    isWithdrawn.value = true
 }
 
 function closeModal() {
@@ -90,12 +87,19 @@ onMounted(fetchMyNFTs)
         <div v-if="showModal" class="modal-overlay" @click="handleOverlayClick">
             <div class="modal-content">
                 <button class="modal-close" @click="closeModal">✕</button>
-                <h2 class="modal-title">Введите TON-кошелёк</h2>
-                <input v-model="tonAddress" class="wallet-input" placeholder="TON адрес" />
-                <div class="modal-buttons">
-                    <button class="modal-btn cancel" @click="closeModal">Отмена</button>
-                    <button class="modal-btn confirm" @click="withdrawNft">Вывести</button>
-                </div>
+                <template v-if="!isWithdrawn">
+                    <h2 class="modal-title">{{ t('enter_wallet') }}</h2>
+                    <input required v-model="tonAddress" class="wallet-input" :placeholder="t('ton_address')" />
+                    <div class="modal-buttons">
+                        <button class="modal-btn cancel" @click="closeModal">{{ t('cancel') }}</button>
+                        <button class="modal-btn confirm" @click="withdrawNft">{{ t('withdraw') }}</button>
+                    </div>
+                </template>
+                <template v-else>
+                    <h2 class="modal-title">
+                        {{ t('nft_will_be_sent', { address: tonAddress }) }}
+                    </h2>
+                </template>
             </div>
         </div>
     </div>
@@ -197,9 +201,7 @@ onMounted(fetchMyNFTs)
     background: #1f1b35;
     border: 1px solid #4b3c72;
     border-radius: 16px;
-    padding: 24px;
-    padding-top: 5px;
-    padding-bottom: 15px;
+    padding: 24px 20px 15px;
     width: 90%;
     max-width: 350px;
     text-align: center;
@@ -219,10 +221,11 @@ onMounted(fetchMyNFTs)
 }
 
 .modal-title {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 700;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
     color: #facc15;
+    white-space: pre-line;
 }
 
 .wallet-input {
@@ -236,7 +239,6 @@ onMounted(fetchMyNFTs)
     background: #1e1b4b;
     color: white;
     box-sizing: border-box;
-   
 }
 
 .modal-buttons {
