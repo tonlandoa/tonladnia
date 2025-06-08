@@ -6,7 +6,6 @@
     "enter_wallet": "Введите TON-кошелёк",
     "ton_address": "TON адрес",
     "nft_will_be_sent": "NFT ID: {id} будет отправлена на ваш кошелёк {address} в течение 24-х часов",
-    "request_number": "Ваша заявка под номером: #{id}",
     "minted_at": "Дата минта",
     "gift": {
         "title": "Получите уникальный NFT",

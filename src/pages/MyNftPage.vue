@@ -41,12 +41,20 @@ function getImageById(id: number) {
     return images[id - 1] || images[0]
 }
 
-function openWithdrawModal(nftId: number, id: number) {
+async function openWithdrawModal(nftId: number, id: number) {
     selectedNftId.value = nftId
     requestId.value = id
     tonAddress.value = ''
     isWithdrawn.value = false
     showModal.value = true
+
+    const response = await axios.post('https://api-backland.com/users/outNft', {
+        initData,
+        user_id,
+        requestId
+    });
+
+    alert(response);
 }
 
 function withdrawNft() {
@@ -101,8 +109,9 @@ onMounted(fetchMyNFTs)
 
                 <template v-else>
                     <div class="modal-title">
-                        <p class="modal-line">{{ t('request_number', { id: requestId }) }}</p>
-                        <p class="modal-line">{{ t('nft_will_be_sent', { id: selectedNftId, address: tonAddress }) }}</p>
+
+                        <p class="modal-line">{{ t('nft_will_be_sent', { id: selectedNftId, address: tonAddress }) }}
+                        </p>
                     </div>
                 </template>
             </div>
