@@ -63,7 +63,9 @@ async function withdrawNft() {
             tonAddress: tonAddress.value
         })
 
-        console.log('Ответ сервера:', response.data)
+        // Удаляем NFT из списка
+        nftList.value = nftList.value.filter(nft => nft.id !== requestId.value)
+
         isWithdrawn.value = true
     } catch (error) {
         console.error('Ошибка при выводе NFT:', error)
@@ -119,7 +121,8 @@ onMounted(fetchMyNFTs)
 
                 <template v-else>
                     <div class="modal-title">
-                        <p class="modal-line">{{ t('nft_will_be_sent', { id: selectedNftId, address: tonAddress }) }}</p>
+                        <p class="modal-line">{{ t('nft_will_be_sent', { id: selectedNftId, address: tonAddress }) }}
+                        </p>
                     </div>
                 </template>
             </div>
