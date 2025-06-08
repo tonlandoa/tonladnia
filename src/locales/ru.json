@@ -5,7 +5,7 @@
     "withdraw": "Вывести",
     "enter_wallet": "Введите TON-кошелёк",
     "ton_address": "TON адрес",
-    "nft_will_be_sent": "NFT будет отправлена на ваш кошелёк {address} в течение 24-х часов",
+    "nft_will_be_sent": "NFT ID: {id} будет отправлена на ваш кошелёк {address} в течение 24-х часов",
     "minted_at": "Дата минта",
     "gift": {
         "title": "Получите уникальный NFT",

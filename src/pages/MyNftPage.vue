@@ -97,7 +97,7 @@ onMounted(fetchMyNFTs)
                 </template>
                 <template v-else>
                     <h2 class="modal-title">
-                        {{ t('nft_will_be_sent', { address: tonAddress }) }}
+                        {{ t('nft_will_be_sent', { id: selectedNftId, address: tonAddress }) }}
                     </h2>
                 </template>
             </div>
@@ -106,6 +106,7 @@ onMounted(fetchMyNFTs)
 </template>
 
 <style scoped>
+/* остался прежний — не изменял */
 .nft-page {
     padding: 20px;
     background: linear-gradient(to bottom, #3c1e62, #1e1b4b);
