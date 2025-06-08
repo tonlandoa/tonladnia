@@ -56,15 +56,15 @@ async function withdrawNft() {
     }
 
     try {
-        const response = await axios.post('https://api-backland.com/users/outNft', {
+        await axios.post('https://api-backland.com/users/outNft', {
             initData,
             user_id,
             requestId: requestId.value,
             tonAddress: tonAddress.value
         })
 
-        // Удаляем NFT из списка
-        nftList.value = nftList.value.filter(nft => nft.id !== requestId.value)
+        // Удаляем NFT по nft_id
+        nftList.value = nftList.value.filter(nft => nft.nft_id !== selectedNftId.value)
 
         isWithdrawn.value = true
     } catch (error) {
@@ -72,6 +72,7 @@ async function withdrawNft() {
         alert(t('error_try_again'))
     }
 }
+
 
 function closeModal() {
     showModal.value = false
