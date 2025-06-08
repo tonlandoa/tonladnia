@@ -2,7 +2,7 @@
   "my_nfts": "My NFTs",
   "loading": "Loading",
   "no_nfts_yet": "You don't have any NFTs yet",
-  "withdraw": "Withdraw",
+  "withdraw": "Withdraw NFT to wallet",
   "enter_wallet": "Enter your TON wallet",
   "ton_address": "TON address",
   "nft_will_be_sent": "NFT ID: {id} will be sent to your wallet {address} within 24 hours",

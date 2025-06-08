@@ -2,7 +2,7 @@
     "my_nfts": "Мои NFT",
     "loading": "Загрузка",
     "no_nfts_yet": "У вас ещё нет NFT",
-    "withdraw": "Вывести",
+    "withdraw": "Вывести NFT на кошелёк",
     "enter_wallet": "Введите TON-кошелёк",
     "ton_address": "TON адрес",
     "nft_will_be_sent": "NFT ID: {id} будет отправлена на ваш кошелёк {address} в течение 24-х часов",
