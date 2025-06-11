@@ -31,14 +31,20 @@ async function fetchMyNFTs() {
 }
 
 function getImageById(id: number) {
-    const images = [
-        '/img/common.png',
-        '/img/diamond.png',
-        '/img/epic.png',
-        '/img/gold.png',
-        '/img/legendary.png'
-    ]
-    return images[id - 1] || images[0]
+    const imageMap: Record<number, string> = {
+        1: '/img/common.png',
+        2: '/img/diamond.png',
+        3: '/img/epic.png',
+        4: '/img/gold.png',
+        5: '/img/legendary.png',
+        6: '/img/6.png',
+        7: '/img/7.png',
+        8: '/img/8.png',
+        9: '/img/9.png',
+        10: '/img/10.png'
+    }
+
+    return imageMap[id] || '/img/common.png'
 }
 
 function openWithdrawModal(nftId: number, id: number) {
@@ -73,7 +79,6 @@ async function withdrawNft() {
     }
 }
 
-
 function closeModal() {
     showModal.value = false
 }
@@ -85,6 +90,7 @@ function handleOverlayClick(e: MouseEvent) {
 }
 
 onMounted(fetchMyNFTs)
+
 </script>
 
 <template>
