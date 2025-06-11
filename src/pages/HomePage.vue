@@ -313,7 +313,7 @@ async function confirmBuy() {
                 <div class="nft-text-block">
                     <h2 class="nft-title">{{ $t('nft_unique_title') }}</h2>
                     <p class="nft-subtitle">{{ $t('nft_unique_subtitle') }}</p>
-                    <a href="/mint" class="nft-mint-btn">
+                    <a class="nft-mint-btn sold-out">
 
                         {{ $t('start_mint') }}
                     </a>
