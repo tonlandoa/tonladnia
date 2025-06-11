@@ -7,12 +7,14 @@ import MyNftPage from '../pages/MyNftPage.vue'
 import MintPage from '../pages/MintPage.vue'
 import FrinedsPage from '../pages/FriendsPage.vue'
 import TasksPage from '@/pages/tasksPage.vue'
+import SpinPage from '@/pages/SpinPage.vue'
 
 const routes: Array<RouteRecordRaw> = [
   { path: '/', name: 'Home', component: HomePage },
   { path: '/mint', name: 'Mint', component: MintPage },
   { path: '/my_nft', name: 'My_Nft', component: MyNftPage },
   { path: '/balance', name: 'Balance', component: BalancePage },
+  { path: '/spin', name: 'Spin', component: SpinPage },
   { path: '/friends', name: 'Frieds', component: FrinedsPage },
   { path: '/tasks', name: 'Tasks', component: TasksPage }
 ]

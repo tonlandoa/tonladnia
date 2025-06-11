@@ -32,12 +32,13 @@ function setLang(lang: string) {
     locale.value = lang
 }
 
+// Обновлённые изображения с ID от 6 до 10
 const nftImages = [
-    '/img/common.png',
-    '/img/diamond.png',
-    '/img/epic.png',
-    '/img/gold.png',
-    '/img/legendary.png'
+    '/img/6.png',
+    '/img/7.png',
+    '/img/8.png',
+    '/img/9.png',
+    '/img/10.png'
 ]
 
 const revealedNft = ref('')
@@ -62,7 +63,8 @@ async function mintNFT() {
 
         if (status === 'success') {
             revealedId.value = nft_id
-            revealedNft.value = nftImages[nft_id - 1] || nftImages[0]
+            // сдвиг на -6, т.к. индексы в массиве начинаются с 0, а ID с 6
+            revealedNft.value = nftImages[nft_id - 6] || nftImages[0]
             nftRevealed.value = true
             showConfetti.value = true
 
@@ -91,6 +93,7 @@ function closeModal() {
     showErrorModal.value = false
 }
 </script>
+
 <template>
     <div class="gift-page">
         <div class="balance-header">
