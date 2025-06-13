@@ -66,14 +66,14 @@ const clanCards = ref([
     },
     {
         id: 2,
-        name: 'coming_soon',
+        name: 'DOGS',
         image: '/img/doge.png',
-        profit: 'coming_soon',
-        cost: 'coming_soon',
-        cycle: 'coming_soon',
-        earned: 'coming_soon',
-        potential: 'coming_soon',
-        frozen: true,
+        profit: '5_percent',
+        cost: '5 TON',
+        cycle: '24h',
+        earned: '0_ton',
+        potential: '10 TON',
+        frozen: false,
     },
     {
         id: 3,
@@ -368,9 +368,15 @@ async function confirmBuy() {
                             <span class="label">{{ $t('next_cycle') }}</span>
                             <span class="value text-default">{{ countdownPerPlanet[1] }}</span>
                         </div>
-                        <button class="start-btn" @click="openModal(card)"
-                            :disabled="card.id === 1 && !!countdownPerPlanet[1]">
 
+                        <div v-if="card.id === 2 && countdownPerPlanet[2]" class="info-row">
+                            <Clock class="mini-icon text-default" />
+                            <span class="label">{{ $t('next_cycle') }}</span>
+                            <span class="value text-default">{{ countdownPerPlanet[2] }}</span>
+                        </div>
+
+                        <button class="start-btn" @click="openModal(card)"
+                            :disabled="(card.id === 1 && !!countdownPerPlanet[1]) || (card.id === 2 && !!countdownPerPlanet[2])">
                             <Play class="play-icon" />
                             {{
                                 card.id === 1
@@ -379,10 +385,15 @@ async function confirmBuy() {
                                         : countdownPerPlanet[1]
                                             ? countdownPerPlanet[1]
                                             : $t('start')
-                                    : $t('start')
+                                    : card.id === 2
+                                        ? userData?.card_2 !== 1
+                                            ? $t('buy')
+                            : countdownPerPlanet[2]
+                            ? countdownPerPlanet[2]
+                            : $t('start')
+                            : $t('start')
                             }}
                         </button>
-
                     </div>
 
                     <div v-if="card.frozen" class="card-overlay">
@@ -390,6 +401,7 @@ async function confirmBuy() {
                     </div>
                 </div>
             </div>
+
         </div>
 
         <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
