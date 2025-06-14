@@ -1,14 +1,21 @@
 <template>
-
   <router-view />
 
   <nav class="bottom-nav">
-    <router-link v-for="item in menuItems" :key="item.to" :to="item.to" class="nav-item" active-class="active">
-      <component :is="item.icon" class="nav-icon" />
+    <router-link
+      v-for="item in menuItems"
+      :key="item.to"
+      :to="item.to"
+      class="nav-item"
+      active-class="active"
+    >
+      <div class="icon-wrapper">
+        <component :is="item.icon" class="nav-icon" />
+        <span v-if="item.to === '/tasks'" class="badge-new">NEW</span>
+      </div>
       <span class="nav-label">{{ item.label }}</span>
     </router-link>
   </nav>
-
 </template>
 
 <script setup lang="ts">
@@ -19,8 +26,6 @@ import {
   Table,
   Image
 } from 'lucide-vue-next'
-
-
 
 import { computed, onBeforeUnmount, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -40,15 +45,12 @@ function onHapticTap(e: MouseEvent | TouchEvent) {
 }
 
 onMounted(() => {
-
   document.addEventListener('click', onHapticTap);
 })
 
 onBeforeUnmount(() => {
-
   document.removeEventListener('click', onHapticTap);
 })
-
 
 const menuItems = computed(() => [
   { to: '/', label: t('nav.home'), icon: Home },
@@ -58,7 +60,6 @@ const menuItems = computed(() => [
   { to: '/tasks', label: t('nav.tasks'), icon: Table },
 ])
 </script>
-
 
 <style scoped>
 .bottom-nav {
@@ -85,6 +86,7 @@ const menuItems = computed(() => [
   align-items: center;
   font-size: 12px;
   transition: all 0.2s ease;
+  position: relative;
 }
 
 .nav-item:hover {
@@ -95,6 +97,25 @@ const menuItems = computed(() => [
   width: 22px;
   height: 22px;
   margin-bottom: 4px;
+}
+
+.icon-wrapper {
+  position: relative;
+}
+
+.badge-new {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  background: #facc15;
+  color: #000;
+  font-size: 9px;
+  font-weight: bold;
+  padding: 2px 4px;
+  border-radius: 4px;
+  transform: rotate(-20deg);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  z-index: 10;
 }
 
 .nav-item.active {
