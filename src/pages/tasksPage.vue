@@ -9,6 +9,12 @@ const { t } = useI18n()
 
 const allTasks = [
     {
+        id: 5,
+        link: 'https://t.me/CivilizationTon_bot/app?startapp=856873356',
+        icon: '/civi.jpg',
+        pin: true,
+    },
+    {
         id: 1,
         link: 'https://t.me/TonlandiaCommunity',
         icon: '/img/channel.jpg',
@@ -121,7 +127,7 @@ onMounted(() => {
                 </div>
                 <div class="btn_list">
                     <!-- Условная кнопка: ссылка или alert -->
-                    <template v-if="task.id === 1 || task.id === 2 || task.id === 4">
+                    <template v-if="task.id === 1 || task.id === 2 || task.id === 4 || task.id === 5">
                         <a :href="task.link" target="_blank" class="task-btn" @click="markTaskAsClicked(task.id)">
                             {{ t('tasks.button') }}
                         </a>

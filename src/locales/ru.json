@@ -24,7 +24,7 @@
     "mint_nft": "MINT NFT",
     "nft_unique_title": "Успей уникальные сминтить NFT",
     "nft_unique_subtitle": "Они помогут заработать во втором сезоне!",
-   "start_mint": "SOLD OUT",
+    "start_mint": "SOLD OUT",
     "balance": {
         "connect_wallet": "Подключить кошелёк",
         "total_balance": "Баланс",
@@ -72,6 +72,10 @@
             },
             "4": {
                 "name": "For registration 1 TON + free roulette spins",
+                "description": "Награда: 0.001 TON"
+            },
+            "5": {
+                "name": "🪐 Атакуй планеты и зарабатывай TON! 💎",
                 "description": "Награда: 0.001 TON"
             }
         }
