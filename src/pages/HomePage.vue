@@ -51,6 +51,13 @@ function setLang(lang: string) {
     currentLang.value = lang
     locale.value = lang
 }
+const showSubModal = ref(false)
+
+function closeSubModal() {
+    showSubModal.value = false
+}
+
+
 
 const clanCards = ref([
     {
@@ -76,48 +83,16 @@ const clanCards = ref([
         frozen: false,
     },
     {
-        id: 3,
-        name: 'coming_soon',
-        image: '/img/shiba.png',
-        profit: 'coming_soon',
-        cost: 'coming_soon',
-        cycle: 'coming_soon',
-        earned: 'coming_soon',
-        potential: 'coming_soon',
-        frozen: true,
+        id: 3, name: 'coming_soon', image: '/img/shiba.png', profit: 'coming_soon', cost: 'coming_soon', cycle: 'coming_soon', earned: 'coming_soon', potential: 'coming_soon', frozen: true,
     },
     {
-        id: 4,
-        name: 'coming_soon',
-        image: '/img/floki.png',
-        profit: 'coming_soon',
-        cost: 'coming_soon',
-        cycle: 'coming_soon',
-        earned: 'coming_soon',
-        potential: 'coming_soon',
-        frozen: true,
+        id: 4, name: 'coming_soon', image: '/img/floki.png', profit: 'coming_soon', cost: 'coming_soon', cycle: 'coming_soon', earned: 'coming_soon', potential: 'coming_soon', frozen: true,
     },
     {
-        id: 5,
-        name: 'coming_soon',
-        image: '/img/dogefinal.png',
-        profit: 'coming_soon',
-        cost: 'coming_soon',
-        cycle: 'coming_soon',
-        earned: 'coming_soon',
-        potential: 'coming_soon',
-        frozen: true,
+        id: 5, name: 'coming_soon', image: '/img/dogefinal.png', profit: 'coming_soon', cost: 'coming_soon', cycle: 'coming_soon', earned: 'coming_soon', potential: 'coming_soon', frozen: true,
     },
     {
-        id: 6,
-        name: 'coming_soon',
-        image: '/img/clyton.png',
-        profit: 'coming_soon',
-        cost: 'coming_soon',
-        cycle: 'coming_soon',
-        earned: 'coming_soon',
-        potential: 'coming_soon',
-        frozen: true,
+        id: 6, name: 'coming_soon', image: '/img/clyton.png', profit: 'coming_soon', cost: 'coming_soon', cycle: 'coming_soon', earned: 'coming_soon', potential: 'coming_soon', frozen: true,
     },
 ])
 
@@ -169,6 +144,10 @@ const getUser = async () => {
 
         userData.value = data
 
+        if (data.sub_channel === 1) {
+            showSubModal.value = true
+        }
+
         const updatedCards = [...clanCards.value]
         const now = new Date(data.date.replace(/-/g, '/')).getTime()
 
@@ -207,7 +186,6 @@ const wasActivated = ref(false)
 
 async function openModal(card: any) {
     selectedCard.value = card
-
     const cardKey = `card_${card.id}`
     const userHasCard = userData.value?.[cardKey] === 1
 
@@ -222,11 +200,9 @@ async function openModal(card: any) {
         })
 
         if (res.data.status === 1) {
-            const rawTime = res.data.time
-            const newTime = res.data.new_time
-
-            if (rawTime && newTime) {
-                createCountdown(rawTime, newTime, (formatted) => {
+            const { time, new_time } = res.data
+            if (time && new_time) {
+                createCountdown(time, new_time, (formatted) => {
                     countdownPerPlanet.value[card.id] = formatted
                 })
             }
@@ -273,12 +249,23 @@ async function confirmBuy() {
 
     closeModal()
 }
-
 </script>
 
 <template>
     <PageLoader ref="loaderRef" />
 
+    <!-- SUB MODAL -->
+    <div v-if="showSubModal" class="modal-overlay" @click.self="closeSubModal">
+        <div class="modal-content">
+            <button class="modal-close" @click="closeSubModal">×</button>
+            <h2>{{ t('modal.subscribeTitle') }}</h2>
+            <p>{{ t('modal.subscribeDescription') }}</p>
+            <a href="https://t.me/TonlandiaCommunity" target="_blank" class="modal-btn">
+                {{ t('modal.subscribeButton') }}
+            </a>
+
+        </div>
+    </div>
 
     <div class="clan-page">
         <div class="balance-header">
@@ -388,10 +375,10 @@ async function confirmBuy() {
                                     : card.id === 2
                                         ? userData?.card_2 !== 1
                                             ? $t('buy')
-                            : countdownPerPlanet[2]
-                            ? countdownPerPlanet[2]
-                            : $t('start')
-                            : $t('start')
+                                            : countdownPerPlanet[2]
+                                                ? countdownPerPlanet[2]
+                                                : $t('start')
+                                        : $t('start')
                             }}
                         </button>
                     </div>
@@ -924,5 +911,47 @@ async function confirmBuy() {
     background: #374151;
     color: #e5e7eb;
     border: none;
+}
+
+.modal-content h2 {
+    font-size: 26px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.modal-content p {
+    font-size: 16px;
+    margin-bottom: 30px;
+}
+
+.modal-btn {
+    background: #7d4dff;
+    color: white;
+    padding: 14px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 12px;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.3s;
+}
+
+.modal-btn:hover {
+    background: #5c30d4;
+}
+
+.modal-close {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    font-size: 28px;
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+.modal-content {
+    position: relative;
 }
 </style>
