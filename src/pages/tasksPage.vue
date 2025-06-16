@@ -13,29 +13,69 @@ const allTasks = [
         link: 'https://t.me/CivilizationTon_bot/app?startapp=856873356',
         icon: '/civi.jpg',
         pin: true,
+        type: 'partner',
     },
     {
         id: 1,
         link: 'https://t.me/TonlandiaCommunity',
         icon: '/img/channel.jpg',
-        pin: false,
+        pin: true,
+        type: 'main',
     },
     {
         id: 2,
         link: 'https://t.me/TonlandiaChat',
         icon: '/img/pepafinal.png',
-        pin: false,
+        pin: true,
+        type: 'main',
     },
     {
         id: 3,
         icon: '/img/os.png',
         pin: true,
+        type: 'main',
     },
     {
         id: 4,
         link: 'https://t.me/MineVerseBot/app?startapp=r_100000000080',
         icon: '/img/logo_mineverse.png',
         pin: true,
+        type: 'partner',
+    },
+    {
+        id: 6,
+        link: 'https://t.me/vadim_maslow',
+        icon: '/img/vadim.jpg',
+        pin: true,
+        type: 'partner',
+    },
+    {
+        id: 7,
+        link: 'https://t.me/team_krm',
+        icon: '/img/leha.jpg',
+        pin: true,
+        type: 'partner',
+    },
+    {
+        id: 8,
+        link: 'https://t.me/+mQ8_XURNp7oyNjEy',
+        icon: '/img/invest_crypta_mining.jpg',
+        pin: true,
+        type: 'partner',
+    },
+    {
+        id: 9,
+        link: 'https://t.me/toncorpcrypto',
+        icon: '/img/cryptofarm.jpg',
+        pin: true,
+        type: 'partner',
+    },
+    {
+        id: 10,
+        link: 'https://t.me/TowerTon_bot?start=7162668477',
+        icon: '/img/toweton.jpg',
+        pin: true,
+        type: 'partner',
     },
 ]
 
@@ -116,42 +156,63 @@ onMounted(() => {
     <div class="tasks-section">
         <h2 class="tasks-title">🎯 {{ t('tasks.title') }}</h2>
 
-        <TransitionGroup name="fade" tag="div" appear>
-            <div v-for="task in visibleTasks" :key="`task-${task.id}`" class="task-card">
-                <div class="task-content">
-                    <img :src="task.icon" class="task-icon" />
-                    <div class="task-text">
-                        <h3 class="task-name">{{ t(`tasks.list.${task.id}.name`) }}</h3>
-                        <p class="task-desc">{{ t(`tasks.list.${task.id}.description`) }}</p>
+        <div class="task-group">
+            <h3 class="task-group-title">Main</h3>
+            <TransitionGroup name="fade" tag="div" appear>
+                <div v-for="task in visibleTasks.filter(t => t.type === 'main')" :key="`task-${task.id}`"
+                    class="task-card">
+                    <div class="task-content">
+                        <img :src="task.icon" class="task-icon" />
+                        <div class="task-text">
+                            <h3 class="task-name">{{ t(`tasks.list.${task.id}.name`) }}</h3>
+                            <p class="task-desc">{{ t(`tasks.list.${task.id}.description`) }}</p>
+                        </div>
                     </div>
-                </div>
-                <div class="btn_list">
-                    <!-- Условная кнопка: ссылка или alert -->
-                    <template v-if="task.id === 1 || task.id === 2 || task.id === 4 || task.id === 5">
-                        <a :href="task.link" target="_blank" class="task-btn" @click="markTaskAsClicked(task.id)">
-                            {{ t('tasks.button') }}
-                        </a>
-                    </template>
-                    <template v-else>
+                    <div class="btn_list">
                         <button class="task-btn" @click="handleCustomTask(task.id)">
                             {{ t('tasks.button') }}
                         </button>
-                    </template>
-
-                    <!-- Проверка выполнения -->
-                    <button style="margin-top: 10px; background: orange;" class="task-btn"
-                        :disabled="!isTaskClicked(task.id)" @click="checkTask(task.id)">
-                        {{ t('tasks.button2') }}
-                    </button>
+                        <button style="margin-top: 10px; background: orange;" class="task-btn"
+                            :disabled="!isTaskClicked(task.id)" @click="checkTask(task.id)">
+                            {{ t('tasks.button2') }}
+                        </button>
+                    </div>
                 </div>
-            </div>
-        </TransitionGroup>
+            </TransitionGroup>
+        </div>
+
+        <div class="task-group">
+            <h3 class="task-group-title">Partners</h3>
+            <TransitionGroup name="fade" tag="div" appear>
+                <div v-for="task in visibleTasks.filter(t => t.type === 'partner')" :key="`task-${task.id}`"
+                    class="task-card">
+                    <div class="task-content">
+                        <img :src="task.icon" class="task-icon" />
+                        <div class="task-text">
+                            <h3 class="task-name">{{ t(`tasks.list.${task.id}.name`) }}</h3>
+                            <p class="task-desc">{{ t(`tasks.list.${task.id}.description`) }}</p>
+                        </div>
+                    </div>
+                    <div class="btn_list">
+                        <a :href="task.link" target="_blank" class="task-btn" @click="markTaskAsClicked(task.id)">
+                            {{ t('tasks.button') }}
+                        </a>
+                        <button style="margin-top: 10px; background: orange;" class="task-btn"
+                            :disabled="!isTaskClicked(task.id)" @click="checkTask(task.id)">
+                            {{ t('tasks.button2') }}
+                        </button>
+                    </div>
+                </div>
+            </TransitionGroup>
+        </div>
     </div>
 </template>
 
 <style scoped>
 .tasks-section {
+
     padding: 20px;
+    padding-bottom: 100px;
     color: white;
     font-family: 'Rubik', sans-serif;
 }
@@ -162,6 +223,20 @@ onMounted(() => {
     margin-bottom: 18px;
     color: white;
     text-align: center;
+}
+
+.task-group {
+    margin-bottom: 30px;
+}
+
+.task-group-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #b8b8ff;
+    text-transform: uppercase;
+    border-left: 4px solid #a855f7;
+    padding-left: 10px;
 }
 
 .task-card {
@@ -241,7 +316,6 @@ onMounted(() => {
     opacity: 0.6;
 }
 
-/* Анимация появления и исчезновения задач */
 .fade-enter-active,
 .fade-leave-active {
     transition: opacity 0.5s, transform 0.5s;
