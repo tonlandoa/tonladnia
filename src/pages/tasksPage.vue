@@ -69,7 +69,14 @@ const allTasks = [
         icon: '/img/cryptofarm.jpg',
         pin: true,
         type: 'partner',
-    }
+    },
+    {
+        id: 10,
+        link: 'https://t.me/Money_Mining_Bot/MoneyMiningGame?startapp=7281288177',
+        icon: '/img/money.png',
+        pin: true,
+        type: 'partner',
+    },
 ]
 
 const visibleTasks = ref([...allTasks])
