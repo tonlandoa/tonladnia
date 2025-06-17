@@ -69,14 +69,7 @@ const allTasks = [
         icon: '/img/cryptofarm.jpg',
         pin: true,
         type: 'partner',
-    },
-    {
-        id: 10,
-        link: 'https://t.me/TowerTon_bot?start=7162668477',
-        icon: '/img/toweton.jpg',
-        pin: true,
-        type: 'partner',
-    },
+    }
 ]
 
 const visibleTasks = ref([...allTasks])
