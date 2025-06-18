@@ -73,7 +73,7 @@ const allTasks = [
     {
         id: 10,
         link: 'https://t.me/Money_Mining_Bot/MoneyMiningGame?startapp=7281288177',
-        icon: '/img/money.png',
+        icon: '/img/money.jpg',
         pin: true,
         type: 'partner',
     },
