@@ -77,6 +77,13 @@ const allTasks = [
         pin: true,
         type: 'partner',
     },
+    {
+        id: 11,
+        link: 'https://t.me/+0EA3BVmp88RlYzBl',
+        icon: '/img/necrypto.jpg',
+        pin: true,
+        type: 'partner',
+    },
 ]
 
 const visibleTasks = ref([...allTasks])
