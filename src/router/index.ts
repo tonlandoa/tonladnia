@@ -3,6 +3,7 @@ import type { RouteRecordRaw } from 'vue-router'
 
 import HomePage from '../pages/HomePage.vue'
 import BalancePage from '../pages/BalancePage.vue'
+import MiniGamePage from '@/pages/MiniGamePage.vue'
 import MyNftPage from '../pages/MyNftPage.vue'
 import MintPage from '../pages/MintPage.vue'
 import FrinedsPage from '../pages/FriendsPage.vue'
@@ -16,7 +17,8 @@ const routes: Array<RouteRecordRaw> = [
   { path: '/balance', name: 'Balance', component: BalancePage },
   { path: '/spin', name: 'Spin', component: SpinPage },
   { path: '/friends', name: 'Frieds', component: FrinedsPage },
-  { path: '/tasks', name: 'Tasks', component: TasksPage }
+  { path: '/tasks', name: 'Tasks', component: TasksPage },
+  { path: '/MiniGame', name: 'Tasks', component: MiniGamePage }
 ]
 
 const router = createRouter({
