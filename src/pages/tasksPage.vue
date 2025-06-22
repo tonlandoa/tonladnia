@@ -104,6 +104,13 @@ const allTasks = [
         icon: '/img/andi.jpg',
         pin: true,
         type: 'partner',
+    },
+    {
+        id: 15,
+        link: 'https://t.me/+SIpJlnzdi3xmOGMy',
+        icon: '/img/kit.jpg',
+        pin: true,
+        type: 'partner',
     }
 ]
 
