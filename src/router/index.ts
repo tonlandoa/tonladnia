@@ -18,7 +18,7 @@ const routes: Array<RouteRecordRaw> = [
   { path: '/spin', name: 'Spin', component: SpinPage },
   { path: '/friends', name: 'Frieds', component: FrinedsPage },
   { path: '/tasks', name: 'Tasks', component: TasksPage },
-  { path: '/MiniGame', name: 'Tasks', component: MiniGamePage }
+  { path: '/MiniGame', name: 'MiniGame', component: MiniGamePage }
 ]
 
 const router = createRouter({
