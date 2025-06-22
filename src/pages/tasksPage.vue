@@ -100,7 +100,7 @@ const allTasks = [
     },
     {
         id: 14,
-        link: 'https://t.me/+HaCC_sUEUYsyMGRi',
+        link: 'https://t.me/+99vrgNWFF_1kMDUy',
         icon: '/img/andi.jpg',
         pin: true,
         type: 'partner',
