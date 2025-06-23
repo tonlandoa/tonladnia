@@ -111,7 +111,21 @@ const allTasks = [
         icon: '/img/kit.jpg',
         pin: true,
         type: 'partner',
-    }
+    },
+    {
+        id: 16,
+        link: 'https://t.me/+JqHm6r8SnS42NzRi',
+        icon: '/img/pugach.jpg',
+        pin: true,
+        type: 'partner',
+    },
+    {
+        id: 17,
+        link: 'https://t.me/DropKriptozona',
+        icon: '/img/dropk.jpg',
+        pin: true,
+        type: 'partner',
+    },
 ]
 
 const visibleTasks = ref([...allTasks])
