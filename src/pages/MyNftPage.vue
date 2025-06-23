@@ -41,7 +41,12 @@ function getImageById(id: number) {
         7: '/img/7.png',
         8: '/img/8.png',
         9: '/img/9.png',
-        10: '/img/10.png'
+        10: '/img/10.png',
+        11: '/img/11.png',
+        12: '/img/12.png',
+        13: '/img/13.png',
+        14: '/img/14.png',
+        15: '/img/15.png'
     }
 
     return imageMap[id] || '/img/common.png'
@@ -106,9 +111,9 @@ onMounted(fetchMyNFTs)
                 <img :src="getImageById(nft.nft_id)" alt="NFT" class="nft-image" />
                 <div class="nft-info">
                     <p class="nft-label">NFT #{{ nft.nft_id }}</p>
-                    <button class="withdraw-btn" @click="openWithdrawModal(nft.nft_id, nft.id)">
+                    <!--  <button class="withdraw-btn" @click="openWithdrawModal(nft.nft_id, nft.id)">
                         {{ t('withdraw') }}
-                    </button>
+                    </button>-->
                 </div>
             </div>
         </div>

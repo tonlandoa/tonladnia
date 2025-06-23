@@ -32,13 +32,12 @@ function setLang(lang: string) {
     locale.value = lang
 }
 
-// Обновлённые изображения с ID от 6 до 10
 const nftImages = [
-    '/img/6.png',
-    '/img/7.png',
-    '/img/8.png',
-    '/img/9.png',
-    '/img/10.png'
+    '/img/11.png',
+    '/img/12.png',
+    '/img/13.png',
+    '/img/14.png',
+    '/img/15.png'
 ]
 
 const revealedNft = ref('')
@@ -63,8 +62,8 @@ async function mintNFT() {
 
         if (status === 'success') {
             revealedId.value = nft_id
-            // сдвиг на -6, т.к. индексы в массиве начинаются с 0, а ID с 6
-            revealedNft.value = nftImages[nft_id - 6] || nftImages[0]
+            
+            revealedNft.value = nftImages[nft_id - 11] || nftImages[0]
             nftRevealed.value = true
             showConfetti.value = true
 
