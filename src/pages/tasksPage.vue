@@ -126,6 +126,20 @@ const allTasks = [
         pin: true,
         type: 'partner',
     },
+    {
+        id: 18,
+        link: 'https://t.me/+KuWQTepOcas5MjEy',
+        icon: '/img/btc.jpg',
+        pin: true,
+        type: 'partner',
+    },
+    {
+        id: 19,
+        link: 'https://t.me/+hfzC-NfZyAg2ODBi',
+        icon: '/img/compas.jpg',
+        pin: true,
+        type: 'partner',
+    },
 ]
 
 const visibleTasks = ref([...allTasks])
