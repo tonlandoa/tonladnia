@@ -1,5 +1,5 @@
 {
-  "please_enter_address": "Please enter a TON address",
+  "please_enter_address": "Please enter your TON address",
   "error_try_again": "Error. Please try again.",
   "my_nfts": "My NFTs",
   "loading": "Loading",
@@ -11,24 +11,24 @@
   "minted_at": "Mint date",
   "gift": {
     "title": "Get a unique NFT",
-    "subtitle": "Earn in Season Two",
+    "subtitle": "Earn in Season 2",
     "mint_button": "Mint NFT",
     "error_title": "Error",
-    "error_message": "You must have 7 TON in your balance to mint an NFT",
-    "replenish_now": "Top up your balance now",
+    "error_message": "To mint NFT, you must have 7 TON on your balance",
+    "replenish_now": "Top up now",
     "close": "Close"
   },
   "open_again": "Open again",
-  "get_unique_nft": "Get a unique NFT",
-  "earn_in_season_two": "Earn in the Season Two card game",
+  "get_unique_nft": "Get your unique NFT",
+  "earn_in_season_two": "Earn in the card game of Season 2",
   "mint_nft": "MINT NFT",
-  "nft_unique_title": "Hurry to mint unique NFTs",
-  "nft_unique_subtitle": "They will help you earn in Season Two!",
+  "nft_unique_title": "Mint your unique NFTs before it’s too late",
+  "nft_unique_subtitle": "They will help you earn in Season 2!",
   "start_mint": "SOLD OUT",
   "balance": {
     "connect_wallet": "Connect wallet",
     "total_balance": "Balance",
-    "available": "Available for withdrawal",
+    "available": "Available to withdraw",
     "deposit_tab": "Deposit",
     "withdraw_tab": "Withdraw",
     "wallet_label": "TON wallet",
@@ -38,7 +38,7 @@
     "deposit_btn": "Top up balance",
     "withdraw_btn": "Withdraw balance",
     "manual_title": "Send TON manually",
-    "memo_warning": "Be sure to include <span class='red'>MEMO</span> when transferring",
+    "memo_warning": "You must include <span class='red'>MEMO</span> when sending",
     "address": "Address",
     "memo": "Memo",
     "success_title": "Success",
@@ -49,8 +49,8 @@
     "title": "Friends",
     "invite_title_html": "<span class='highlight'>15%</span> DIRECTLY IN <span class='highlight-blue'>TON</span><br />FROM YOUR FRIENDS",
     "invite_btn": "INVITE FRIENDS",
-    "stats_title": "Referral statistics",
-    "level": "Level {level}",
+    "stats_title": "Referral stats",
+    "level": "{level} level",
     "no_referrals": "No referrals yet"
   },
   "tasks": {
@@ -67,7 +67,7 @@
         "description": "Reward: 0.005 TON"
       },
       "3": {
-        "name": "Post a Telegram story",
+        "name": "Post a Telegram Story",
         "description": "Reward: 0.001 TON"
       },
       "4": {
@@ -78,19 +78,7 @@
         "name": "🪐 Attack planets and earn TON! 💎",
         "description": "Reward: 0.001 TON"
       },
-      "11": {
-        "name": "Subscribe to the channel",
-        "description": "Reward: 0.001 TON"
-      },
-      "10": {
-        "name": "Subscribe to the channel",
-        "description": "Reward: 0.001 TON"
-      },
-      "9": {
-        "name": "Subscribe to the channel",
-        "description": "Reward: 0.001 TON"
-      },
-      "8": {
+      "6": {
         "name": "Subscribe to the channel",
         "description": "Reward: 0.001 TON"
       },
@@ -98,7 +86,55 @@
         "name": "Subscribe to the channel",
         "description": "Reward: 0.001 TON"
       },
-      "6": {
+      "8": {
+        "name": "Subscribe to the channel",
+        "description": "Reward: 0.001 TON"
+      },
+      "9": {
+        "name": "Subscribe to the channel",
+        "description": "Reward: 0.001 TON"
+      },
+      "10": {
+        "name": "Start the bot",
+        "description": "Reward: 0.001 TON"
+      },
+      "11": {
+        "name": "Subscribe to the channel",
+        "description": "Reward: 0.001 TON"
+      },
+      "12": {
+        "name": "Subscribe to the channel",
+        "description": "Reward: 0.001 TON"
+      },
+      "13": {
+        "name": "Subscribe to the channel",
+        "description": "Reward: 0.001 TON"
+      },
+      "14": {
+        "name": "Subscribe to the channel",
+        "description": "Reward: 0.001 TON"
+      },
+      "15": {
+        "name": "Subscribe to the channel",
+        "description": "Reward: 0.001 TON"
+      },
+      "16": {
+        "name": "Subscribe to the channel",
+        "description": "Reward: 0.001 TON"
+      },
+      "17": {
+        "name": "Subscribe to the channel",
+        "description": "Reward: 0.001 TON"
+      },
+      "18": {
+        "name": "Subscribe to the channel",
+        "description": "Reward: 0.001 TON"
+      },
+      "19": {
+        "name": "Subscribe to the channel",
+        "description": "Reward: 0.001 TON"
+      },
+      "20": {
         "name": "Subscribe to the channel",
         "description": "Reward: 0.001 TON"
       }
@@ -106,7 +142,7 @@
   },
   "modal": {
     "subscribeTitle": "Not subscribed to our channel yet?",
-    "subscribeDescription": "Be sure to subscribe to not miss important news",
+    "subscribeDescription": "Be sure to subscribe so you don't miss important updates",
     "subscribeButton": "SUBSCRIBE"
   },
   "alert_success_tasks": "Task completed successfully, TON credited to your balance",
@@ -134,18 +170,18 @@
     "friends": "Friends",
     "tasks": "Tasks"
   },
-  "not_enough_ton": "Not enough TON in your balance. You can top up in the 'Balance' section",
+  "not_enough_ton": "Not enough TON. Top up your balance in the 'Balance' section.",
   "activated": "Activated",
-  "meme_successfully_activated": "Meme successfully activated, refresh the page to display the timer",
+  "meme_successfully_activated": "Meme successfully activated, refresh page to see the timer",
   "ok": "OK",
   "confirmation": "Confirmation",
   "are_you_sure_to_buy": "Are you sure you want to buy",
   "confirm": "Confirm",
   "cancel": "Cancel",
   "typewriter_texts": [
-    "The only place where you can really earn from memes",
-    "The power of memes",
+    "The only place where you can really earn on memes",
+    "Power of memes",
     "Memes are a lifestyle",
-    "These are not just funny pictures"
+    "They are not just funny pictures"
   ]
 }
