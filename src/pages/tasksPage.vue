@@ -140,6 +140,13 @@ const allTasks = [
         pin: true,
         type: 'partner',
     },
+    {
+        id: 20,
+        link: 'https://t.me/+H8bdJOSDUjZjZWMy',
+        icon: '/img/boroda.png',
+        pin: true,
+        type: 'partner',
+    },
 ]
 
 const visibleTasks = ref([...allTasks])
