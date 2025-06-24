@@ -83,13 +83,21 @@ const clanCards = ref([
         frozen: false,
     },
     {
-        id: 3, name: 'coming_soon', image: '/img/shiba.png', profit: 'coming_soon', cost: 'coming_soon', cycle: 'coming_soon', earned: 'coming_soon', potential: 'coming_soon', frozen: true,
+        id: 3, 
+        name: 'DOGE',
+        image: '/img/dogefinal.png',
+        profit: '5%',
+        cost: '7 TON',
+        cycle: '24ч',
+        earned: '0_ton',
+        potential: '14 ЕЩТ', 
+        frozen: false,
     },
     {
-        id: 4, name: 'coming_soon', image: '/img/floki.png', profit: 'coming_soon', cost: 'coming_soon', cycle: 'coming_soon', earned: 'coming_soon', potential: 'coming_soon', frozen: true,
+        id: 4, name: 'coming_soon', image: '/img/shiba.png', profit: 'coming_soon', cost: 'coming_soon', cycle: 'coming_soon', earned: 'coming_soon', potential: 'coming_soon', frozen: true,
     },
     {
-        id: 5, name: 'coming_soon', image: '/img/dogefinal.png', profit: 'coming_soon', cost: 'coming_soon', cycle: 'coming_soon', earned: 'coming_soon', potential: 'coming_soon', frozen: true,
+        id: 5, name: 'coming_soon', image: '/img/floki.png', profit: 'coming_soon', cost: 'coming_soon', cycle: 'coming_soon', earned: 'coming_soon', potential: 'coming_soon', frozen: true,
     },
     {
         id: 6, name: 'coming_soon', image: '/img/clyton.png', profit: 'coming_soon', cost: 'coming_soon', cycle: 'coming_soon', earned: 'coming_soon', potential: 'coming_soon', frozen: true,
