@@ -90,7 +90,7 @@ const clanCards = ref([
         cost: '7 TON',
         cycle: '24ч',
         earned: '0_ton',
-        potential: '14 ЕЩТ',
+        potential: '14 TON',
         frozen: false,
     },
     {
