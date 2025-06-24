@@ -83,14 +83,14 @@ const clanCards = ref([
         frozen: false,
     },
     {
-        id: 3, 
+        id: 3,
         name: 'DOGE',
         image: '/img/dogefinal.png',
         profit: '5%',
         cost: '7 TON',
         cycle: '24ч',
         earned: '0_ton',
-        potential: '14 ЕЩТ', 
+        potential: '14 ЕЩТ',
         frozen: false,
     },
     {
@@ -369,8 +369,14 @@ async function confirmBuy() {
                             <span class="value text-default">{{ countdownPerPlanet[2] }}</span>
                         </div>
 
+                        <div v-if="card.id === 3 && countdownPerPlanet[3]" class="info-row">
+                            <Clock class="mini-icon text-default" />
+                            <span class="label">{{ $t('next_cycle') }}</span>
+                            <span class="value text-default">{{ countdownPerPlanet[3] }}</span>
+                        </div>
+
                         <button class="start-btn" @click="openModal(card)"
-                            :disabled="(card.id === 1 && !!countdownPerPlanet[1]) || (card.id === 2 && !!countdownPerPlanet[2])">
+                            :disabled="(card.id === 1 && !!countdownPerPlanet[1]) || (card.id === 2 && !!countdownPerPlanet[2]) || (card.id === 3 && !!countdownPerPlanet[3])">
                             <Play class="play-icon" />
                             {{
                                 card.id === 1
@@ -385,7 +391,13 @@ async function confirmBuy() {
                                             : countdownPerPlanet[2]
                                                 ? countdownPerPlanet[2]
                                                 : $t('start')
-                                        : $t('start')
+                                        : card.id === 3
+                                            ? userData?.card_3 !== 1
+                            ? $t('buy')
+                            : countdownPerPlanet[3]
+                            ? countdownPerPlanet[3]
+                            : $t('start')
+                            : $t('start')
                             }}
                         </button>
                     </div>
@@ -395,6 +407,7 @@ async function confirmBuy() {
                     </div>
                 </div>
             </div>
+
 
         </div>
 
