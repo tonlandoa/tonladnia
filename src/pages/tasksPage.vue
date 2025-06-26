@@ -160,6 +160,13 @@ const allTasks = [
         icon: '/img/crazy.jpg',
         pin: true,
         type: 'partner',
+    },
+    {
+        id: 23,
+        link: 'https://t.me/+FbxeGPmuPlUyMzgy',
+        icon: '/img/goblin.jpg',
+        pin: true,
+        type: 'partner',
     }
 ]
 
