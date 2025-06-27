@@ -51,7 +51,7 @@ function getImageById(id: number) {
 
     return imageMap[id] || '/img/common.png'
 }
-/*
+
 function openWithdrawModal(nftId: number, id: number) {
     selectedNftId.value = nftId
     requestId.value = id
@@ -59,7 +59,7 @@ function openWithdrawModal(nftId: number, id: number) {
     isWithdrawn.value = false
     showModal.value = true
 }
-*/
+
 async function withdrawNft() {
     if (!tonAddress.value.trim()) {
         alert(t('please_enter_address'))
@@ -111,9 +111,9 @@ onMounted(fetchMyNFTs)
                 <img :src="getImageById(nft.nft_id)" alt="NFT" class="nft-image" />
                 <div class="nft-info">
                     <p class="nft-label">NFT #{{ nft.nft_id }}</p>
-                    <!--  <button class="withdraw-btn" @click="openWithdrawModal(nft.nft_id, nft.id)">
+                    <button class="withdraw-btn" @click="openWithdrawModal(nft.nft_id, nft.id)">
                         {{ t('withdraw') }}
-                    </button>-->
+                    </button>
                 </div>
             </div>
         </div>
