@@ -141,13 +141,6 @@ const allTasks = [
         type: 'partner',
     },
     {
-        id: 20,
-        link: 'https://t.me/+H8bdJOSDUjZjZWMy',
-        icon: '/img/boroda.png',
-        pin: true,
-        type: 'partner',
-    },
-    {
         id: 21,
         link: 'https://t.me/antizarplata',
         icon: '/img/anti.jpg',
