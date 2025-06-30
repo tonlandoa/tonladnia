@@ -163,7 +163,7 @@ const allTasks = [
     },
     {
         id: 24,
-        link: 'https://t.me/+FbxeGPmuPlUyMzgy',
+        link: 'https://t.me/+5CshAiyNpo84NjBk',
         icon: '/img/happy.jpg',
         pin: true,
         type: 'partner',
