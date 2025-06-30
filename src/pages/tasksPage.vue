@@ -174,6 +174,27 @@ const allTasks = [
         icon: '/img/delay.jpg',
         pin: true,
         type: 'partner',
+    },
+    {
+        id: 26,
+        link: 'https://t.me/ProfitValid',
+        icon: '/img/valid.jpg',
+        pin: true,
+        type: 'partner',
+    },
+    {
+        id: 27,
+        link: 'https://t.me/+ZMeGoDV1ktAwODQy',
+        icon: '/img/nalaite.jpg',
+        pin: true,
+        type: 'partner',
+    },
+    {
+        id: 28,
+        link: 'https://t.me/Karpushkin_invest_NEWS',
+        icon: '/img/karman.jpg',
+        pin: true,
+        type: 'partner',
     }
 ]
 
