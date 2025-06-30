@@ -160,6 +160,20 @@ const allTasks = [
         icon: '/img/goblin.jpg',
         pin: true,
         type: 'partner',
+    },
+    {
+        id: 24,
+        link: 'https://t.me/+FbxeGPmuPlUyMzgy',
+        icon: '/img/happy.jpg',
+        pin: true,
+        type: 'partner',
+    },
+    {
+        id: 25,
+        link: 'https://t.me/sergeyshablevskiiinvestor1977',
+        icon: '/img/delay.jpg',
+        pin: true,
+        type: 'partner',
     }
 ]
 
