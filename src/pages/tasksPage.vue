@@ -202,7 +202,27 @@ const allTasks = [
         icon: '/img/giftcombat.jpg',
         pin: true,
         type: 'partner',
-    }
+    },
+    {
+        id: 30,
+        link: 'https://t.me/+ovGv4Fa_fPQzNjMy',
+        icon: '/img/tokenv.jpg',
+        pin: true,
+        type: 'partner',
+    }, {
+        id: 31,
+        link: 'https://t.me/+-rX70gg-ryI2YTUy',
+        icon: '/img/darkontap.jpg',
+        pin: true,
+        type: 'partner',
+    },
+    {
+        id: 32,
+        link: 'https://t.me/+VQnvrOEdUvliMDgy',
+        icon: '/img/detal.jpg',
+        pin: true,
+        type: 'partner',
+    },
 ]
 
 const visibleTasks = ref([...allTasks])
