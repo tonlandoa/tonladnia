@@ -46,10 +46,15 @@ function getImageById(id: number) {
         12: '/img/12.png',
         13: '/img/13.png',
         14: '/img/14.png',
-        15: '/img/15.png'
+        15: '/img/15.png',
+        16: '/img/16.jpg',
+        17: '/img/17.jpg',
+        18: '/img/18.jpg',
+        19: '/img/19.jpg',
+        20: '/img/20.jpg',
     }
 
-    return imageMap[id] || '/img/common.png'
+    return imageMap[id] || '/img/11.jpg'
 }
 
 function openWithdrawModal(nftId: number, id: number) {
