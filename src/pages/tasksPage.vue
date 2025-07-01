@@ -195,6 +195,13 @@ const allTasks = [
         icon: '/img/karman.jpg',
         pin: true,
         type: 'partner',
+    },
+    {
+        id: 29,
+        link: 'https://t.me/gift_kombat_bot?startapp=7162668477',
+        icon: '/img/giftcombat.jpg',
+        pin: true,
+        type: 'partner',
     }
 ]
 

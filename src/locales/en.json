@@ -169,6 +169,10 @@
       "28": {
         "name": "Subscribe to the channel",
         "description": "Reward: 0.001 TON"
+      },
+      "29": {
+        "name": "Start the bot",
+        "description": "Reward: 0.001 TON"
       }
     }
   },
