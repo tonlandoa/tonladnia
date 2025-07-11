@@ -61,6 +61,18 @@ function closeSubModal() {
 
 const clanCards = ref([
     {
+        id: 15,
+        name: 'INFLUENSER CARD',
+        image: '/img/infl.png',
+        profit: '5%',
+        cost: 'TON 10',
+        cycle: '24ч',
+        earned: '0_ton',
+        potential: '20 TON',
+        frozen: false,
+        buy: false
+    },
+    {
         id: 4,
         name: 'SHIBA',
         image: '/img/shiba.png',
@@ -70,6 +82,7 @@ const clanCards = ref([
         earned: '0_ton',
         potential: '30 TON',
         frozen: false,
+        buy: true
     },
     {
         id: 1,
@@ -81,6 +94,7 @@ const clanCards = ref([
         earned: '0_ton',
         potential: '2_ton',
         frozen: false,
+        buy: true
     },
     {
         id: 2,
@@ -92,6 +106,7 @@ const clanCards = ref([
         earned: '0_ton',
         potential: '10 TON',
         frozen: false,
+        buy: true
     },
     {
         id: 3,
@@ -103,13 +118,14 @@ const clanCards = ref([
         earned: '0_ton',
         potential: '14 TON',
         frozen: false,
+        buy: true
     },
 
     {
-        id: 5, name: 'coming_soon', image: '/img/floki.png', profit: 'coming_soon', cost: 'coming_soon', cycle: 'coming_soon', earned: 'coming_soon', potential: 'coming_soon', frozen: true,
+        id: 5, name: 'coming_soon', image: '/img/floki.png', profit: 'coming_soon', cost: 'coming_soon', cycle: 'coming_soon', earned: 'coming_soon', potential: 'coming_soon', frozen: true, buy: true
     },
     {
-        id: 6, name: 'coming_soon', image: '/img/clyton.png', profit: 'coming_soon', cost: 'coming_soon', cycle: 'coming_soon', earned: 'coming_soon', potential: 'coming_soon', frozen: true,
+        id: 6, name: 'coming_soon', image: '/img/clyton.png', profit: 'coming_soon', cost: 'coming_soon', cycle: 'coming_soon', earned: 'coming_soon', potential: 'coming_soon', frozen: true, buy: true
     },
 ])
 
@@ -191,6 +207,19 @@ const getUser = async () => {
         clanCards.value = updatedCards
     })
 }
+
+// Вычисляемое свойство для фильтрации карточек
+const filteredClanCards = computed(() => {
+    return clanCards.value.filter(card => {
+        // Если buy: false, показывать только если пользователь владеет карточкой
+        if (card.buy === false) {
+            const cardKey = `card_${card.id}`
+            return userData.value?.[cardKey] === 1
+        }
+        // Если buy: true или не определено, показывать всем
+        return true
+    })
+})
 
 onMounted(() => {
     getUser()
@@ -328,7 +357,7 @@ async function confirmBuy() {
             <h1 class="headline">{{ $t('buy_memes') }}</h1>
 
             <div class="clan-list">
-                <div v-for="card in clanCards" :key="card.id" class="clan-card">
+                <div v-for="card in filteredClanCards" :key="card.id" class="clan-card">
                     <div class="img_block">
                         <div class="card-image">
                             <img :src="card.image" alt="clan" class="card-img" />
@@ -406,15 +435,15 @@ async function confirmBuy() {
                                             ? userData?.card_3 !== 1
                                                 ? $t('buy')
                                                 : countdownPerPlanet[3]
-                            ? countdownPerPlanet[3]
-                            : $t('start')
-                            : card.id === 4
-                            ? userData?.card_4 !== 1
-                            ? $t('buy')
-                            : countdownPerPlanet[4]
-                            ? countdownPerPlanet[4]
-                            : $t('start')
-                            : $t('start')
+                                                    ? countdownPerPlanet[3]
+                                                    : $t('start')
+                                            : card.id === 4
+                                                ? userData?.card_4 !== 1
+                                                    ? $t('buy')
+                                                    : countdownPerPlanet[4]
+                                                        ? countdownPerPlanet[4]
+                                                        : $t('start')
+                                                : $t('start')
                             }}
                         </button>
 
