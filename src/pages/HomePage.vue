@@ -416,7 +416,8 @@ async function confirmBuy() {
                         <button class="start-btn" @click="openModal(card)" :disabled="(card.id === 1 && !!countdownPerPlanet[1]) ||
                             (card.id === 2 && !!countdownPerPlanet[2]) ||
                             (card.id === 3 && !!countdownPerPlanet[3]) ||
-                            (card.id === 4 && !!countdownPerPlanet[4])">
+                            (card.id === 4 && !!countdownPerPlanet[4]) ||
+                            (card.id === 15 && !!countdownPerPlanet[15])">
                             <Play class="play-icon" />
                             {{
                                 card.id === 1
@@ -443,9 +444,16 @@ async function confirmBuy() {
                                                     : countdownPerPlanet[4]
                                                         ? countdownPerPlanet[4]
                                                         : $t('start')
-                                                : $t('start')
+                                                : card.id === 15
+                                                    ? userData?.card_15 !== 1
+                                                        ? $t('buy')
+                                                        : countdownPerPlanet[15]
+                                                            ? countdownPerPlanet[15]
+                            : $t('start')
+                            : $t('start')
                             }}
                         </button>
+
 
                     </div>
 
