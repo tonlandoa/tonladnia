@@ -246,9 +246,9 @@ async function openModal(card: any) {
         })
 
         if (res.data.status === 1) {
-            const { time, new_time } = res.data
-            if (time && new_time) {
-                createCountdown(time, new_time, (formatted) => {
+            const { time, new_date } = res.data
+            if (time && new_date) {
+                createCountdown(time, new_date, (formatted) => {
                     countdownPerPlanet.value[card.id] = formatted
                 })
             }
