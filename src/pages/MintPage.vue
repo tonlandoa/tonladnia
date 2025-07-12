@@ -33,11 +33,11 @@ function setLang(lang: string) {
 }
 
 const nftImages = [
-    '/img/16.jpg',
-    '/img/17.jpg',
-    '/img/18.jpg',
-    '/img/19.jpg',
-    '/img/20.jpg'
+    '/img/21.jpg',
+    '/img/22.jpg',
+    '/img/23.jpg',
+    '/img/24.jpg',
+    '/img/25.jpg'
 ]
 
 const revealedNft = ref('')
@@ -63,7 +63,8 @@ async function mintNFT() {
         if (status === 'success') {
             revealedId.value = nft_id
 
-            revealedNft.value = nftImages[nft_id - 16] || nftImages[0]
+            revealedNft.value = nftImages[nft_id - 21] || nftImages[0]
+
 
             nftRevealed.value = true
             showConfetti.value = true
