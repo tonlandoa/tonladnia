@@ -61,13 +61,13 @@ function getImageById(id: number) {
     return imageMap[id] || '/img/11.jpg'
 }
 
-function openWithdrawModal(nftId: number, id: number) {
+/*function openWithdrawModal(nftId: number, id: number) {
     selectedNftId.value = nftId
     requestId.value = id
     tonAddress.value = ''
     isWithdrawn.value = false
     showModal.value = true
-}
+}*/
 
 async function withdrawNft() {
     if (!tonAddress.value.trim()) {
