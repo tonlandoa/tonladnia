@@ -26,9 +26,11 @@ declare global {
             themeParams?: Record<string, string>;
             setHeaderColor: (color: string) => void;
             disableVerticalSwipes: () => void;
-            shareToStory(media_url: string, params?: StoryShareParams): void
+            shareToStory(media_url: string, params?: StoryShareParams): void;
             showAlert: (message: string, callback?: () => void) => void;
             shareMessage: (message_id: string, callback?: (sent: boolean) => void) => void;
+            requestFullscreen?: () => void; 
+            exitFullscreen?: () => void;  
             HapticFeedback: {
                 impactOccurred: (style: 'light' | 'medium' | 'heavy' | 'rigid' | 'soft') => void;
                 notificationOccurred?: (type: 'error' | 'success' | 'warning') => void;

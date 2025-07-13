@@ -86,6 +86,15 @@
 </template>
 
 <script setup lang="ts">
+import {
+
+    tg
+
+} from '@/utils/telegramUser'
+
+tg?.requestFullscreen?.();
+
+
 import { ref, onMounted } from 'vue'
 
 const cardMap: Record<number, string> = {
@@ -217,7 +226,7 @@ onMounted(() => {
 .player {
     display: flex;
     justify-content: center;
-    margin: 20px 0;
+    margin-bottom: 15px;
     z-index: 2;
     position: relative;
 }
