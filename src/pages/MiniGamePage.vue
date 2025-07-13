@@ -1,18 +1,7 @@
 <template>
     <div class="game-container">
-        <!-- ВРАГ -->
-        <div style="margin-top: 90px;" class="player opponent">
-            <div class="player-info">
-                <div class="nickname">Enemy</div>
-                <div class="hp-display">
-                    <div class="hp-icon">❤️</div>
-                    <div class="hp-number">{{ opponentHP }}</div>
-                </div>
-            </div>
-        </div>
-
         <!-- Рука противника -->
-        <div class="hand-row top-hand">
+        <div style="margin-top: 95px;" class="hand-row top-hand">
             <div class="card enemy-card" v-for="(card, i) in enemyHand" :key="card + i"
                 :class="{ hidden: card === enemyCard }">
                 <div class="card-back">
@@ -24,50 +13,55 @@
 
         <!-- Игровое поле -->
         <div class="battlefield">
-            <div class="battle-zone" v-if="enemyCard || playerCard">
-                <div class="battle-cards-container" v-if="enemyCard || playerCard">
-                    <transition name="slide-down">
-                        <div v-if="enemyCard" class="battle-card-wrapper">
-                            <div class="battle-card enemy-battle">
-                                <img :src="enemyCard" />
-                                <div class="card-shine"></div>
+            <div class="battle-zone">
+                <div class="battle-cards-container">
+                    <!-- Враг -->
+                    <div class="card-with-hp">
+                        <transition name="slide-down">
+                            <div v-if="enemyCard" class="battle-card-wrapper">
+                                <div class="battle-card enemy-battle">
+                                    <img :src="enemyCard" />
+                                    <div class="card-shine"></div>
+                                </div>
                             </div>
-                        </div>
-                    </transition>
+                        </transition>
+                        <div class="hp-box">❤️ {{ opponentHP }}</div>
+                    </div>
 
                     <div class="vs-divider">VS</div>
 
-                    <transition name="slide-up">
-                        <div v-if="playerCard" class="battle-card-wrapper">
-                            <div class="battle-card player-battle">
-                                <img :src="playerCard" />
-                                <div class="card-shine"></div>
+                    <!-- Игрок -->
+                    <div class="card-with-hp">
+                        <transition name="slide-up">
+                            <div v-if="playerCard" class="battle-card-wrapper">
+                                <div class="battle-card player-battle">
+                                    <img :src="playerCard" />
+                                    <div class="card-shine"></div>
+                                </div>
                             </div>
-                        </div>
-                    </transition>
+                        </transition>
+                        <div class="hp-box">❤️ {{ playerHP }}</div>
+                    </div>
                 </div>
             </div>
 
+            <!-- Результат -->
             <transition name="fade-scale">
                 <div v-if="showResult" class="result-message">
                     <div class="result-content">
-                        <div class="result-icon">{{ resultMessage.includes('WIN') ? '🎉' :
-                            resultMessage.includes('LOSE') ? '😢' : '🤝' }}</div>
+                        <div class="result-icon">
+                            {{
+                                resultMessage.includes('WIN')
+                                    ? '🎉'
+                                    : resultMessage.includes('LOSE')
+                                        ? '😢'
+                            : '🤝'
+                            }}
+                        </div>
                         <div class="result-text">{{ resultMessage }}</div>
                     </div>
                 </div>
             </transition>
-        </div>
-
-        <!-- ИГРОК -->
-        <div class="player self">
-            <div class="player-info">
-                <div class="nickname">Me</div>
-                <div class="hp-display">
-                    <div class="hp-icon">❤️</div>
-                    <div class="hp-number">{{ playerHP }}</div>
-                </div>
-            </div>
         </div>
 
         <!-- Рука игрока -->
@@ -84,131 +78,6 @@
         </div>
     </div>
 </template>
-
-<script setup lang="ts">
-import {
-
-    tg
-
-} from '@/utils/telegramUser'
-
-tg?.requestFullscreen?.();
-
-
-import { ref, onMounted } from 'vue'
-
-const cardMap: Record<number, string> = {
-    6: '/img/6.png', 7: '/img/7.png', 8: '/img/8.png', 9: '/img/9.png',
-    10: '/img/10.png', 11: '/img/11.png', 12: '/img/12.png', 13: '/img/13.png',
-    14: '/img/14.png', 15: '/img/15.png', 16: '/img/16.jpg', 17: '/img/17.jpg',
-    18: '/img/18.jpg', 19: '/img/19.jpg', 20: '/img/20.jpg', 21: '/img/21.jpg',
-    22: '/img/22.jpg', 23: '/img/23.jpg', 24: '/img/24.jpg', 25: '/img/25.jpg',
-}
-const cardPaths = Object.values(cardMap)
-
-const playerHP = ref(100)
-const opponentHP = ref(100)
-
-const playerHand = ref<string[]>([])
-const enemyHand = ref<string[]>([])
-
-const playerCard = ref<string | null>(null)
-const enemyCard = ref<string | null>(null)
-
-const canPlay = ref(false)
-const showResult = ref(false)
-const resultMessage = ref('')
-
-function getCardValue(card: string): number {
-    const match = card.match(/\/(\d+)\.(png|jpg)$/)
-    return match ? parseInt(match[1]) : 0
-}
-
-function getRandomCards(count: number): string[] {
-    return [...cardPaths].sort(() => 0.5 - Math.random()).slice(0, count)
-}
-
-function startRound() {
-    const cards = getRandomCards(8)
-    playerHand.value = cards.slice(0, 4)
-    enemyHand.value = cards.slice(4, 8)
-    playerCard.value = null
-    enemyCard.value = null
-    resultMessage.value = ''
-    showResult.value = false
-    canPlay.value = false
-
-    setTimeout(() => {
-        enemyMove()
-    }, 2000)
-}
-
-function enemyMove() {
-    const randomIndex = Math.floor(Math.random() * enemyHand.value.length)
-    enemyCard.value = enemyHand.value[randomIndex]
-    canPlay.value = true
-}
-
-function handlePlay(card: string, index: number) {
-    if (!canPlay.value) return
-
-    playerCard.value = card
-    playerHand.value.splice(index, 1)
-    canPlay.value = false
-
-    setTimeout(() => {
-        const playerValue = getCardValue(playerCard.value!)
-        const enemyValue = getCardValue(enemyCard.value!)
-
-        if (playerValue > enemyValue) {
-            resultMessage.value = 'YOU WIN!'
-            opponentHP.value = Math.max(opponentHP.value - 25, 0)
-        } else if (playerValue < enemyValue) {
-            resultMessage.value = 'YOU LOSE!'
-            playerHP.value = Math.max(playerHP.value - 25, 0)
-        } else {
-            resultMessage.value = 'DRAW!'
-        }
-
-        showResult.value = true
-
-        setTimeout(() => {
-            // удалить карту врага ТОЛЬКО после анимации
-            if (enemyCard.value) {
-                const idx = enemyHand.value.indexOf(enemyCard.value)
-                if (idx !== -1) enemyHand.value.splice(idx, 1)
-            }
-
-            playerCard.value = null
-            enemyCard.value = null
-            showResult.value = false
-
-            if (playerHand.value.length === 0 && enemyHand.value.length === 0) {
-                if (playerHP.value > opponentHP.value) {
-                    resultMessage.value = 'YOU WIN THE ROUND!'
-                } else if (playerHP.value < opponentHP.value) {
-                    resultMessage.value = 'YOU LOSE THE ROUND!'
-                } else {
-                    resultMessage.value = 'DRAW ROUND!'
-                }
-
-                showResult.value = true
-                setTimeout(() => {
-                    startRound()
-                }, 3000)
-            } else {
-                setTimeout(() => {
-                    enemyMove()
-                }, 2000)
-            }
-        }, 2000)
-    }, 1000)
-}
-
-onMounted(() => {
-    startRound()
-})
-</script>
 
 <style scoped>
 .game-container {
@@ -589,4 +458,151 @@ onMounted(() => {
         font-size: 20px;
     }
 }
+
+.card-with-hp {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.hp-box {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    padding: 6px 14px;
+    font-weight: 700;
+    font-size: 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
 </style>
+<script setup lang="ts">
+import {
+
+    tg
+
+} from '@/utils/telegramUser'
+
+
+
+
+import { ref, onMounted } from 'vue'
+
+const cardMap: Record<number, string> = {
+    6: '/img/6.png', 7: '/img/7.png', 8: '/img/8.png', 9: '/img/9.png',
+    10: '/img/10.png', 11: '/img/11.png', 12: '/img/12.png', 13: '/img/13.png',
+    14: '/img/14.png', 15: '/img/15.png', 16: '/img/16.jpg', 17: '/img/17.jpg',
+    18: '/img/18.jpg', 19: '/img/19.jpg', 20: '/img/20.jpg', 21: '/img/21.jpg',
+    22: '/img/22.jpg', 23: '/img/23.jpg', 24: '/img/24.jpg', 25: '/img/25.jpg',
+}
+const cardPaths = Object.values(cardMap)
+
+const playerHP = ref(100)
+const opponentHP = ref(100)
+
+const playerHand = ref<string[]>([])
+const enemyHand = ref<string[]>([])
+
+const playerCard = ref<string | null>(null)
+const enemyCard = ref<string | null>(null)
+
+const canPlay = ref(false)
+const showResult = ref(false)
+const resultMessage = ref('')
+
+function getCardValue(card: string): number {
+    const match = card.match(/\/(\d+)\.(png|jpg)$/)
+    return match ? parseInt(match[1]) : 0
+}
+
+function getRandomCards(count: number): string[] {
+    return [...cardPaths].sort(() => 0.5 - Math.random()).slice(0, count)
+}
+
+function startRound() {
+    const cards = getRandomCards(8)
+    playerHand.value = cards.slice(0, 4)
+    enemyHand.value = cards.slice(4, 8)
+    playerCard.value = null
+    enemyCard.value = null
+    resultMessage.value = ''
+    showResult.value = false
+    canPlay.value = false
+
+    setTimeout(() => {
+        enemyMove()
+    }, 2000)
+}
+
+function enemyMove() {
+    const randomIndex = Math.floor(Math.random() * enemyHand.value.length)
+    enemyCard.value = enemyHand.value[randomIndex]
+    canPlay.value = true
+}
+
+function handlePlay(card: string, index: number) {
+    if (!canPlay.value) return
+
+    playerCard.value = card
+    playerHand.value.splice(index, 1)
+    canPlay.value = false
+
+    setTimeout(() => {
+        const playerValue = getCardValue(playerCard.value!)
+        const enemyValue = getCardValue(enemyCard.value!)
+
+        if (playerValue > enemyValue) {
+            resultMessage.value = 'YOU WIN!'
+            opponentHP.value = Math.max(opponentHP.value - 25, 0)
+        } else if (playerValue < enemyValue) {
+            resultMessage.value = 'YOU LOSE!'
+            playerHP.value = Math.max(playerHP.value - 25, 0)
+        } else {
+            resultMessage.value = 'DRAW!'
+        }
+
+        showResult.value = true
+
+        setTimeout(() => {
+            // удалить карту врага ТОЛЬКО после анимации
+            if (enemyCard.value) {
+                const idx = enemyHand.value.indexOf(enemyCard.value)
+                if (idx !== -1) enemyHand.value.splice(idx, 1)
+            }
+
+            playerCard.value = null
+            enemyCard.value = null
+            showResult.value = false
+
+            if (playerHand.value.length === 0 && enemyHand.value.length === 0) {
+                if (playerHP.value > opponentHP.value) {
+                    resultMessage.value = 'YOU WIN THE ROUND!'
+                } else if (playerHP.value < opponentHP.value) {
+                    resultMessage.value = 'YOU LOSE THE ROUND!'
+                } else {
+                    resultMessage.value = 'DRAW ROUND!'
+                }
+
+                showResult.value = true
+                setTimeout(() => {
+                    startRound()
+                }, 3000)
+            } else {
+                setTimeout(() => {
+                    enemyMove()
+                }, 2000)
+            }
+        }, 2000)
+    }, 1000)
+}
+
+//tg?.requestFullscreen?.();
+
+onMounted(() => {
+    startRound()
+
+})
+</script>
