@@ -1,7 +1,7 @@
 <template>
     <div class="game-container">
         <!-- Рука противника -->
-        <div style="margin-top: 95px;" class="hand-row top-hand">
+        <div style="margin-top: 105px;" class="hand-row top-hand">
             <div class="card enemy-card" v-for="(card, i) in enemyHand" :key="card + i"
                 :class="{ hidden: card === enemyCard }">
                 <div class="card-back">
