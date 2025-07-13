@@ -1,7 +1,7 @@
 <template>
     <div class="game-container">
         <!-- ВРАГ -->
-        <div class="player opponent">
+        <div style="margin-top: 90px;" class="player opponent">
             <div class="player-info">
                 <div class="nickname">Enemy</div>
                 <div class="hp-display">
@@ -232,7 +232,6 @@ onMounted(() => {
 }
 
 .player-info {
-    margin-top: 88px;
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.2);
