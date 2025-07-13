@@ -55,7 +55,7 @@
                                     ? '🎉'
                                     : resultMessage.includes('LOSE')
                                         ? '😢'
-                            : '🤝'
+                                        : '🤝'
                             }}
                         </div>
                         <div class="result-text">{{ resultMessage }}</div>
@@ -599,7 +599,7 @@ function handlePlay(card: string, index: number) {
     }, 1000)
 }
 
-//tg?.requestFullscreen?.();
+tg?.requestFullscreen?.();
 
 onMounted(() => {
     startRound()
