@@ -1,415 +1,584 @@
-<script setup lang="ts">
-import { Swords, Heart, Zap, Star, Shield } from 'lucide-vue-next'
-
-const playerCards = [
-    { name: 'GOLD', image: '7.png', rarity: 'Legendary', color: '#facc15', attack: 90 },
-    { name: 'COMMON', image: '10.png', rarity: 'Epic', color: '#ef4444', attack: 75 },
-    { name: 'EPIC', image: '9.png', rarity: 'Rare', color: '#f59e0b', attack: 60 },
-]
-
-const enemyCards = [
-    { name: 'LEGENDARY', image: '8.png', rarity: 'Epic', color: '#60a5fa', attack: 72 },
-    { name: 'DIAMOND', image: '9.png', rarity: 'Epic', color: '#ef4444', attack: 68 },
-    { name: 'EPIC', image: 'common.png', rarity: 'Common', color: '#a78bfa', attack: 50 },
-]
-</script>
-
 <template>
-    <div class="pvp-page">
-        <!-- Верхний игрок -->
-        <div class="player-header enemy">
+    <div class="game-container">
+        <!-- ВРАГ -->
+        <div class="player opponent">
             <div class="player-info">
-                <div class="avatar-wrapper">
-                    <img src="/img/floki.png" class="avatar" />
-                    <div class="level-badge">Lv.42</div>
-                </div>
-                <div class="name-wrapper">
-                    <div class="name">Enemy</div>
-                    <div class="status">
-                        <Zap class="icon" />
-                        <span>Online</span>
-                    </div>
-                </div>
-            </div>
-            <div class="player-health">
-               
-                <div class="health-value">
-                    <Heart class="icon" /> 100 HP
+                <div class="nickname">Enemy</div>
+                <div class="hp-display">
+                    <div class="hp-icon">❤️</div>
+                    <div class="hp-number">{{ opponentHP }}</div>
                 </div>
             </div>
         </div>
 
-        <!-- Карты противника -->
-        <div class="cards-row enemy-cards">
-            <div v-for="card in enemyCards" :key="card.name" class="card" :style="{ '--card-color': card.color }">
-                <div class="card-rarity" :class="card.rarity.toLowerCase()">
-                    <Star class="icon" v-if="card.rarity === 'Legendary'" />
-                    <Shield class="icon" v-else-if="card.rarity === 'Epic'" />
-                    <span v-else>{{ card.rarity }}</span>
-                </div>
-                <div class="card-image-wrapper">
-                    <img :src="'/img/' + card.image" class="card-img" />
-                </div>
-                <div class="card-title">{{ card.name }}</div>
-                <div class="card-stats">
-                    <div class="card-attack">
-                        <Swords class="icon" /> {{ card.attack }}
-                    </div>
+        <!-- Рука противника -->
+        <div class="hand-row top-hand">
+            <div class="card enemy-card" v-for="(card, i) in enemyHand" :key="card + i"
+                :class="{ hidden: card === enemyCard }">
+                <div class="card-back">
+                    <div class="card-back-pattern"></div>
+                    <div class="card-back-symbol">⚔️</div>
                 </div>
             </div>
         </div>
 
-        <!-- Поле -->
+        <!-- Игровое поле -->
         <div class="battlefield">
-            <div class="vs-circle">
-                <div class="vs-text">VS</div>
-            </div>
-        </div>
+            <div class="battle-zone" v-if="enemyCard || playerCard">
+                <div class="battle-cards-container" v-if="enemyCard || playerCard">
+                    <transition name="slide-down">
+                        <div v-if="enemyCard" class="battle-card-wrapper">
+                            <div class="battle-card enemy-battle">
+                                <img :src="enemyCard" />
+                                <div class="card-shine"></div>
+                            </div>
+                        </div>
+                    </transition>
 
-        <!-- Карты игрока -->
-        <div class="cards-row player-cards">
-            <div v-for="card in playerCards" :key="card.name" class="card" :style="{ '--card-color': card.color }">
-                <div class="card-rarity" :class="card.rarity.toLowerCase()">
-                    <Star class="icon" v-if="card.rarity === 'Legendary'" />
-                    <Shield class="icon" v-else-if="card.rarity === 'Epic'" />
-                    <span v-else>{{ card.rarity }}</span>
+                    <div class="vs-divider">VS</div>
+
+                    <transition name="slide-up">
+                        <div v-if="playerCard" class="battle-card-wrapper">
+                            <div class="battle-card player-battle">
+                                <img :src="playerCard" />
+                                <div class="card-shine"></div>
+                            </div>
+                        </div>
+                    </transition>
                 </div>
-                <div class="card-image-wrapper">
-                    <img :src="'/img/' + card.image" class="card-img" />
-                </div>
-                <div class="card-title">{{ card.name }}</div>
-                <div class="card-stats">
-                    <div class="card-attack">
-                        <Swords class="icon" /> {{ card.attack }}
+            </div>
+
+            <transition name="fade-scale">
+                <div v-if="showResult" class="result-message">
+                    <div class="result-content">
+                        <div class="result-icon">{{ resultMessage.includes('WIN') ? '🎉' :
+                            resultMessage.includes('LOSE') ? '😢' : '🤝' }}</div>
+                        <div class="result-text">{{ resultMessage }}</div>
                     </div>
                 </div>
-            </div>
+            </transition>
         </div>
 
-        <!-- Нижний игрок -->
-        <div class="player-header player">
+        <!-- ИГРОК -->
+        <div class="player self">
             <div class="player-info">
-                <div class="avatar-wrapper">
-                    <img src="/img/doge.png" class="avatar" />
-                    <div class="level-badge">Lv.37</div>
-                </div>
-                <div class="name-wrapper">
-                    <div class="name">You</div>
-                    <div class="status">
-                        <Zap class="icon" />
-                        <span>Online</span>
-                    </div>
+                <div class="nickname">Me</div>
+                <div class="hp-display">
+                    <div class="hp-icon">❤️</div>
+                    <div class="hp-number">{{ playerHP }}</div>
                 </div>
             </div>
-            <div class="player-health">
-              
-                <div class="health-value">
-                    <Heart class="icon" /> 100 HP
+        </div>
+
+        <!-- Рука игрока -->
+        <div class="hand-row bottom-hand">
+            <div class="card player-card" v-for="(card, index) in playerHand" :key="card + index"
+                :class="{ disabled: !canPlay, hidden: card === playerCard }"
+                @click="canPlay && handlePlay(card, index)">
+                <div class="card-inner">
+                    <img :src="card" />
+                    <div class="card-border"></div>
+                    <div class="card-hover-effect"></div>
                 </div>
             </div>
         </div>
     </div>
 </template>
 
+<script setup lang="ts">
+import { ref, onMounted } from 'vue'
+
+const cardMap: Record<number, string> = {
+    6: '/img/6.png', 7: '/img/7.png', 8: '/img/8.png', 9: '/img/9.png',
+    10: '/img/10.png', 11: '/img/11.png', 12: '/img/12.png', 13: '/img/13.png',
+    14: '/img/14.png', 15: '/img/15.png', 16: '/img/16.jpg', 17: '/img/17.jpg',
+    18: '/img/18.jpg', 19: '/img/19.jpg', 20: '/img/20.jpg', 21: '/img/21.jpg',
+    22: '/img/22.jpg', 23: '/img/23.jpg', 24: '/img/24.jpg', 25: '/img/25.jpg',
+}
+const cardPaths = Object.values(cardMap)
+
+const playerHP = ref(100)
+const opponentHP = ref(100)
+
+const playerHand = ref<string[]>([])
+const enemyHand = ref<string[]>([])
+
+const playerCard = ref<string | null>(null)
+const enemyCard = ref<string | null>(null)
+
+const canPlay = ref(false)
+const showResult = ref(false)
+const resultMessage = ref('')
+
+function getCardValue(card: string): number {
+    const match = card.match(/\/(\d+)\.(png|jpg)$/)
+    return match ? parseInt(match[1]) : 0
+}
+
+function getRandomCards(count: number): string[] {
+    return [...cardPaths].sort(() => 0.5 - Math.random()).slice(0, count)
+}
+
+function startRound() {
+    const cards = getRandomCards(8)
+    playerHand.value = cards.slice(0, 4)
+    enemyHand.value = cards.slice(4, 8)
+    playerCard.value = null
+    enemyCard.value = null
+    resultMessage.value = ''
+    showResult.value = false
+    canPlay.value = false
+
+    setTimeout(() => {
+        enemyMove()
+    }, 2000)
+}
+
+function enemyMove() {
+    const randomIndex = Math.floor(Math.random() * enemyHand.value.length)
+    enemyCard.value = enemyHand.value[randomIndex]
+    canPlay.value = true
+}
+
+function handlePlay(card: string, index: number) {
+    if (!canPlay.value) return
+
+    playerCard.value = card
+    playerHand.value.splice(index, 1)
+    canPlay.value = false
+
+    setTimeout(() => {
+        const playerValue = getCardValue(playerCard.value!)
+        const enemyValue = getCardValue(enemyCard.value!)
+
+        if (playerValue > enemyValue) {
+            resultMessage.value = 'YOU WIN!'
+            opponentHP.value = Math.max(opponentHP.value - 25, 0)
+        } else if (playerValue < enemyValue) {
+            resultMessage.value = 'YOU LOSE!'
+            playerHP.value = Math.max(playerHP.value - 25, 0)
+        } else {
+            resultMessage.value = 'DRAW!'
+        }
+
+        showResult.value = true
+
+        setTimeout(() => {
+            // удалить карту врага ТОЛЬКО после анимации
+            if (enemyCard.value) {
+                const idx = enemyHand.value.indexOf(enemyCard.value)
+                if (idx !== -1) enemyHand.value.splice(idx, 1)
+            }
+
+            playerCard.value = null
+            enemyCard.value = null
+            showResult.value = false
+
+            if (playerHand.value.length === 0 && enemyHand.value.length === 0) {
+                if (playerHP.value > opponentHP.value) {
+                    resultMessage.value = 'YOU WIN THE ROUND!'
+                } else if (playerHP.value < opponentHP.value) {
+                    resultMessage.value = 'YOU LOSE THE ROUND!'
+                } else {
+                    resultMessage.value = 'DRAW ROUND!'
+                }
+
+                showResult.value = true
+                setTimeout(() => {
+                    startRound()
+                }, 3000)
+            } else {
+                setTimeout(() => {
+                    enemyMove()
+                }, 2000)
+            }
+        }, 2000)
+    }, 1000)
+}
+
+onMounted(() => {
+    startRound()
+})
+</script>
+
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+.game-container {
 
-.pvp-page {
-    background: linear-gradient(to bottom, #1a133a, #2e1a47);
     min-height: 100vh;
+    padding: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     color: white;
-    font-family: 'Rubik', sans-serif;
-    max-width: 480px;
-    margin: auto;
-    padding: 20px 12px 40px;
     position: relative;
-    overflow: hidden;
 }
 
-.pvp-page::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 100%;
-    background: radial-gradient(circle at center, rgba(147, 51, 234, 0.1) 0%, transparent 70%);
-    pointer-events: none;
-}
 
-.player-header {
+
+.player {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 16px;
-    border-radius: 12px;
-    margin: 14px 0;
-    position: relative;
+    justify-content: center;
+    margin: 20px 0;
     z-index: 2;
-}
-
-.player-header.enemy {
-    background: rgba(96, 165, 250, 0.1);
-    border: 1px solid rgba(96, 165, 250, 0.3);
-}
-
-.player-header.player {
-    background: rgba(250, 204, 21, 0.1);
-    border: 1px solid rgba(250, 204, 21, 0.3);
+    position: relative;
 }
 
 .player-info {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 16px 24px;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
-.avatar-wrapper {
-    position: relative;
-}
-
-.avatar {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    border: 2px solid #a78bfa;
-    object-fit: cover;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-.level-badge {
-    position: absolute;
-    bottom: -6px;
-    right: -6px;
-    background: #9333ea;
+.nickname {
+    font-size: 18px;
+    font-weight: 600;
     color: white;
-    font-size: 10px;
-    font-weight: bold;
-    padding: 2px 6px;
-    border-radius: 10px;
-    border: 1px solid #a78bfa;
 }
 
-.name-wrapper {
+.hp-display {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 8px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.name {
-    font-weight: 700;
+.hp-icon {
     font-size: 16px;
 }
 
-.status {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 12px;
-    color: #4ade80;
-    margin-top: 2px;
-}
-
-.status .icon {
-    color: #4ade80;
-}
-
-.player-health {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 6px;
-}
-
-.health-bar {
-    width: 120px;
-    height: 6px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 3px;
-    overflow: hidden;
-}
-
-.player-header.enemy .health-fill {
-    background: linear-gradient(to right, #60a5fa, #3b82f6);
-}
-
-.player-header.player .health-fill {
-    background: linear-gradient(to right, #facc15, #f59e0b);
-}
-
-.health-value {
-    display: flex;
-    align-items: center;
-    font-size: 14px;
-    gap: 6px;
-    font-weight: 600;
-}
-
-.player-header.enemy .health-value {
-    color: #60a5fa;
-}
-
-.player-header.player .health-value {
-    color: #facc15;
-}
-
-.cards-row {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin: 20px 0;
-    flex-wrap: wrap;
-}
-
-.enemy-cards {
-    margin-bottom: 40px;
-}
-
-.player-cards {
-    margin-top: 40px;
-}
-
-.card {
-    background: #1f1b35;
-    border-radius: 16px;
-    padding: 8px;
-    width: 100px;
+.hp-number {
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+    min-width: 32px;
     text-align: center;
+}
+
+.battlefield {
     position: relative;
-    overflow: hidden;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-    transition: transform 0.2s;
-    border: 1px solid var(--card-color);
-}
-
-.card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: var(--card-color);
-}
-
-.card:hover {
-    transform: translateY(-5px);
-}
-
-.card-rarity {
-    position: absolute;
-    top: 8px;
-    left: 8px;
-    font-size: 10px;
-    font-weight: bold;
-    padding: 2px 6px;
-    border-radius: 10px;
+    min-height: 280px;
     display: flex;
     align-items: center;
-    gap: 4px;
+    justify-content: center;
+    z-index: 2;
 }
 
-.card-rarity.common {
-    background: rgba(167, 139, 250, 0.2);
-    color: #a78bfa;
-    border: 1px solid #a78bfa;
+.battle-zone {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
-.card-rarity.rare {
-    background: rgba(245, 158, 11, 0.2);
-    color: #f59e0b;
-    border: 1px solid #f59e0b;
+.battle-cards-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
 }
 
-.card-rarity.epic {
-    background: rgba(239, 68, 68, 0.2);
-    color: #ef4444;
-    border: 1px solid #ef4444;
+.vs-divider {
+    font-size: 20px;
+    font-weight: 800;
+    color: white;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    padding: 0 16px;
 }
 
-.card-rarity.legendary {
-    background: rgba(250, 204, 21, 0.2);
-    color: #facc15;
-    border: 1px solid #facc15;
+.battle-card-wrapper {
+    position: relative;
 }
 
-.card-image-wrapper {
-    width: 84px;
-    height: 84px;
-    margin: 0 auto;
-    border-radius: 10px;
+.battle-card {
+    width: 110px;
+    height: 154px;
+    border-radius: 16px;
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.3);
+    position: relative;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+    border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
-.card-img {
+.battle-card img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.card-title {
-    font-weight: 600;
-    margin-top: 8px;
-    font-size: 14px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.card-stats {
-    margin-top: 8px;
-}
-
-.card-attack {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    color: #facc15;
-    gap: 4px;
-    font-weight: 600;
-}
-
-.battlefield {
-    position: relative;
-    height: 60px;
-    margin: 20px 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.vs-circle {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: rgba(147, 51, 234, 0.2);
-    border: 2px solid #9333ea;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    z-index: 2;
-}
-
-.vs-text {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 18px;
-    font-weight: bold;
-    color: #9333ea;
-    text-shadow: 0 0 8px rgba(147, 51, 234, 0.5);
-}
-
-.battlefield::before {
-    content: "";
+.card-shine {
     position: absolute;
-    top: 50%;
+    top: 0;
     left: 0;
     right: 0;
-    height: 1px;
-    background: linear-gradient(to right, transparent, #9333ea, transparent);
-    transform: translateY(-50%);
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.2) 50%, transparent 70%);
+    animation: shine 2s ease-in-out infinite;
+}
+
+@keyframes shine {
+
+    0%,
+    100% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+.hand-row {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    z-index: 2;
+    position: relative;
+}
+
+.card {
+    width: 90px;
+    height: 144px;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+}
+
+.card:hover {
+    transform: translateY(-12px) scale(1.05);
+    z-index: 10;
+}
+
+.card.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+    filter: grayscale(0.8);
+}
+
+.card.hidden {
+    visibility: hidden;
+}
+
+.card-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: 14px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.card-inner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-border {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 14px;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.card:hover .card-border {
+    border-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+}
+
+.card-hover-effect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.card:hover .card-hover-effect {
+    opacity: 1;
+}
+
+.card-back {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+    border-radius: 14px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-back-pattern {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.15'%3E%3Cpath d='M15 15m-4 0a4 4 0 1 1 8 0a4 4 0 1 1-8 0'/%3E%3C/g%3E%3C/svg%3E") repeat;
+}
+
+.card-back-symbol {
+    font-size: 24px;
+    z-index: 2;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.result-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+}
+
+.result-content {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    padding: 24px 32px;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #1d1d1f;
+}
+
+.result-icon {
+    font-size: 32px;
+}
+
+.result-text {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1d1d1f;
+}
+
+/* Анимации */
+.slide-down-enter-active {
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.slide-down-enter-from {
+    opacity: 0;
+    transform: translateY(-80px) scale(0.8);
+}
+
+.slide-down-leave-active {
+    transition: all 0.4s ease-in;
+}
+
+.slide-down-leave-to {
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+.slide-up-enter-active {
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.slide-up-enter-from {
+    opacity: 0;
+    transform: translateY(80px) scale(0.8);
+}
+
+.slide-up-leave-active {
+    transition: all 0.4s ease-in;
+}
+
+.slide-up-leave-to {
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+.fade-scale-enter-active {
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.fade-scale-enter-from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.7);
+}
+
+.fade-scale-leave-active {
+    transition: all 0.3s ease-in;
+}
+
+.fade-scale-leave-to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.9);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .game-container {
+        padding: 16px;
+    }
+
+    .player-info {
+        padding: 12px 20px;
+        gap: 12px;
+    }
+
+    .nickname {
+        font-size: 16px;
+    }
+
+    .hp-display {
+        padding: 6px 12px;
+    }
+
+    .hp-number {
+        font-size: 14px;
+    }
+
+    .battle-zone {
+        padding: 24px;
+    }
+
+    .battle-cards-container {
+        gap: 16px;
+    }
+
+
+
+
+    .hand-row {
+        gap: 12px;
+    }
+
+    .result-content {
+        padding: 20px 24px;
+    }
+
+    .result-icon {
+        font-size: 28px;
+    }
+
+    .result-text {
+        font-size: 20px;
+    }
 }
 </style>

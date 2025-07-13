@@ -58,6 +58,9 @@ function closeSubModal() {
 }
 
 
+if (startParam == 'MiniGameGo0123') {
+    location.href = '/minigame';
+}
 
 const clanCards = ref([
     {
