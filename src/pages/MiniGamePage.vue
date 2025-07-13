@@ -203,7 +203,7 @@ onMounted(() => {
 
 <style scoped>
 .game-container {
-    padding-bottom: 130px;
+    padding-bottom: 330px;
     min-height: 100vh;
     padding: 20px;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
