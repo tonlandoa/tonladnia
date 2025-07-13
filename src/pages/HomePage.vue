@@ -133,6 +133,9 @@ const clanCards = ref([
     {
         id: 7, name: 'coming_soon', image: '/img/tonzilla.png', profit: 'coming_soon', cost: 'coming_soon', cycle: 'coming_soon', earned: 'coming_soon', potential: 'coming_soon', frozen: true, buy: true
     },
+    {
+        id: 8, name: 'coming_soon', image: '/img/ping.png', profit: 'coming_soon', cost: 'coming_soon', cycle: 'coming_soon', earned: 'coming_soon', potential: 'coming_soon', frozen: true, buy: true
+    },
 ])
 
 const textVariants = computed(() => [
