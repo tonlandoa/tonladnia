@@ -223,6 +223,13 @@ const allTasks = [
         pin: true,
         type: 'partner',
     },
+    {
+        id: 33,
+        link: 'https://t.me/cryptodaysandnight',
+        icon: '/img/crypto.jpg',
+        pin: true,
+        type: 'partner',
+    },
 ]
 
 const visibleTasks = ref([...allTasks])
