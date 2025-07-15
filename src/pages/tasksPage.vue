@@ -230,6 +230,13 @@ const allTasks = [
         pin: true,
         type: 'partner',
     },
+    {
+        id: 34,
+        link: 'https://t.me/pervuibitcoin',
+        icon: '/img/solo.jpg',
+        pin: true,
+        type: 'partner',
+    },
 ]
 
 const visibleTasks = ref([...allTasks])
