@@ -1,129 +1,58 @@
 <template>
-  <router-view />
-
-  <nav class="bottom-nav">
-    <router-link
-      v-for="item in menuItems"
-      :key="item.to"
-      :to="item.to"
-      class="nav-item"
-      active-class="active"
-    >
-      <div class="icon-wrapper">
-        <component :is="item.icon" class="nav-icon" />
-        <span v-if="item.to === '/tasks'" class="badge-new">NEW</span>
-      </div>
-      <span class="nav-label">{{ item.label }}</span>
-    </router-link>
-  </nav>
+  <div class="wrapper">
+    <div class="card">
+      <p>Приложение обновлено, для перехода нажмите кнопку</p>
+      <p>The app has been updated. Click the button to continue</p>
+      <button @click="openApp">Открыть приложение</button>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-import {
-  Home,
-  Wallet,
-  Users,
-  Table,
-  Image
-} from 'lucide-vue-next'
-
-import { computed, onBeforeUnmount, onMounted } from 'vue'
-import { useI18n } from 'vue-i18n'
-
-const { t } = useI18n()
-
-const tg = window.Telegram.WebApp;
-tg.expand();
-tg.setHeaderColor('#2d1d56');
-tg.disableVerticalSwipes();
-
-function onHapticTap(e: MouseEvent | TouchEvent) {
-  const target = e.target as HTMLElement
-  if (target.closest('a, button')) {
-    tg.HapticFeedback.impactOccurred('medium');
-  }
+function openApp() {
+  window.location.href = "https://t.me/TONlandiaBot/game"
 }
-
-onMounted(() => {
-  document.addEventListener('click', onHapticTap);
-})
-
-onBeforeUnmount(() => {
-  document.removeEventListener('click', onHapticTap);
-})
-
-const menuItems = computed(() => [
-  { to: '/', label: t('nav.home'), icon: Home },
-  { to: '/balance', label: t('nav.balance'), icon: Wallet },
-  { to: '/my_nft', label: t('nav.nft'), icon: Image },
-  { to: '/friends', label: t('nav.friends'), icon: Users },
-  { to: '/tasks', label: t('nav.tasks'), icon: Table },
-])
 </script>
 
 <style scoped>
-.bottom-nav {
-  padding-bottom: 12px;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 70px;
-  background: linear-gradient(160deg, #3b1f8b, #1e0c4a);
+.wrapper {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
-  border-top: 2px solid rgba(255, 255, 255, 0.1);
-  z-index: 1000;
-  box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.3);
+  height: 100vh;
+  background-color: #6a0dad; /* фиолетовый фон */
+  padding: 16px;
 }
 
-.nav-item {
-  color: #bbb;
-  text-decoration: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 12px;
-  transition: all 0.2s ease;
-  position: relative;
+.card {
+  background-color: white;
+  padding: 24px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 100%;
 }
 
-.nav-item:hover {
-  color: #fff;
+.card p {
+  margin: 8px 0;
+  font-size: 16px;
+  color: #333;
 }
 
-.nav-icon {
-  width: 22px;
-  height: 22px;
-  margin-bottom: 4px;
+button {
+  margin-top: 20px;
+  padding: 12px 24px;
+  font-size: 16px;
+  background-color: #6a0dad;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
 }
 
-.icon-wrapper {
-  position: relative;
-}
-
-.badge-new {
-  position: absolute;
-  top: -6px;
-  right: -10px;
-  background: #facc15;
-  color: #000;
-  font-size: 9px;
-  font-weight: bold;
-  padding: 2px 4px;
-  border-radius: 4px;
-  transform: rotate(-20deg);
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-  z-index: 10;
-}
-
-.nav-item.active {
-  color: #fff;
-  font-weight: bold;
-}
-
-.nav-item.active .nav-icon {
-  stroke: #facc15;
+button:hover {
+  background-color: #5a00b0;
 }
 </style>
